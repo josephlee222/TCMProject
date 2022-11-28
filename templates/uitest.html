@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}UI Test{% endblock %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link active" href="/">Home</a>
+    </li>
+{% endblock %}
+{% block navRight %}
+    <p class="my-auto me-3">Whatever</p>
+    <a href="#">
+        <button class="btn custom-btn">LOL</button>
+    </a>
+{% endblock %}
+{% block content %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">UI Testpage</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <div class="d-flex mb-3">
+                        <a href="#">
+                            <button class="btn custom-btn me-1">Button</button>
+                        </a>
+                        <a href="#">
+                            <button class="btn btn-primary me-1">Button</button>
+                        </a>
+                        <a href="#">
+                            <button class="btn btn-success me-1">Button</button>
+                        </a>
+                        <a href="#">
+                            <button class="btn btn-warning me-1">Button</button>
+                        </a>
+                        <a href="#">
+                            <button class="btn btn-danger me-1">Button</button>
+                        </a>
+                        <a href="#">
+                            <button class="btn btn-secondary me-1">Button</button>
+                        </a>
+                    </div>
+                    <input class="form-control" placeholder="Form Input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg" class="card-img">
+                <div class="card-body">
+                    <h5 class="card-title">Card with image</h5>
+                    <p class="card-text">Card description with sample text here</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg" class="card-img">
+                <div class="card-body">
+                    <h5 class="card-title">Card with image and button</h5>
+                    <p class="card-text">Card description with sample text here. The button is below the text.</p>
+                    <a href="#"><button class="btn custom-btn">Sample Button</button></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg" class="card-img">
+                <div class="card-body">
+                    <h5 class="card-title">Card with image, button and like counter</h5>
+                    <p class="card-text">Card description with sample text here. The button is below the text with the like counter</p>
+                    <div class="d-flex align-items-center">
+                        <a href="#"><button class="btn custom-btn">Like!</button></a>
+                        <div class="flex-grow-1 d-flex justify-content-end white">
+                            <span class="material-icons me-1">thumb_up</span>
+                            10
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

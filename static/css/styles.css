@@ -1,0 +1,309 @@
+/*--- 
+
+TCMProject CSS File
+Please use the variables for colouring
+Ex.
+Buttons, sliders: var(--secondary-colour)
+Navbar, card, etc...: var(--primary-colour)
+
+---*/
+
+/*--- Universal Styles ---*/
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+
+:root {
+    --primary-colour: #6d4c41;
+    --primary-dark-colour: #40241a;
+    --primary-light-colour: #7d6157;
+    --secondary-colour: #cddc39;
+    --secondary-colour-dark: #99aa00;
+    --secondary-colour-light: #ffff6e;
+    --disabled-colour: dimgrey;
+    --text-colour: white;
+    --text-colour-primary: white;
+    --text-colour-secondary: black;
+}
+
+* {
+    font-family: 'RocknRoll One', sans-serif;
+}
+
+body {
+    background-color: var(--primary-light-colour);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+article {
+    color: var(--text-colour);
+}
+
+.alert p {
+    color: inherit;
+    margin-bottom: 0;
+}
+
+nav {
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+    background-color: var(--primary-colour);
+}
+
+hr {
+    border-top: 1px solid rgba(0,0,0,.2) !important;
+}
+
+footer {
+    color: var(--text-colour);
+    display: flex;
+    justify-content: center;
+}
+
+footer p {
+    background-color: var(--primary-light-colour);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+footer a {
+    text-decoration: underline;
+    color: var(--text-colour-primary);
+}
+
+footer a:hover {
+    text-decoration: dotted;
+    color: var(--secondary-colour-dark);
+}
+
+.white {
+    color: white;
+}
+
+.card {
+    background-color: var(--primary-colour);
+    border-radius: 4px;
+}
+
+.list-group {
+    border-radius: 0px;
+}
+
+.list-group .list-group-item {
+    background-color: var(--primary-light-colour);
+    color: var(--text-colour-primary);
+    border: 3px solid rgba(0,0,0,.125);
+}
+
+.list-group .list-group-item.active {
+    color: var(--primary-colour);
+    border-color: var(--secondary-colour-dark);
+    border-width: 3px;
+    font-weight: 700;
+}
+
+.card.white, .list-group .list-group-item.active {
+    background-color: white;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.card.white p,
+.card.white h1,
+.card.white h5,
+.card.white h6,
+.card.white small,
+.card.white .card-header {
+    color: var(--primary-colour);
+}
+
+.card-title,
+.display-5 {
+    font-weight: 700;
+}
+
+.table {
+    border-radius: 0px;
+    border: 1px solid rgba(0,0,0,.125);
+    background-color: var(--primary-light-colour);
+    color: white;
+}
+
+table td, table th {
+    border: 1px solid rgba(0,0,0,.125) !important;
+}
+
+/*--- Custom element Styles ---*/
+
+.btn, .form-control {
+    border-radius: 4px;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+    transition-duration: 0.25s;
+    border: none;
+}
+
+.btn:hover:enabled, .form-control:hover:enabled {
+    text-decoration: none;
+    box-shadow: none;
+}
+
+.btn:active:enabled, .form-control:focus:enabled {
+    box-shadow: inset 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+}
+
+.btn.custom-btn {
+    background-color: var(--secondary-colour);
+    color: var(--text-colour-secondary);
+}
+
+.btn.custom-btn:disabled {
+    background-color: var(--disabled-colour);
+    color: white;
+}
+
+.btn.custom-btn:enabled:hover {
+    background-color: var(--secondary-colour-dark);
+}
+
+.btn.custom-btn:enabled:active {
+    color: var(--text-colour-secondary);
+}
+
+.custom-btn.transparent-btn {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.custom-btn.transparent-btn:hover {
+    background-color: rgba(0,0,0,.125);
+}
+
+.modal-title {
+    color: black;
+}
+
+/*--- Website Specific Styles ---*/
+
+a.white:hover {
+    text-decoration: underline;
+    opacity: 0.75;
+    color: white;
+}
+
+.grey {
+    background-color: grey;
+}
+
+.card-img-top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    height: 250px;
+    object-fit: cover;
+}
+
+.intro-icon {
+    font-size: 128px;
+    color: white;
+}
+
+.category-icon {
+    font-size: 48px;
+    color: white;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+}
+
+.subcategory-line-color {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subcategory-header {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.subcategory-icon {
+    font-size: 32px;
+    color: white;
+}
+
+.line-card-color {
+    width: 100%;
+    height: 4px;
+}
+
+.h-shadow {
+    transition-duration: 0.25s;
+}
+
+.gallery-img {
+    border: 1px solid rgba(0,0,0,.125);
+    cursor: pointer;
+}
+
+.gallery-img.active {
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+    transform: scale(1.25);
+}
+
+.gallery-img.active:hover {
+    transform: scale(1.25) !important;
+}
+
+.gallery-img {
+    height: 100px;
+    object-fit: cover;
+}
+
+.carousel-gallery-img {
+    height: 350px;
+    object-fit: cover;
+}
+
+.h-shadow:hover {
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.line-icon {
+    border: 5px solid #035d67;
+    border-radius: 16px;
+    background-color: white;
+    width: 96px;
+    height: 96px;
+}
+
+.line-icon span {
+    font-size: 48px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.divider {
+    height: 2px; 
+    background-color: white;
+}
+
+@media only screen and (max-width: 991px) {
+    .intro {
+        flex-direction: column;
+        text-align: center;
+    }
+  }
