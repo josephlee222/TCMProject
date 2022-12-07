@@ -13,9 +13,8 @@ app.register_blueprint(auth)
 app.register_blueprint(adminUsers)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
-@app.route('/<int: id>')
+@app.route('/')
 def home():
-    print(url_for("adminUsers.viewAllUsers") + "6")
     session["previous_url"] = url_for("home")
     return render_template("home.html")
 

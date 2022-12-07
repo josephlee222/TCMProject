@@ -201,6 +201,10 @@ table td, table th {
     color: black;
 }
 
+.dropdown-item:active {
+    background-color: var(--secondary-colour);
+}
+
 /*--- Website Specific Styles ---*/
 
 a.white:hover {
@@ -310,6 +314,10 @@ a.white:hover {
 .divider {
     height: 2px; 
     background-color: white;
+}
+
+.material-icons.logout {
+    font-size: initial;
 }
 
 @media only screen and (max-width: 991px) {
