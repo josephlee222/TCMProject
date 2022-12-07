@@ -36,12 +36,13 @@ def login():  # put application's code here
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = registerUserForm(request.form)
+    username_taken = False
 
     if request.method == "POST":
         with shelve.open("users") as users:
             if form.username.data in users:
                 username_taken = True
-                flash("Unable to register: Username is taken", category="error")
+                flash("Unable to register: Username is taken, please try again", category="error")
 
     if request.method == "POST" and form.validate() and not username_taken:
         print("Register")
@@ -49,7 +50,7 @@ def register():
         password = form.password.data
         email = form.email.data
 
-        user = User(username, password, email, False)
+        user = User(username, password, email, True)
         with shelve.open("users") as users:
             users[username] = user
             flash("User successfully created", category="success")

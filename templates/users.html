@@ -1,10 +1,40 @@
 {% extends "base.html" %}
 {% block title %}All Users{% endblock %}
+{% block nav %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Users
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">View All Users</a></li>
+            <li><a class="dropdown-item" href="#">Create User</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Products
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">View All Products</a></li>
+            <li><a class="dropdown-item" href="#">Create New Product</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Appointments
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">View All Appointments</a></li>
+            <li><a class="dropdown-item" href="#">Create New Appointment</a></li>
+        </ul>
+    </li>
+{% endblock %}
+{% block navRight %}
+    <p class="my-auto me-3">{{ session["user"]["username"] }}</p>
+    <a href="/logout">
+        <button class="btn btn-danger"><span class="material-icons logout">logout</span></button>
+    </a>
+{% endblock %}
 {% block content %}
-    <p>Under construction. Visit <a href="/test"><button class="btn custom-btn">The Testpage</button></a> for samples</p>
-    <div class="d-flex">
-        <a href="/login"><button class="btn custom-btn me-3">Login</button></a>
-        <a href="/register"><button class="btn custom-btn me-3">Register</button></a>
-        <a href="/logout"><button class="btn btn-danger me-3">Logout</button></a>
-    </div>
+    <p>Under construction.</p>
 {% endblock %}
