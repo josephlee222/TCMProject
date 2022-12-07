@@ -1,17 +1,50 @@
+<!-- Use the base template (required for standardization) -->
 {% extends "base.html" %}
+
+<!-- Page title -->
 {% block title %}UI Test{% endblock %}
+
+<!-- Navbar links (for categories and links) -->
 {% block nav %}
     <li class="nav-item">
         <a class="nav-link active" href="/">Home</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/">Link 1</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/">Link 2</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/">Link 3</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </li>
+
 {% endblock %}
+
+<!-- Right side of the navbar (for search, username, logout buttons, etc...) -->
 {% block navRight %}
     <p class="my-auto me-3">Whatever</p>
     <a href="#">
         <button class="btn custom-btn">LOL</button>
     </a>
 {% endblock %}
+
+<!-- Main content block -->
 {% block content %}
+    <!-- General UI Examples -->
     <div class="row mb-3">
         <div class="col-12">
             <div class="card">
@@ -47,10 +80,33 @@
             </div>
         </div>
     </div>
+
+    <!-- Form example with WTForms -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WTForms example</h5>
+                    <p class="card-text">This is a sample form using the WTForms library. You can check the form inside
+                        forms.py for information.</p>
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label" for="test">Test Input (3-64 characters)</label>
+                            {{ form.test(class_="form-control", placeholder="Test Input") }}
+                        </div>
+                        <input type="submit" class="btn custom-btn" value="Submit sample form">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards example (Nested content) -->
     <div class="row">
         <div class="col-lg-4">
-            <div class="card">
-                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg" class="card-img">
+            <div class="card mb-3">
+                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg"
+                     class="card-img">
                 <div class="card-body">
                     <h5 class="card-title">Card with image</h5>
                     <p class="card-text">Card description with sample text here</p>
@@ -58,23 +114,30 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card">
-                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg" class="card-img">
+            <div class="card mb-3">
+                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg"
+                     class="card-img">
                 <div class="card-body">
                     <h5 class="card-title">Card with image and button</h5>
                     <p class="card-text">Card description with sample text here. The button is below the text.</p>
-                    <a href="#"><button class="btn custom-btn">Sample Button</button></a>
+                    <a href="#">
+                        <button class="btn custom-btn">Sample Button</button>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card">
-                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg" class="card-img">
+            <div class="card mb-3">
+                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg"
+                     class="card-img">
                 <div class="card-body">
                     <h5 class="card-title">Card with image, button and like counter</h5>
-                    <p class="card-text">Card description with sample text here. The button is below the text with the like counter</p>
+                    <p class="card-text">Card description with sample text here. The button is below the text with the
+                        like counter</p>
                     <div class="d-flex align-items-center">
-                        <a href="#"><button class="btn custom-btn">Like!</button></a>
+                        <a href="#">
+                            <button class="btn custom-btn">Like!</button>
+                        </a>
                         <div class="flex-grow-1 d-flex justify-content-end white">
                             <span class="material-icons me-1">thumb_up</span>
                             10

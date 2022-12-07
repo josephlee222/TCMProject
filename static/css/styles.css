@@ -12,16 +12,18 @@ Navbar, card, etc...: var(--primary-colour)
 @import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
 
 :root {
-    --primary-colour: #6d4c41;
-    --primary-dark-colour: #40241a;
-    --primary-light-colour: #7d6157;
-    --secondary-colour: #cddc39;
-    --secondary-colour-dark: #99aa00;
-    --secondary-colour-light: #ffff6e;
+    --primary-colour: #74A12E;
+    --primary-dark-colour: #447200;
+    --primary-light-colour: #a6d25e;
+    --secondary-colour: #5b2ea1;
+    --secondary-colour-dark: #270071;
+    --secondary-colour-light: #8d5bd3;
     --disabled-colour: dimgrey;
     --text-colour: white;
     --text-colour-primary: white;
-    --text-colour-secondary: black;
+    --text-colour-secondary: white;
+    --text-colour-background: black;
+    --background-colour: white
 }
 
 * {
@@ -29,7 +31,7 @@ Navbar, card, etc...: var(--primary-colour)
 }
 
 body {
-    background-color: var(--primary-light-colour);
+    background-color: var(--background-colour);
 }
 
 p,
@@ -40,7 +42,7 @@ h4,
 h5,
 h6,
 article {
-    color: var(--text-colour);
+    color: var(--text-colour-background);
 }
 
 .alert p {
@@ -87,6 +89,10 @@ footer a:hover {
 .card {
     background-color: var(--primary-colour);
     border-radius: 4px;
+}
+
+nav p, .card p, .card h5 {
+    color: var(--text-colour-primary);
 }
 
 .list-group {
@@ -146,6 +152,10 @@ table td, table th {
     border: none;
 }
 
+.form-label {
+    color: var(--text-colour-primary)
+}
+
 .btn:hover:enabled, .form-control:hover:enabled {
     text-decoration: none;
     box-shadow: none;
@@ -175,6 +185,7 @@ table td, table th {
 
 .btn.custom-btn:enabled:active {
     color: var(--text-colour-secondary);
+    background-color: var(--secondary-colour-dark);
 }
 
 .custom-btn.transparent-btn {
