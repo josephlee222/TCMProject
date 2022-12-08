@@ -65,7 +65,7 @@ def logout():
     try:
         session.pop("user")
         flash("Successfully logged out")
-        return goBack()
+        return redirect(url_for("home"))
     except KeyError:
         flash("Error while logging out, you were probably never logged in.", category="error")
-        return goBack()
+        return redirect(url_for("home"))

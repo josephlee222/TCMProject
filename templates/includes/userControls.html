@@ -1,0 +1,10 @@
+{% if session["user"] %}
+    <p class="my-auto me-3">{{ session["user"]["username"] }}</p>
+    <a href="/logout">
+        <button class="btn btn-danger"><span class="material-icons logout">logout</span></button>
+    </a>
+{% else %}
+    <a href="/login">
+        <button class="btn custom-btn">Login/Register</button>
+    </a>
+{% endif %}
