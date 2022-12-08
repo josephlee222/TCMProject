@@ -1,5 +1,21 @@
 {% if session["user"] %}
-    <p class="my-auto me-3">{{ session["user"]["username"] }}</p>
+    <div class="navbar-nav me-1">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ session["user"]["username"] }}
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">User Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                {% if session["user"]["admin"] %}
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="/admin/users">Admin Panel</a></li>
+                {% endif %}
+            </ul>
+        </li>
+    </div>
     <a href="/logout">
         <button class="btn btn-danger"><span class="material-icons logout">logout</span></button>
     </a>

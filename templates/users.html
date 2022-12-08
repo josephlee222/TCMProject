@@ -7,5 +7,34 @@
     {% include "includes/userControls.html" %}
 {% endblock %}
 {% block content %}
-    <p>Under construction.</p>
+    <div class="d-flex align-items-center mb-3">
+        <span class="material-icons me-3" style="font-size: 60px">person</span>
+        <h1 class="m-0">View Users</h1>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                    <th>Username</th>
+                    <th>E-mail</th>
+                    <th>Admin</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ users[user]["username"] }}</td>
+                        <td>{{ users[user]["email"] }}</td>
+                        <td>{{ users[user]["admin"] }}</td>
+                        <td>
+                            <a href="#"><button class="btn custom-btn">Edit</button></a>
+                            <a href="#"><button class="btn btn-danger">Delete</button></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 {% endblock %}

@@ -26,13 +26,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">{% block nav %}{% endblock %}</ul>
-            <div class="d-flex">
+            <div class="d-flex align-items-center">
                 {% block navRight %}{% endblock %}
             </div>
         </div>
     </div>
 </nav>
-<div class="container mt-3 mb-3">
+<div class="container overflow-auto mt-3 mb-3">
     {% with messages = get_flashed_messages(category_filter=["message"]) %}
         {% if messages %}
             {% for message in messages %}

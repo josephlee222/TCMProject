@@ -1,3 +1,5 @@
+import shelve
+
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from functions import flashFormErrors, goBack
 from classes.User import User
@@ -12,6 +14,5 @@ def viewAllUsers():
         flash("Not allowed! Admin users only.", category="error")
         return goBack()
 
-
-
-    return render_template("users.html")
+    with shelve.open("users") as users:
+        return render_template("users.html", users=users)

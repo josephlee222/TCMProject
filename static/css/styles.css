@@ -133,10 +133,8 @@ nav p, .card p, .card h5 {
 }
 
 .table {
-    border-radius: 0px;
+    border-radius: 3px;
     border: 1px solid rgba(0,0,0,.125);
-    background-color: var(--primary-light-colour);
-    color: white;
 }
 
 table td, table th {
