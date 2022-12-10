@@ -15,16 +15,16 @@
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
-                    <th>Username</th>
                     <th>E-mail</th>
+                    <th>Name</th>
                     <th>Admin</th>
                     <th>Actions</th>
                 </thead>
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td>{{ users[user]["username"] }}</td>
                         <td>{{ users[user]["email"] }}</td>
+                        <td>{{ users[user]["name"] }}</td>
                         <td>{{ users[user]["admin"] }}</td>
                         <td>
                             <a href="#"><button class="btn custom-btn">Edit</button></a>
