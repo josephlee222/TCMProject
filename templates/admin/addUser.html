@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}
+    Add User
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">person_add</span>
+        <div>
+            <h1>Add User</h1>
+            <h6 class="m-0">Add a new user account</h6>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="h4">Account Information</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.name) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.birthday) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.password) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.confirmPassword) }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.email) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.phone) }}
+                </div>
+                <div class="mb-3">
+                    <label for="admin" class="form-label">Account Type</label>
+                    {{ form.admin(class_="form-check") }}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h4">Shipping Information</h2>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.address) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.postal) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {{ form.submit(class_="btn custom-btn") }}
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

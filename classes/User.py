@@ -4,6 +4,7 @@ class User:
         self.password = password
         self.email = email
         self.admin = admin
+        self.birthday = None
         self.phone = None
         self.address = None
         self.postal = None
@@ -19,6 +20,9 @@ class User:
 
     def getAdmin(self):
         return self.admin
+
+    def getBirthday(self):
+        return self.birthday
 
     def getPhone(self):
         return self.phone
@@ -37,6 +41,9 @@ class User:
 
     def setAdmin(self, admin):
         self.admin = admin
+
+    def setbirthday(self, birthday):
+        self.birthday = birthday
 
     def setPhone(self, phone):
         self.phone = phone

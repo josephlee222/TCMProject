@@ -3,8 +3,8 @@
         Users
     </a>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">View All Users</a></li>
-        <li><a class="dropdown-item" href="#">Create User</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">groups</span>View All Users</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.addUser") }}"><span class="material-icons me-1">person_add</span>Create User</a></li>
     </ul>
 </li>
 <li class="nav-item dropdown">
@@ -12,8 +12,8 @@
         Products
     </a>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">View All Products</a></li>
-        <li><a class="dropdown-item" href="#">Create New Product</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">inventory_2</span>View All Products</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">library_add</span>Create New Product</a></li>
     </ul>
 </li>
 <li class="nav-item dropdown">
@@ -21,7 +21,7 @@
         Appointments
     </a>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">View All Appointments</a></li>
-        <li><a class="dropdown-item" href="#">Create New Appointment</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">event</span>View All Appointments</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">edit_calendar</span>Create New Appointment</a></li>
     </ul>
 </li>

@@ -1,3 +1,4 @@
+{% import "includes/formHelper.html" as formHelper %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,12 @@
         </div>
     </div>
 </nav>
-<div class="container overflow-auto mt-3 pb-3">
+{% if self.fluidContent() %}
+    <div class="container-fluid overflow-auto">
+        {% block fluidContent %}{% endblock %}
+    </div>
+{% endif %}
+<div class="container flex-grow-1 overflow-auto mt-3 pb-3 mb-5">
     {% with messages = get_flashed_messages(category_filter=["message"]) %}
         {% if messages %}
             {% for message in messages %}
@@ -65,7 +71,21 @@
     {% endwith %}
     {% block content %}{% endblock %}
 </div>
+<footer>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-12">
+                <h2 class="mb-4">{{ websiteName }}</h2>
+                <hr>
+                <p class="footer-credit">TCM Shifu - 2022 - App Development Group 1</p>
+            </div>
+        </div>
+        {% block footer %}{% endblock %}
+
+    </div>
+</footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </html>

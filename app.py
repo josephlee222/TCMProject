@@ -22,7 +22,7 @@ def home():
 @app.context_processor
 def websiteContextInit():
     return {
-        "websiteName": "TCMProject",
+        "websiteName": "TCM Shifu",
     }
 
 

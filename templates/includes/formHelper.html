@@ -1,9 +1,16 @@
-{% macro render_field(field) %}
-    {{ field.label }}
-    {{ field(**kwargs)|safe }}
+{% macro renderField(field) %}
+    <div class="d-flex align-items-center">
+        {{ field.label(class="form-label me-2") }}
+        {% if field.flags.required %}
+            <span style="color: red" data-bs-toggle="tooltip" data-bs-title="Required Field" data-bs-placement="right">*</span>
+        {% endif %}
+    </div>
+    {{ field(class="form-control", placeholder=field.label.text, **kwargs)|safe }}
     {% if field.errors %}
-        {% for error in field.errors %}
-            <div class="text-danger">{{ error }}</div>
-        {% endfor %}
+        <div class="mt-1">
+            {% for error in field.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endmacro %}

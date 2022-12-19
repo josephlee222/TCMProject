@@ -30,7 +30,7 @@ def login():  # put application's code here
         flashFormErrors("Unable to login", form.errors)
 
 
-    return render_template("login.html", form=form)
+    return render_template("auth/login.html", form=form)
 
 @auth.route('/register', methods=['GET', 'POST'])
 @unloginAccess
@@ -50,14 +50,14 @@ def register():
         password = form.password.data
         email = form.email.data
 
-        user = User(name, password, email, True)
+        user = User(name, password, email, False)
         with shelve.open("users") as users:
             users[email] = user
             flash("User successfully created", category="success")
     else:
         flashFormErrors("Unable to register an account", form.errors)
 
-    return render_template("register.html", form=form)
+    return render_template("auth/register.html", form=form)
 
 # Logout page
 @auth.route('/logout')

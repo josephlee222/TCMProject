@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Login to TCMProject (WIP)</h5>
+                    <form method="post">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.email) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.password) }}
+                        </div>
+                        <input type="submit" value="Login" class="btn custom-btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Welcome to TCM Shifu</h5>
+                <p class="card-text">TCM Shifu helps you to book and manage your TCM clinic appointments, tracks your prescriptions and doses, lets you order TCM medicine/herbs on the online store as well as providing education on TCM medicine with blog articles!<br><br>Don't have an account with us? No worries, you can register for an account using the button below.</p>
+                <a href="{{ url_for('auth.register') }}"><button class="btn custom-btn">Register Now!</button></a>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

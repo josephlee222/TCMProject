@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}
+    Edit User
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
+        <div>
+            <h1>Edit User</h1>
+            <h6 class="m-0">{{ user.getEmail() }}</h6>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Edit Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Change Password</a>
+              </li>
+            </ul>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="h4">Account Information</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.name, value=user.getName()) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.birthday, value="") }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.email, value=user.getEmail()) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.phone, value=user.getPhone()) }}
+                </div>
+                <div class="mb-3">
+                    <label for="admin" class="form-label">Admin Access</label>
+                    {{ form.admin(class_="form-check", checked=user.getAdmin()) }}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h4">Shipping Information</h2>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.address, value=user.getAddress()) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.postal, value=user.getPostal()) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {{ form.submit(class_="btn custom-btn") }}
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

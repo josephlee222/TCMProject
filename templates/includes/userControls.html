@@ -5,13 +5,16 @@
                 {{ session["user"]["name"] }}
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">User Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">person</span>User Profile</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">settings</span>Settings</a></li>
+                <hr class="dropdown-divider">
+                <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">add</span>Increase Font Size</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">remove</span>Decrease Font Size</a></li>
                 {% if session["user"]["admin"] %}
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="/admin/users">Admin Panel</a></li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Admin Panel</a></li>
                 {% endif %}
             </ul>
         </li>

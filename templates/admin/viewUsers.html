@@ -7,10 +7,20 @@
     {% include "includes/userControls.html" %}
 {% endblock %}
 {% block content %}
-    <div class="d-flex align-items-center mb-3">
-        <span class="material-icons me-3" style="font-size: 60px">person</span>
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">groups</span>
         <h1 class="m-0">View Users</h1>
     </div>
+    <form method="post">
+        <div class="row mb-3">
+            <div class="col-lg-9 mb-3 mb-lg-0">
+                {{ form.name(class_="form-control", placeholder="Search by Name...") }}
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn custom-btn w-100" value="Search">
+            </div>
+        </div>
+    </form>
     <div class="row">
         <div class="col-12">
             <table class="table table-striped w-100">
@@ -27,7 +37,8 @@
                         <td>{{ users[user]["name"] }}</td>
                         <td>{{ users[user]["admin"] }}</td>
                         <td>
-                            <a href="#"><button class="btn custom-btn">Edit</button></a>
+                            <a href="#"><button class="btn custom-btn">View Prescriptions</button></a>
+                            <a href="{{ url_for("adminUsers.editUser", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>
                             <a href="#"><button class="btn btn-danger">Delete</button></a>
                         </td>
                     </tr>
