@@ -19,12 +19,15 @@
     <div class="row mb-3">
         <div class="col-12">
             <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Edit Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Change Password</a>
-              </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Edit Delivery Addresses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Change Password</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -47,8 +50,8 @@
                     {{ formHelper.renderField(form.phone, value=user.getPhone()) }}
                 </div>
                 <div class="mb-3">
-                    <label for="admin" class="form-label">Admin Access</label>
-                    {{ form.admin(class_="form-check", checked=user.getAdmin()) }}
+                    <label for="admin" class="form-label">Account Type</label>
+                    <p id="admin">{{ user.getAccountType() }}</p>
                 </div>
             </div>
             <div class="col-lg-6">

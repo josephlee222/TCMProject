@@ -5,12 +5,20 @@
             <span style="color: red" data-bs-toggle="tooltip" data-bs-title="Required Field" data-bs-placement="right">*</span>
         {% endif %}
     </div>
-    {{ field(class="form-control", placeholder=field.label.text, **kwargs)|safe }}
-    {% if field.errors %}
-        <div class="mt-1">
-            {% for error in field.errors %}
-                <div class="text-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+    {% if field.type == "RadioField" %}
+        {% for item in field %}
+            <div class="form-check">
+                {{ item(class="form-check-input")|safe }} {{item.label(class="form-check-label")|safe}}
+            </div>
+        {% endfor %}
+    {% else %}
+        {{ field(class="form-control", placeholder=field.label.text, **kwargs)|safe }}
+        {% if field.errors %}
+            <div class="mt-1">
+                {% for error in field.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
     {% endif %}
 {% endmacro %}

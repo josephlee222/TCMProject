@@ -69,7 +69,6 @@ class editUserForm(Form):
         validators.Optional(),
         validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
-    admin = BooleanField("Admin Access")
     address = StringField("Delivery Address", [
         validators.Optional(),
         validators.Length(0, 512, message="Delivery Address must be less than 512 characters")
@@ -123,7 +122,13 @@ class addUserForm(Form):
         validators.Optional(),
         validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
-    admin = BooleanField("Admin Access")
+    accountType = RadioField("Account Type", choices=[
+        ("customer", "Customer Account"),
+        ("admin", "Doctor/Staff Account"),
+        ("delivery", "Delivery Partner")
+    ], validators=[
+        validators.DataRequired("Account type is required")
+    ])
     address = StringField("Delivery Address", [
         validators.Optional(),
         validators.Length(0, 512, message="Delivery Address must be less than 512 characters")
@@ -132,7 +137,7 @@ class addUserForm(Form):
         validators.Optional(),
         validators.Length(6, 6, message="Postal code must be exactly 6 characters")
     ])
-    submit = SubmitField("Edit User")
+    submit = SubmitField("Create User")
 
 
     def validate_birthdate_field(form, field):

@@ -43,14 +43,29 @@ def loginAccess(func):
 
     return wrapper_func()
 
-# Decorator func to ensure that the page is only visited by users with admin access
+def deliveryAccess(func):
+    @wraps(func)
+    def wrapper_func(*args, **kwargs):
+        if "user" not in session:
+            flash("You need to login to access the page.")
+            return redirect(url_for("auth.login"))
+        elif not session["user"]["accountType"] == "admin" or not session["user"]["accountType"] == "delivery":
+            flash("Not allowed! Authorised users only.", category="error")
+            return goBack()
+        else:
+            return func(*args, **kwargs)
+
+    return wrapper_func
+
+
+# Decorator func to ensure that the page is only visited by users with admin accountType access
 def adminAccess(func):
     @wraps(func)
     def wrapper_func(*args, **kwargs):
         if "user" not in session:
             flash("You need to login to access the page.")
             return redirect(url_for("auth.login"))
-        elif not session["user"]["admin"]:
+        elif not session["user"]["accountType"] == "admin":
             flash("Not allowed! Admin users only.", category="error")
             return goBack()
         else:

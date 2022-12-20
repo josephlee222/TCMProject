@@ -1,6 +1,7 @@
 ## 19/12/22 Changelog
 - Done homepage basic layout
-- Done create user basic layout (Layout subject to change)
+- Done create user layout (Layout subject to change)
+- Done edit user layout (Layout subject to change)
 - Change formHelper html to suit needs
 - Replace form fields to use formHelper macro function
 - Form fields now shows a red star if the field is required, hovering it will show a tooltip
@@ -8,3 +9,7 @@
 - Added footer
 - Added app icons in 1024 and 512 px resolutions
 - Removed some redundant CSS classes
+
+## 20/12/22 Changelog
+- Change user class admin variable to accountType to handle 3 different user types (Customer, doctor and delivery)
+- formHelper now supports wtforms RadioField

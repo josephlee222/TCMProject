@@ -1,9 +1,9 @@
 class User:
-    def __init__(self, name, password, email, admin):
+    def __init__(self, name, password, email, accountType):
         self.name = name
         self.password = password
         self.email = email
-        self.admin = admin
+        self.accountType = accountType
         self.birthday = None
         self.phone = None
         self.address = None
@@ -18,8 +18,8 @@ class User:
     def getEmail(self):
         return self.email
 
-    def getAdmin(self):
-        return self.admin
+    def getAccountType(self):
+        return self.accountType
 
     def getBirthday(self):
         return self.birthday
@@ -39,8 +39,8 @@ class User:
     def setName(self, name):
         self.name = name
 
-    def setAdmin(self, admin):
-        self.admin = admin
+    def setAccountType(self, admin):
+        self.accountType = admin
 
     def setbirthday(self, birthday):
         self.birthday = birthday

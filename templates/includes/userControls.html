@@ -10,11 +10,17 @@
                 <hr class="dropdown-divider">
                 <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">add</span>Increase Font Size</a></li>
                 <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">remove</span>Decrease Font Size</a></li>
-                {% if session["user"]["admin"] %}
+                {% if session["user"]["accountType"] == "admin" %}
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Admin Panel</a></li>
+                {% endif %}
+                {% if session["user"]["accountType"] == "delivery" %}
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Delivery Panel</a></li>
                 {% endif %}
             </ul>
         </li>

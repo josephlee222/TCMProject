@@ -27,7 +27,7 @@
                 <thead>
                     <th>E-mail</th>
                     <th>Name</th>
-                    <th>Admin</th>
+                    <th>Account Type</th>
                     <th>Actions</th>
                 </thead>
                 <tbody>
@@ -35,7 +35,7 @@
                     <tr>
                         <td>{{ users[user]["email"] }}</td>
                         <td>{{ users[user]["name"] }}</td>
-                        <td>{{ users[user]["admin"] }}</td>
+                        <td>{{ users[user]["accountType"] }}</td>
                         <td>
                             <a href="#"><button class="btn custom-btn">View Prescriptions</button></a>
                             <a href="{{ url_for("adminUsers.editUser", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>

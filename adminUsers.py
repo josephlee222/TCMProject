@@ -35,12 +35,27 @@ def editUser(email):
 @adminAccess
 def addUser():
     form = addUserForm(request.form)
+    email_taken = False
 
-    if request.method == "POST" and form.validate():
+    if request.method == "POST":
+        with shelve.open("users") as users:
+            if form.email.data in users:
+                email_taken = True
+                flash("Unable to register: This e-mail has an existing account, please try again", category="error")
+
+    if request.method == "POST" and form.validate() and not email_taken:
         # Do user edit here
         print("Add user")
+        name = form.name.data
+        password = form.password.data
+        email = form.email.data
+        accountType = form.accountType.data
+
+        user = User(name, password, email, accountType)
+        with shelve.open("users") as users:
+            users[email] = user
+            flash("User successfully created", category="success")
     else:
         flashFormErrors("Unable to create the user", form.errors)
 
-    with shelve.open("users") as users:
-        return render_template("admin/addUser.html", form=form)
+    return render_template("admin/addUser.html", form=form)
