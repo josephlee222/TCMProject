@@ -75,7 +75,7 @@ nav p, .card p, .card h5 {
 .list-group .list-group-item {
     background-color: var(--primary-light-colour);
     color: var(--text-colour-primary);
-    border: 3px solid rgba(0,0,0,.125);
+    border: 3px solid rgba(0, 0, 0, .125);
 }
 
 .list-group .list-group-item.active {
@@ -107,11 +107,11 @@ nav p, .card p, .card h5 {
 
 .table {
     border-radius: 3px;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
 }
 
 table td, table th {
-    border: 1px solid rgba(0,0,0,.125) !important;
+    border: 1px solid rgba(0, 0, 0, .125) !important;
 }
 
 /*--- Custom element Styles ---*/
@@ -169,7 +169,7 @@ table td, table th {
 }
 
 .custom-btn.transparent-btn:hover {
-    background-color: rgba(0,0,0,.125);
+    background-color: rgba(0, 0, 0, .125);
 }
 
 .modal-title {
@@ -224,7 +224,7 @@ a.white:hover {
 }
 
 .gallery-img {
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
     cursor: pointer;
 }
 
@@ -262,9 +262,9 @@ a.white:hover {
 }
 
 hr {
-    border-top: 1px solid rgba(0,0,0,.2) !important;
+    border-top: 1px solid rgba(0, 0, 0, .2) !important;
 }
 
 footer hr {
-    border-top: 3px solid rgba(0,0,0,.25) !important;
+    border-top: 3px solid rgba(0, 0, 0, .25) !important;
 }

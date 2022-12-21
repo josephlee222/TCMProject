@@ -31,6 +31,23 @@ def editUser(email):
     with shelve.open("users") as users:
         return render_template("admin/editUser.html", user=users[email], form=form)
 
+@adminUsers.route("/admin/users/edit/password/<email>", methods=['GET', 'POST'])
+@adminAccess
+def editPassword(email):
+    form = changeUserPasswordForm(request.form)
+
+    if request.method == "POST" and form.validate():
+        # Do user edit here
+        with shelve.open("users", writeback=True) as users:
+            users[email].setPassword(form.password.data)
+
+        flash("Successfully changed password.", category="success")
+    else:
+        flashFormErrors("Unable to change the password", form.errors)
+
+    with shelve.open("users") as users:
+        return render_template("admin/editPassword.html", user=users[email], form=form)
+
 @adminUsers.route("/admin/users/add", methods=['GET', 'POST'])
 @adminAccess
 def addUser():
@@ -45,7 +62,6 @@ def addUser():
 
     if request.method == "POST" and form.validate() and not email_taken:
         # Do user edit here
-        print("Add user")
         name = form.name.data
         password = form.password.data
         email = form.email.data

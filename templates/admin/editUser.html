@@ -18,15 +18,15 @@
     </div>
     <div class="row mb-3">
         <div class="col-12">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs overflow">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Edit Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Edit Delivery Addresses</a>
+                    <a class="nav-link" href="#">Delivery Addresses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Change Password</a>
+                    <a class="nav-link" href="{{ url_for("adminUsers.editPassword", email=user.getEmail()) }}">Change Password</a>
                 </li>
             </ul>
         </div>
@@ -34,7 +34,7 @@
     <form method="post">
         <div class="row">
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <h2 class="h4">Account Information</h2>
+                <h2 class="h4">Profile Information</h2>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         {{ formHelper.renderField(form.name, value=user.getName()) }}
@@ -52,15 +52,6 @@
                 <div class="mb-3">
                     <label for="admin" class="form-label">Account Type</label>
                     <p id="admin">{{ user.getAccountType() }}</p>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <h2 class="h4">Shipping Information</h2>
-                <div class="mb-3">
-                    {{ formHelper.renderField(form.address, value=user.getAddress()) }}
-                </div>
-                <div class="mb-3">
-                    {{ formHelper.renderField(form.postal, value=user.getPostal()) }}
                 </div>
             </div>
             <div class="row">

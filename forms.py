@@ -69,14 +69,6 @@ class editUserForm(Form):
         validators.Optional(),
         validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
-    address = StringField("Delivery Address", [
-        validators.Optional(),
-        validators.Length(0, 512, message="Delivery Address must be less than 512 characters")
-    ])
-    postal = StringField("Postal Code", [
-        validators.Optional(),
-        validators.Length(6, 6, message="Postal code must be exactly 6 characters")
-    ])
     submit = SubmitField("Edit User")
 
 
@@ -95,6 +87,8 @@ class changeUserPasswordForm(Form):
         validators.equal_to("password", message="New password and confirm password fields do not match."),
         validators.data_required(message="You need to confirm your new password.")
     ])
+
+    submit = SubmitField("Change Password")
 
 class addUserForm(Form):
     email = EmailField("Email Address", [
@@ -125,17 +119,9 @@ class addUserForm(Form):
     accountType = RadioField("Account Type", choices=[
         ("customer", "Customer Account"),
         ("admin", "Doctor/Staff Account"),
-        ("delivery", "Delivery Partner")
+        ("delivery", "Delivery Partner Account")
     ], validators=[
         validators.DataRequired("Account type is required")
-    ])
-    address = StringField("Delivery Address", [
-        validators.Optional(),
-        validators.Length(0, 512, message="Delivery Address must be less than 512 characters")
-    ])
-    postal = StringField("Postal Code", [
-        validators.Optional(),
-        validators.Length(6, 6, message="Postal code must be exactly 6 characters")
     ])
     submit = SubmitField("Create User")
 

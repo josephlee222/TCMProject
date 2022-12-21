@@ -9,7 +9,10 @@
 {% block content %}
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">groups</span>
-        <h1 class="m-0">View Users</h1>
+        <div>
+            <h1>View Users</h1>
+            <h6 class="m-0">View All Users</h6>
+        </div>
     </div>
     <form method="post">
         <div class="row mb-3">
@@ -21,7 +24,7 @@
             </div>
         </div>
     </form>
-    <div class="row">
+    <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
