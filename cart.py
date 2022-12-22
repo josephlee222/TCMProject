@@ -6,3 +6,4 @@ cart = Blueprint("cart", __name__)
 @cart.route("/cart")
 @loginAccess
 def cart():
+    print("Under construction")
