@@ -10,6 +10,7 @@
                 <hr class="dropdown-divider">
                 <li><a class="dropdown-item d-flex align-items-center" onclick="increaseZoom()" style="cursor: pointer"><span class="material-icons me-1">add</span>Increase Font Size</a></li>
                 <li><a class="dropdown-item d-flex align-items-center" onclick="decreaseZoom()" style="cursor: pointer"><span class="material-icons me-1">remove</span>Decrease Font Size</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" onclick="resetZoom()" style="cursor: pointer"><span class="material-icons me-1">undo</span>Reset Font Size</a></li>
                 {% if session["user"]["accountType"] == "admin" %}
                     <li>
                         <hr class="dropdown-divider">
@@ -29,6 +30,7 @@
         <button class="btn btn-danger"><span class="material-icons logout">logout</span></button>
     </a>
 {% else %}
+    {% include "includes/accessibilityDropdown.html" %}
     <a href="/login">
         <button class="btn custom-btn">Login/Register</button>
     </a>

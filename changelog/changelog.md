@@ -19,3 +19,6 @@
 - Done zoom functionality
 - Created delivery address class
 - Removed delivery info fields from edit/create user pages
+
+## 22/12/22 Changelog
+- Added accessibility (zoom) options for guests
