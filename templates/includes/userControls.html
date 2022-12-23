@@ -8,9 +8,9 @@
                 <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">person</span>User Profile</a></li>
                 <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">settings</span>Settings</a></li>
                 <hr class="dropdown-divider">
-                <li><a class="dropdown-item d-flex align-items-center" onclick="increaseZoom()" style="cursor: pointer"><span class="material-icons me-1">add</span>Increase Font Size</a></li>
-                <li><a class="dropdown-item d-flex align-items-center" onclick="decreaseZoom()" style="cursor: pointer"><span class="material-icons me-1">remove</span>Decrease Font Size</a></li>
-                <li><a class="dropdown-item d-flex align-items-center" onclick="resetZoom()" style="cursor: pointer"><span class="material-icons me-1">undo</span>Reset Font Size</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" onclick="increaseZoom()" style="cursor: pointer"><span class="material-icons me-1">add</span>Zoom In</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" onclick="decreaseZoom()" style="cursor: pointer"><span class="material-icons me-1">remove</span>Zoom Out</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" onclick="resetZoom()" style="cursor: pointer"><span class="material-icons me-1">undo</span>Reset Zoom</a></li>
                 {% if session["user"]["accountType"] == "admin" %}
                     <li>
                         <hr class="dropdown-divider">

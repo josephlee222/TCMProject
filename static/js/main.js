@@ -4,6 +4,8 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 
 //Zoom Functions (DOES NOT WORK PROPERLY ON FIREFOX)
 document.body.style.zoom = localStorage.getItem("zoom") ? localStorage.getItem("zoom") : 1.0
+document.body.style["-moz-transform"] = localStorage.getItem("zoom") ? "scale(" + localStorage.getItem("zoom") + ")" : "scale(1.0)"
+document.body.style["-moz-transform-origin"] = "0 0"
 
 function increaseZoom() {
     if (localStorage.getItem("zoom")) {
@@ -13,6 +15,7 @@ function increaseZoom() {
     }
     document.body.style.zoom = localStorage.getItem("zoom")
     document.body.style["-moz-transform"] = "scale(" + localStorage.getItem("zoom") + ")"
+    document.body.style["-moz-transform-origin"] = "0 0"
 }
 
 function decreaseZoom() {
@@ -23,6 +26,7 @@ function decreaseZoom() {
     }
     document.body.style.zoom = localStorage.getItem("zoom")
     document.body.style["-moz-transform"] = "scale(" + localStorage.getItem("zoom") + ")"
+    document.body.style["-moz-transform-origin"] = "0 0"
 }
 
 function resetZoom() {

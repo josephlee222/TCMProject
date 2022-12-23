@@ -1,18 +1,19 @@
 # Customer delivery address class
 # Library to get map coordinates via address
 import geopy.geocoders as geo
-from geopy.geocoders import Nominatim
+from flask import flash
+from geopy.geocoders import ArcGIS
 from geopy.exc import GeopyError
 
 class Address:
     def __init__(self, name, location):
         try:
-            geo.options.default_user_agent = "TCMShifu"
-            geoLocater = Nominatim()
+            geoLocater = ArcGIS(user_agent="TCMShifu")
             geoLocation = geoLocater.geocode(location)
         except GeopyError:
             self.latitude = 0
             self.longitude = 0
+            flash("Error has occurred when getting information from Geopy")
         else:
             self.latitude = geoLocation.latitude
             self.longitude = geoLocation.longitude
@@ -39,8 +40,7 @@ class Address:
     def setLocation(self, location):
         self.location = location
         try:
-            geo.options.default_user_agent = "TCMShifu"
-            geoLocater = Nominatim()
+            geoLocater = ArcGIS(user_agent="TCMShifu")
             geoLocation = geoLocater.geocode(location)
         except GeopyError:
             self.latitude = 0

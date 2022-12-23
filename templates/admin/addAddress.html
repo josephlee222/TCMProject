@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Add New Address{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
+        <div>
+            <h1>Edit User</h1>
+            <h6 class="m-0">{{ user.getEmail() }}</h6>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for("adminUsers.editUser", email=user.getEmail()) }}">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for("adminUsers.viewAddresses", email=user.getEmail()) }}">Delivery Addresses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for("adminUsers.editPassword", email=user.getEmail()) }}">Change Password</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row overflow-auto">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="h4 mb-3">Add New Address</h2>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.name) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.location) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {{ form.submit(class_="btn custom-btn") }}
+            </div>
+        </div>
+    </form>
+{% endblock %}

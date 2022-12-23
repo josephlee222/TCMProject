@@ -22,3 +22,8 @@
 
 ## 22/12/22 Changelog
 - Added accessibility (zoom) options for guests
+
+## 23/12/22 Changelog
+- Added Address list and add address pages
+- Done functionality for adding addresses and listing all addresses
+- Minor text changes

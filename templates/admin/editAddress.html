@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Edit Addresses{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
+        <div>
+            <h1>Edit User</h1>
+            <h6 class="m-0">{{ user.getEmail() }}</h6>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for("adminUsers.editUser", email=user.getEmail()) }}">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Delivery Addresses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for("adminUsers.editPassword", email=user.getEmail()) }}">Change Password</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% if id is defined %}
+        <div class="row overflow-auto">
+
+        </div>
+    {% else %}
+        <div class="row overflow-auto">
+            <div class="col-12 mb-4 mb-lg-0">
+                <h2 class="h4 mb-3">Address list</h2>
+                <a href="{{ url_for("adminUsers.addAddress", email=user.getEmail()) }}"><button class="btn custom-btn">Add New Address</button></a>
+                <table class="table table-striped w-100 mt-3">
+                    <thead>
+                        <th>Address Name</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                    {% if addresses|length > 0 %}
+                        {% for address in addresses %}
+                            <tr>
+                                <td>{{ address.getName() }}</td>
+                                <td>{{ address.getLocation() }}<br>({{ address.getLatitude() }}, {{ address.getLongitude() }})</td>
+                                <td>
+                                    <a href="#"><button class="btn custom-btn">View on Maps</button></a>
+                                    <a href="#"><button class="btn custom-btn">Edit</button></a>
+                                    <a href="#"><button class="btn btn-danger">Delete</button></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No addresses added for this account</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
