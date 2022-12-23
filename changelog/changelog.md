@@ -27,3 +27,4 @@
 - Added Address list and add address pages
 - Done functionality for adding addresses and listing all addresses
 - Minor text changes
+- Zoom feature is somewhat available on firefox using transform scale (still broken)
