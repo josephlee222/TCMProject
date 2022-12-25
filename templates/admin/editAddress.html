@@ -21,7 +21,7 @@
                     <a class="nav-link" href="{{ url_for("adminUsers.editUser", email=user.getEmail()) }}">Edit Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Delivery Addresses</a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for("adminUsers.viewAddresses", email=user.getEmail()) }}">Delivery Addresses</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for("adminUsers.editPassword", email=user.getEmail()) }}">Change Password</a>
@@ -30,13 +30,28 @@
         </div>
     </div>
     {% if id is defined %}
-        <div class="row overflow-auto">
-
-        </div>
+        <form method="post">
+            <div class="row overflow-auto">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="h4 mb-3">Edit Address</h2>
+                    <div class="mb-3">
+                        {{ formHelper.renderField(form.name, value=address.getName()) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ formHelper.renderField(form.location, value=address.getLocation()) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {{ form.submit(class_="btn custom-btn") }}
+                </div>
+            </div>
+        </form>
     {% else %}
         <div class="row overflow-auto">
             <div class="col-12 mb-4 mb-lg-0">
-                <h2 class="h4 mb-3">Address list</h2>
+                <h2 class="h4 mb-3">Address List</h2>
                 <a href="{{ url_for("adminUsers.addAddress", email=user.getEmail()) }}"><button class="btn custom-btn">Add New Address</button></a>
                 <table class="table table-striped w-100 mt-3">
                     <thead>
@@ -50,9 +65,9 @@
                             <tr>
                                 <td>{{ address.getName() }}</td>
                                 <td>{{ address.getLocation() }}<br>({{ address.getLatitude() }}, {{ address.getLongitude() }})</td>
-                                <td>
-                                    <a href="#"><button class="btn custom-btn">View on Maps</button></a>
-                                    <a href="#"><button class="btn custom-btn">Edit</button></a>
+                                <td class="text-nowrap">
+                                    <a target="_blank" href="https://maps.google.com/?q={{ address.getLatitude() }},{{ address.getLongitude() }}"><button class="btn custom-btn">View on Maps</button></a>
+                                    <a href="{{ url_for("adminUsers.editAddress", email=user.getEmail(), id=loop.index - 1) }}"><button class="btn custom-btn">Edit</button></a>
                                     <a href="#"><button class="btn btn-danger">Delete</button></a>
                                 </td>
                             </tr>

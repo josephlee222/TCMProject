@@ -131,7 +131,7 @@ class addUserForm(Form):
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
 
-class addressForm(Form):
+class addAddressForm(Form):
     name = StringField("Address Name", [
         validators.Length(1, 64, message="Address name must be between 1 to 64 characters"),
         validators.DataRequired(message="Address name is required")
@@ -142,3 +142,15 @@ class addressForm(Form):
     ])
 
     submit = SubmitField("Add Address")
+
+class editAddressForm(Form):
+    name = StringField("Address Name", [
+        validators.Length(1, 64, message="Address name must be between 1 to 64 characters"),
+        validators.DataRequired(message="Address name is required")
+    ])
+    location = StringField("Location", [
+        validators.Length(16, 256, message="Location must be between 16 to 256 characters"),
+        validators.DataRequired(message="Location is required")
+    ])
+
+    submit = SubmitField("Edit Address")

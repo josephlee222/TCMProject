@@ -16,8 +16,13 @@ def login():  # put application's code here
             with shelve.open("users") as users:
                 user = users[form.email.data]
                 if user.getPassword() == form.password.data:
-                    userDict = user.__dict__
-                    userDict.pop("password")
+                    userDict = {
+                        "name": user.getName(),
+                        "email": user.getEmail(),
+                        "accountType": user.getAccountType(),
+                        "birthday": user.getBirthday(),
+                        "phone": user.getPhone(),
+                    }
                     session["user"] = userDict
                     print(session["user"])
                     flash("Successfully logged in, welcome back!")

@@ -28,3 +28,7 @@
 - Done functionality for adding addresses and listing all addresses
 - Minor text changes
 - Zoom feature is somewhat available on firefox using transform scale (still broken)
+
+## 25/12/22 Changelog
+- Added edit address page
+- Moved delivery address storage into User class instead of storing it as a standalone class

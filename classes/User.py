@@ -1,3 +1,6 @@
+from flask import flash
+
+
 class User:
     def __init__(self, name, password, email, accountType):
         self.name = name
@@ -7,7 +10,6 @@ class User:
         self.birthday = None
         self.phone = None
         self.address = None
-        self.postal = None
 
     def getName(self):
         return self.name
@@ -30,9 +32,6 @@ class User:
     def getAddress(self):
         return  self.address
 
-    def getPostal(self):
-        return self.postal
-
     def setPassword(self, password):
         self.password = password
 
@@ -48,8 +47,24 @@ class User:
     def setPhone(self, phone):
         self.phone = phone
 
+    # ONLY PASS IN ADDRESS CLASSES HERE, NO TEXT
     def setAddress(self, address):
-        self.address = address
+        if self.address == None:
+            self.address = [address]
+        else:
+            self.address.append(address)
 
-    def setPostal(self, postal):
-        self.postal = postal
+    # ONLY PASS IN ADDRESS CLASSES HERE, NO TEXT
+    def editAddress(self, id, address):
+        try:
+            self.address[id] = address
+        except IndexError:
+            flash("Unable to edit address, address does not exist.", category="error")
+            return False
+
+    def deleteAddress(self, id):
+        try:
+            self.address.pop(id)
+        except IndexError:
+            flash("Unable to edit address, address does not exist.", category="error")
+            return False

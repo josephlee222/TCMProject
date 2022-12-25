@@ -4,9 +4,10 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from functions import flashFormErrors, goBack, adminAccess
 from classes.User import User
 from classes.Address import Address
-from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addressForm
+from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addAddressForm, editAddressForm
 
 adminUsers = Blueprint("adminUsers", __name__)
+
 
 @adminUsers.route("/admin/users/", methods=['GET', 'POST'])
 @adminAccess
@@ -17,6 +18,7 @@ def viewAllUsers():
 
     with shelve.open("users") as users:
         return render_template("admin/viewUsers.html", users=users, form=form)
+
 
 @adminUsers.route("/admin/users/edit/<email>", methods=['GET', 'POST'])
 @adminAccess
@@ -31,6 +33,7 @@ def editUser(email):
 
     with shelve.open("users") as users:
         return render_template("admin/editUser.html", user=users[email], form=form)
+
 
 @adminUsers.route("/admin/users/edit/password/<email>", methods=['GET', 'POST'])
 @adminAccess
@@ -49,42 +52,70 @@ def editPassword(email):
     with shelve.open("users") as users:
         return render_template("admin/editPassword.html", user=users[email], form=form)
 
+
 @adminUsers.route("/admin/users/edit/address/<email>", methods=['GET', 'POST'])
 @adminAccess
 def viewAddresses(email):
-
     with shelve.open("users") as users:
-        try:
-            with shelve.open("addresses") as allAddresses:
-                addresses = allAddresses[email]
-        except KeyError:
+        if users[email].getAddress() is not None:
+            addresses = users[email].getAddress()
+        else:
             addresses = []
             flash("No addresses added yet for this account.", category="warning")
-        finally:
-            return render_template("admin/editAddress.html", user=users[email], addresses=addresses)
+        return render_template("admin/editAddress.html", user=users[email], addresses=addresses)
+
+
+@adminUsers.route("/admin/users/edit/address/<email>/<id>", methods=['GET', 'POST'])
+@adminAccess
+def editAddress(email, id):
+    form = editAddressForm(request.form)
+
+    if request.method == "POST" and form.validate():
+        print("Edit Address")
+        address = Address(form.name.data, form.location.data)
+
+        with shelve.open("users", writeback=True) as users:
+            users[email].editAddress(int(id), address)
+
+            flash("Address has been successfully edited", category="success")
+            return redirect(url_for("adminUsers.viewAddresses", email=email))
+    else:
+        flashFormErrors("Unable to edit address", form.errors)
+        with shelve.open("users") as users:
+            if users[email].getAddress() is not None:
+                try:
+                    address = users[email].getAddress()[int(id)]
+                except IndexError:
+                    flash("Cannot edit address. Specified address ID does not exist.", category="error")
+                    return redirect(url_for("adminUsers.viewAddresses", email=email))
+            else:
+                flash("Cannot edit address. No address has been added yet", category="error")
+                return redirect("adminUsers.viewAddresses")
+
+    with shelve.open("users") as users:
+        return render_template("admin/editAddress.html", user=users[email], address=address, id=id, form=form)
+
 
 @adminUsers.route("/admin/users/add/address/<email>", methods=['GET', 'POST'])
 @adminAccess
 def addAddress(email):
-    form = addressForm(request.form)
+    form = addAddressForm(request.form)
 
     if request.method == "POST" and form.validate():
         print("Add address")
         address = Address(form.name.data, form.location.data)
 
-        with shelve.open("addresses", writeback=True) as addresses:
-            if email not in addresses.keys():
-                addresses[email] = [address]
-            else:
-                addresses[email].append(address)
+        with shelve.open("users", writeback=True) as users:
+            users[email].setAddress(address)
 
-            flash("Address has been successfully added")
+            flash("Address has been successfully added", category="success")
             return redirect(url_for("adminUsers.viewAddresses", email=email))
     else:
         flashFormErrors("Unable to add address", form.errors)
 
     with shelve.open("users") as users:
         return render_template("admin/addAddress.html", user=users[email], form=form)
+
 
 @adminUsers.route("/admin/users/add", methods=['GET', 'POST'])
 @adminAccess
