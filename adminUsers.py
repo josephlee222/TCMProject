@@ -4,7 +4,7 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from functions import flashFormErrors, goBack, adminAccess
 from classes.User import User
 from classes.Address import Address
-from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addAddressForm, editAddressForm
+from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addAddressForm, editAddressForm, deleteUserForm
 
 adminUsers = Blueprint("adminUsers", __name__)
 
@@ -34,6 +34,34 @@ def editUser(email):
     with shelve.open("users") as users:
         return render_template("admin/editUser.html", user=users[email], form=form)
 
+@adminUsers.route("/admin/users/delete/<email>", methods=['GET', 'POST'])
+@adminAccess
+def deleteUser(email):
+    form = deleteUserForm(request.form)
+
+    if request.method == "POST" and form.validate():
+        # Do user edit here
+        print("Delete user")
+        with shelve.open("users") as users:
+            if form.name.data != users[email].getName():
+                flash("Unable to delete the account: The account name does not match the registered email account name.", category="error")
+            else:
+                try:
+                    del users[email]
+                    flash("Successfully deleted the account.", category="success")
+
+                    if session["user"]["email"] == email:
+                        flash("Logging out because your account has been deleted.", category="warning")
+                        return redirect(url_for("auth.logout"))
+
+                    return redirect(url_for("adminUsers.viewAllUsers"))
+                except KeyError:
+                    flash("Unable to delete the account: The account does not exist.", category="error")
+    else:
+        flashFormErrors("Unable to delete the account", form.errors)
+
+    with shelve.open("users") as users:
+        return render_template("admin/deleteUser.html", user=users[email], form=form)
 
 @adminUsers.route("/admin/users/edit/password/<email>", methods=['GET', 'POST'])
 @adminAccess

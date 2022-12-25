@@ -154,3 +154,11 @@ class editAddressForm(Form):
     ])
 
     submit = SubmitField("Edit Address")
+
+class deleteUserForm(Form):
+    name = StringField("Account Name", [
+        validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Name is required")
+    ])
+
+    submit = SubmitField("Confirm Delete")

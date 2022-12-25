@@ -32,3 +32,5 @@
 ## 25/12/22 Changelog
 - Added edit address page
 - Moved delivery address storage into User class instead of storing it as a standalone class
+- Added delete user page
+- Minor UI improvements

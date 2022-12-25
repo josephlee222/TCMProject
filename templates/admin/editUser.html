@@ -18,7 +18,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-12">
-            <ul class="nav nav-tabs overflow">
+            <ul class="nav nav-tabs overflow flex-nowrap">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Edit Profile</a>
                 </li>
@@ -47,7 +47,7 @@
                     {{ formHelper.renderField(form.email, value=user.getEmail()) }}
                 </div>
                 <div class="mb-3">
-                    {{ formHelper.renderField(form.phone, value=user.getPhone()) }}
+                    {{ formHelper.renderField(form.phone, value=user.getPhone() if user.getPhone()) }}
                 </div>
                 <div class="mb-3">
                     <label for="admin" class="form-label">Account Type</label>
