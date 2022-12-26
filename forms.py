@@ -64,7 +64,7 @@ class editUserForm(Form):
     ])
     birthday = DateField("Birthday", [
         validators.Optional()
-    ], format='%d-%m-%Y')
+    ])
     phone = StringField("Phone Number", [
         validators.Optional(),
         validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
@@ -111,7 +111,7 @@ class addUserForm(Form):
     ])
     birthday = DateField("Birthday", [
         validators.Optional()
-    ], format='%d-%m-%Y')
+    ])
     phone = StringField("Phone Number", [
         validators.Optional(),
         validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")

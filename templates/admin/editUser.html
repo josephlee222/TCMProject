@@ -40,7 +40,7 @@
                         {{ formHelper.renderField(form.name, value=user.getName()) }}
                     </div>
                     <div class="col-md-6 mb-3">
-                        {{ formHelper.renderField(form.birthday, value="") }}
+                        {{ formHelper.renderField(form.birthday, value=user.getBirthday() if user.getBirthday()) }}
                     </div>
                 </div>
                 <div class="mb-3">

@@ -34,3 +34,8 @@
 - Moved delivery address storage into User class instead of storing it as a standalone class
 - Added delete user page
 - Minor UI improvements
+
+## 26/12/22 Changelog
+- Re-factored all adminUser routes to handle non-existent email accounts
+- Added edit user functionality
+- Birthday and phone numbers now stores in DB when adding or editing users

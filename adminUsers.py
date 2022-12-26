@@ -24,125 +24,159 @@ def viewAllUsers():
 @adminAccess
 def editUser(email):
     form = editUserForm(request.form)
+    try:
+        with shelve.open("users", writeback=True) as users:
+            user = users[email]
+            if request.method == "POST" and form.validate():
+                # Do user edit here
+                name = form.name.data
+                password = user.getPassword()
+                email = user.getEmail()
+                accountType = user.getAccountType()
+                birthday = form.birthday.data
+                phone = form.phone.data
+                user = User(name, password, email, accountType)
 
-    if request.method == "POST" and form.validate():
-        # Do user edit here
-        print("Update user")
-    else:
-        flashFormErrors("Unable to update the user", form.errors)
+                if birthday != "":
+                    user.setbirthday(birthday)
 
-    with shelve.open("users") as users:
-        return render_template("admin/editUser.html", user=users[email], form=form)
+                if phone != "":
+                    user.setPhone(phone)
+
+                users[email] = user
+
+                flash("User successfully edited", category="success")
+                return redirect(url_for("adminUsers.viewAllUsers"))
+            else:
+                flashFormErrors("Unable to update the user", form.errors)
+
+            return render_template("admin/editUser.html", user=user, form=form)
+    except KeyError:
+        flash("Unable to edit the user: Account does not exist", category="error")
+        return redirect(url_for("adminUsers.viewAllUsers"))
 
 @adminUsers.route("/admin/users/delete/<email>", methods=['GET', 'POST'])
 @adminAccess
 def deleteUser(email):
     form = deleteUserForm(request.form)
+    try:
+        with shelve.open("users", writeback=True) as users:
+            user = users[email]
+            if request.method == "POST" and form.validate():
+                # Do user edit here
+                print("Delete user")
+                if form.name.data != user.getName():
+                    flash("Unable to delete the account: The account name does not match the registered email account name.", category="error")
+                else:
+                    try:
+                        del users[email]
+                        flash("Successfully deleted the account.", category="success")
 
-    if request.method == "POST" and form.validate():
-        # Do user edit here
-        print("Delete user")
-        with shelve.open("users") as users:
-            if form.name.data != users[email].getName():
-                flash("Unable to delete the account: The account name does not match the registered email account name.", category="error")
+                        if session["user"]["email"] == email:
+                            flash("Logging out because your account has been deleted.", category="warning")
+                            return redirect(url_for("auth.logout"))
+
+                        return redirect(url_for("adminUsers.viewAllUsers"))
+                    except KeyError:
+                        flash("Unable to delete the account: The account does not exist.", category="error")
             else:
-                try:
-                    del users[email]
-                    flash("Successfully deleted the account.", category="success")
+                flashFormErrors("Unable to delete the account", form.errors)
 
-                    if session["user"]["email"] == email:
-                        flash("Logging out because your account has been deleted.", category="warning")
-                        return redirect(url_for("auth.logout"))
-
-                    return redirect(url_for("adminUsers.viewAllUsers"))
-                except KeyError:
-                    flash("Unable to delete the account: The account does not exist.", category="error")
-    else:
-        flashFormErrors("Unable to delete the account", form.errors)
-
-    with shelve.open("users") as users:
-        return render_template("admin/deleteUser.html", user=users[email], form=form)
+            return render_template("admin/deleteUser.html", user=user, form=form)
+    except KeyError:
+        flash("Unable to delete the account: The account does not exist.", category="error")
+        return redirect(url_for("adminUsers.viewAllUsers"))
 
 @adminUsers.route("/admin/users/edit/password/<email>", methods=['GET', 'POST'])
 @adminAccess
 def editPassword(email):
     form = changeUserPasswordForm(request.form)
-
-    if request.method == "POST" and form.validate():
-        # Do user edit here
+    try:
         with shelve.open("users", writeback=True) as users:
-            users[email].setPassword(form.password.data)
+            user = users[email]
+            if request.method == "POST" and form.validate():
+                # Do user edit here
+                user.setPassword(form.password.data)
+                flash("Successfully changed password.", category="success")
+            else:
+                flashFormErrors("Unable to change the password", form.errors)
 
-        flash("Successfully changed password.", category="success")
-    else:
-        flashFormErrors("Unable to change the password", form.errors)
-
-    with shelve.open("users") as users:
-        return render_template("admin/editPassword.html", user=users[email], form=form)
+            return render_template("admin/editPassword.html", user=user, form=form)
+    except KeyError:
+        flash("Unable to change the password: Account does not exist", category="error")
+        return redirect(url_for("adminUsers.viewAllUsers"))
 
 
 @adminUsers.route("/admin/users/edit/address/<email>", methods=['GET', 'POST'])
 @adminAccess
 def viewAddresses(email):
-    with shelve.open("users") as users:
-        if users[email].getAddress() is not None:
-            addresses = users[email].getAddress()
-        else:
-            addresses = []
-            flash("No addresses added yet for this account.", category="warning")
-        return render_template("admin/editAddress.html", user=users[email], addresses=addresses)
+    try:
+        with shelve.open("users") as users:
+            user = users[email]
+            if user.getAddress() is not None:
+                addresses = user.getAddress()
+            else:
+                addresses = []
+                flash("No addresses added yet for this account.", category="warning")
+            return render_template("admin/editAddress.html", user=user, addresses=addresses)
+    except KeyError:
+        flash("Unable to view delivery addresses: Account does not exist", category="error")
+        return redirect(url_for("adminUsers.viewAllUsers"))
 
 
 @adminUsers.route("/admin/users/edit/address/<email>/<id>", methods=['GET', 'POST'])
 @adminAccess
 def editAddress(email, id):
     form = editAddressForm(request.form)
-
-    if request.method == "POST" and form.validate():
-        print("Edit Address")
-        address = Address(form.name.data, form.location.data)
-
+    try:
         with shelve.open("users", writeback=True) as users:
-            users[email].editAddress(int(id), address)
+            user = users[email]
+            if request.method == "POST" and form.validate():
+                print("Edit Address")
+                address = Address(form.name.data, form.location.data)
+                user.editAddress(int(id), address)
 
-            flash("Address has been successfully edited", category="success")
-            return redirect(url_for("adminUsers.viewAddresses", email=email))
-    else:
-        flashFormErrors("Unable to edit address", form.errors)
-        with shelve.open("users") as users:
-            if users[email].getAddress() is not None:
-                try:
-                    address = users[email].getAddress()[int(id)]
-                except IndexError:
-                    flash("Cannot edit address. Specified address ID does not exist.", category="error")
-                    return redirect(url_for("adminUsers.viewAddresses", email=email))
+                flash("Address has been successfully edited", category="success")
+                return redirect(url_for("adminUsers.viewAddresses", email=email))
             else:
-                flash("Cannot edit address. No address has been added yet", category="error")
-                return redirect("adminUsers.viewAddresses")
+                flashFormErrors("Unable to edit address", form.errors)
+                if user.getAddress() is not None:
+                    try:
+                        address = user.getAddress()[int(id)]
+                    except IndexError:
+                        flash("Cannot edit address. Specified address ID does not exist.", category="error")
+                        return redirect(url_for("adminUsers.viewAddresses", email=email))
+                else:
+                    flash("Cannot edit address. No address has been added yet", category="error")
+                    return redirect(url_for("adminUsers.viewAddresses", email=email))
 
-    with shelve.open("users") as users:
-        return render_template("admin/editAddress.html", user=users[email], address=address, id=id, form=form)
+            return render_template("admin/editAddress.html", user=user, address=address, id=id, form=form)
+    except KeyError:
+        flash("Unable to edit delivery address: Account does not exist", category="error")
+        return redirect(url_for("adminUsers.viewAllUsers"))
 
 
 @adminUsers.route("/admin/users/add/address/<email>", methods=['GET', 'POST'])
 @adminAccess
 def addAddress(email):
     form = addAddressForm(request.form)
-
-    if request.method == "POST" and form.validate():
-        print("Add address")
-        address = Address(form.name.data, form.location.data)
-
+    try:
         with shelve.open("users", writeback=True) as users:
-            users[email].setAddress(address)
+            user = users[email]
+            if request.method == "POST" and form.validate():
+                print("Add address")
+                address = Address(form.name.data, form.location.data)
 
-            flash("Address has been successfully added", category="success")
-            return redirect(url_for("adminUsers.viewAddresses", email=email))
-    else:
-        flashFormErrors("Unable to add address", form.errors)
+                user.setAddress(address)
+                flash("Address has been successfully added", category="success")
+                return redirect(url_for("adminUsers.viewAddresses", email=email))
+            else:
+                flashFormErrors("Unable to add address", form.errors)
 
-    with shelve.open("users") as users:
-        return render_template("admin/addAddress.html", user=users[email], form=form)
+            return render_template("admin/addAddress.html", user=user, form=form)
+    except KeyError:
+        flash("Unable to add delivery address: Account does not exist", category="error")
+        return redirect(url_for("adminUsers.viewAllUsers"))
 
 
 @adminUsers.route("/admin/users/add", methods=['GET', 'POST'])
@@ -163,8 +197,17 @@ def addUser():
         password = form.password.data
         email = form.email.data
         accountType = form.accountType.data
+        birthday = form.birthday.data
+        phone = form.phone.data
 
         user = User(name, password, email, accountType)
+
+        if birthday != "":
+            user.setbirthday(birthday)
+
+        if phone != "":
+            user.setPhone(phone)
+
         with shelve.open("users") as users:
             users[email] = user
             flash("User successfully created", category="success")
