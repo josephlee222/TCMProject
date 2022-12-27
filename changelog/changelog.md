@@ -39,3 +39,7 @@
 - Re-factored all adminUser routes to handle non-existent email accounts
 - Added edit user functionality
 - Birthday and phone numbers now stores in DB when adding or editing users
+
+## 27/12/22 Changelog
+- Moved some form validations to forms.py and use ValidationError to show errors instead
+- FormHelper now supports submit buttons

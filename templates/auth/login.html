@@ -8,7 +8,7 @@
         <div class="col-lg-6 mb-3 mb-lg-0">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title mb-3">Login to TCMProject (WIP)</h5>
+                    <h5 class="card-title mb-3">Login to TCM Shifu (WIP)</h5>
                     <form method="post">
                         <div class="mb-3">
                             {{ formHelper.renderField(form.email) }}
@@ -16,7 +16,7 @@
                         <div class="mb-3">
                             {{ formHelper.renderField(form.password) }}
                         </div>
-                        <input type="submit" value="Login" class="btn custom-btn">
+                        {{ formHelper.renderField(form.submit) }}
                     </form>
                 </div>
             </div>

@@ -183,15 +183,8 @@ def addAddress(email):
 @adminAccess
 def addUser():
     form = addUserForm(request.form)
-    email_taken = False
 
-    if request.method == "POST":
-        with shelve.open("users") as users:
-            if form.email.data in users:
-                email_taken = True
-                flash("Unable to register: This e-mail has an existing account, please try again", category="error")
-
-    if request.method == "POST" and form.validate() and not email_taken:
+    if request.method == "POST" and form.validate():
         # Do user edit here
         name = form.name.data
         password = form.password.data

@@ -8,7 +8,7 @@
         <div class="col-lg-6 mb-3 mb-lg-0">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title mb-3">Register TCMProject Account (WIP)</h5>
+                    <h5 class="card-title mb-3">Register a TCM Shifu Account (WIP)</h5>
                     <form method="post">
                         <div class="mb-3">
                             {{ formHelper.renderField(form.name) }}
@@ -24,7 +24,7 @@
                                 {{ formHelper.renderField(form.confirmPassword) }}
                             </div>
                         </div>
-                        <input type="submit" value="Register Account" class="btn custom-btn">
+                        {{ formHelper.renderField(form.submit) }}
                     </form>
                 </div>
             </div>

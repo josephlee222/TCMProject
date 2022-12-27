@@ -41,15 +41,8 @@ def login():  # put application's code here
 @unloginAccess
 def register():
     form = registerUserForm(request.form)
-    email_taken = False
 
-    if request.method == "POST":
-        with shelve.open("users") as users:
-            if form.email.data in users:
-                email_taken = True
-                flash("Unable to register: This e-mail has an existing account, please try again", category="error")
-
-    if request.method == "POST" and form.validate() and not email_taken:
+    if request.method == "POST" and form.validate():
         print("Register")
         name = form.name.data
         password = form.password.data
@@ -58,7 +51,8 @@ def register():
         user = User(name, password, email, "admin")
         with shelve.open("users") as users:
             users[email] = user
-            flash("User successfully created", category="success")
+            flash("User successfully created, you can login now", category="success")
+            return redirect(url_for("auth.login"))
     else:
         flashFormErrors("Unable to register an account", form.errors)
 

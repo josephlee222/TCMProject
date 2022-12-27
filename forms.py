@@ -1,5 +1,9 @@
-from wtforms import Form, StringField, PasswordField, RadioField, SelectField, validators, EmailField, DateField, ValidationError, IntegerField, SubmitField, BooleanField
 import datetime
+import shelve
+
+from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
+    SubmitField
+
 
 # Put all forms here with a comment describing the form
 
@@ -24,6 +28,8 @@ class loginUserForm(Form):
         validators.DataRequired(message="Password is required to login")
     ])
 
+    submit = SubmitField("Login")
+
 
 # User registration form
 class registerUserForm(Form):
@@ -45,6 +51,13 @@ class registerUserForm(Form):
         validators.Email(granular_message=True),
         validators.DataRequired(message="E-mail address is required for registration")
     ])
+
+    submit = SubmitField("Register an account")
+
+    def validate_email(form, field):
+        with shelve.open("users") as users:
+            if form.email.data in users:
+                raise ValidationError("This e-mail has an existing account, please try again")
 
 
 class searchUsersForm(Form):
@@ -71,8 +84,7 @@ class editUserForm(Form):
     ])
     submit = SubmitField("Edit User")
 
-
-    def validate_birthdate_field(form, field):
+    def validate_birthday(form, birthday):
         if form.birthday.data > datetime.date.today():
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
@@ -110,7 +122,8 @@ class addUserForm(Form):
         validators.data_required(message="You need to confirm your new password.")
     ])
     birthday = DateField("Birthday", [
-        validators.Optional()
+        validators.Optional(),
+
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
@@ -125,8 +138,12 @@ class addUserForm(Form):
     ])
     submit = SubmitField("Create User")
 
+    def validate_email(form, field):
+        with shelve.open("users") as users:
+            if form.email.data in users:
+                raise ValidationError("This e-mail has an existing account, please try again")
 
-    def validate_birthdate_field(form, field):
+    def validate_birthday(form, birthday):
         if form.birthday.data > datetime.date.today():
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
