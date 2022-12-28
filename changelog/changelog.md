@@ -43,3 +43,9 @@
 ## 27/12/22 Changelog
 - Moved some form validations to forms.py and use ValidationError to show errors instead
 - FormHelper now supports submit buttons
+
+## 28/12/22 Changelog
+- Improved navbar layout
+- Added new items into the admin navbar (Treatments, Orders, Blog, About)
+- Created new classes (products, treatments, coupons)
+- Minor UI changes

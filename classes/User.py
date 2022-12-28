@@ -2,14 +2,18 @@ from flask import flash
 
 
 class User:
-    def __init__(self, name, password, email, accountType):
-        self.name = name
-        self.password = password
-        self.email = email
-        self.accountType = accountType
-        self.birthday = None
-        self.phone = None
-        self.address = None
+    def __init__(self, name, password, email, accountType, birthday=None, phone=None):
+        try:
+            self.name = str(name)
+            self.password = str(password)
+            self.email = str(email)
+            self.accountType = str(accountType)
+        except ValueError:
+            print("Value error while creating User class")
+
+        self.birthday = birthday
+        self.phone = phone
+        self.address = []
 
     def getName(self):
         return self.name

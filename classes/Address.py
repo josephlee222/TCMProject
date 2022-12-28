@@ -1,6 +1,5 @@
 # Customer delivery address class
 # Library to get map coordinates via address
-import geopy.geocoders as geo
 from flask import flash
 from geopy.geocoders import ArcGIS
 from geopy.exc import GeopyError
@@ -13,7 +12,7 @@ class Address:
         except GeopyError:
             self.latitude = 0
             self.longitude = 0
-            flash("Error has occurred when getting information from Geopy")
+            flash("Error has occurred when getting information from the location provider", category="Error")
         else:
             self.latitude = geoLocation.latitude
             self.longitude = geoLocation.longitude

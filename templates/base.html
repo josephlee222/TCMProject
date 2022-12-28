@@ -28,7 +28,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">{% block nav %}{% endblock %}</ul>
-            <div class="d-flex align-items-center">
+            <div class="d-block d-lg-flex align-items-center">
                 {% block navRight %}{% endblock %}
             </div>
         </div>
@@ -98,4 +98,5 @@
 </body>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
 </html>
