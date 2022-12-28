@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}All Treatments{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">medical_services</span>
+        <div>
+            <h1>View Treatments</h1>
+            <h6 class="m-0">View and manage treatments</h6>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row mb-3">
+            <div class="col-lg-9 mb-3 mb-lg-0">
+                {{ form.name(class_="form-control", placeholder="Search by Name...") }}
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn custom-btn w-100" value="Search">
+            </div>
+        </div>
+    </form>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                    <th>Treatment Name</th>
+                    <th>Duration</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sample Treatment</td>
+                        <td>1 Hour</td>
+                        <td>$50</td>
+                        <td class="text-nowrap">
+                            <a target="_blank" href="#"><button class="btn custom-btn">View Details</button></a>
+                            <a href="#"><button class="btn custom-btn">Edit</button></a>
+                            <a href="#"><button class="btn btn-danger">Delete</button></a>
+                        </td>
+                    </tr>
+{#                {% for user in users %}#}
+{#                    <tr>#}
+{#                        <td>{{ users[user]["email"] }}</td>#}
+{#                        <td>{{ users[user]["name"] }}</td>#}
+{#                        <td>{{ users[user]["accountType"] }}</td>#}
+{#                        <td class="text-nowrap">#}
+{#                            <a href="#"><button class="btn custom-btn">View Prescriptions</button></a>#}
+{#                            <a href="{{ url_for("adminUsers.editUser", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>#}
+{#                            <a href="{{ url_for("adminUsers.deleteUser", email=users[user]["email"]) }}"><button class="btn btn-danger">Delete</button></a>#}
+{#                        </td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

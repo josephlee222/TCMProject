@@ -1,5 +1,4 @@
 import shelve
-
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from functions import flashFormErrors, goBack, adminAccess
 from classes.User import User
@@ -17,7 +16,7 @@ def viewAllUsers():
     # Todo: Add user search functionality
 
     with shelve.open("users") as users:
-        return render_template("admin/viewUsers.html", users=users, form=form)
+        return render_template("admin/users/viewUsers.html", users=users, form=form)
 
 
 @adminUsers.route("/admin/users/edit/<email>", methods=['GET', 'POST'])
@@ -50,7 +49,7 @@ def editUser(email):
             else:
                 flashFormErrors("Unable to update the user", form.errors)
 
-            return render_template("admin/editUser.html", user=user, form=form)
+            return render_template("admin/users/editUser.html", user=user, form=form)
     except KeyError:
         flash("Unable to edit the user: Account does not exist", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
@@ -82,7 +81,7 @@ def deleteUser(email):
             else:
                 flashFormErrors("Unable to delete the account", form.errors)
 
-            return render_template("admin/deleteUser.html", user=user, form=form)
+            return render_template("admin/users/deleteUser.html", user=user, form=form)
     except KeyError:
         flash("Unable to delete the account: The account does not exist.", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
@@ -101,7 +100,7 @@ def editPassword(email):
             else:
                 flashFormErrors("Unable to change the password", form.errors)
 
-            return render_template("admin/editPassword.html", user=user, form=form)
+            return render_template("admin/users/editPassword.html", user=user, form=form)
     except KeyError:
         flash("Unable to change the password: Account does not exist", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
@@ -118,7 +117,7 @@ def viewAddresses(email):
             else:
                 addresses = []
                 flash("No addresses added yet for this account.", category="warning")
-            return render_template("admin/editAddress.html", user=user, addresses=addresses)
+            return render_template("admin/users/editAddress.html", user=user, addresses=addresses)
     except KeyError:
         flash("Unable to view delivery addresses: Account does not exist", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
@@ -150,7 +149,7 @@ def editAddress(email, id):
                     flash("Cannot edit address. No address has been added yet", category="error")
                     return redirect(url_for("adminUsers.viewAddresses", email=email))
 
-            return render_template("admin/editAddress.html", user=user, address=address, id=id, form=form)
+            return render_template("admin/users/editAddress.html", user=user, address=address, id=id, form=form)
     except KeyError:
         flash("Unable to edit delivery address: Account does not exist", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
@@ -173,7 +172,7 @@ def addAddress(email):
             else:
                 flashFormErrors("Unable to add address", form.errors)
 
-            return render_template("admin/addAddress.html", user=user, form=form)
+            return render_template("admin/users/addAddress.html", user=user, form=form)
     except KeyError:
         flash("Unable to add delivery address: Account does not exist", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
@@ -207,4 +206,4 @@ def addUser():
     else:
         flashFormErrors("Unable to create the user", form.errors)
 
-    return render_template("admin/addUser.html", form=form)
+    return render_template("admin/users/addUser.html", form=form)

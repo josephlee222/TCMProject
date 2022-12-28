@@ -48,4 +48,7 @@
 - Improved navbar layout
 - Added new items into the admin navbar (Treatments, Orders, Blog, About)
 - Created new classes (products, treatments, coupons)
+- Created directories for respective pages and moved templates into it
+- Created delivery partner navbar layout in adminNavControls.html
+- Created view all treatments page
 - Minor UI changes

@@ -1,53 +1,64 @@
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Users
-    </a>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">groups</span>View All Users</a></li>
-        <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.addUser") }}"><span class="material-icons me-1">person_add</span>Create User</a></li>
-    </ul>
-</li>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Shop
-    </a>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">shopping_cart</span>View All Orders</a></li>
-        <li>
-            <hr class="dropdown-divider">
-        </li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">inventory_2</span>View All Products</a></li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">library_add</span>Create New Product</a></li>
-        <li>
-            <hr class="dropdown-divider">
-        </li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">medical_services</span>View All Treatments</a></li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">library_add</span>Create New Treatment</a></li>
-        <li>
-            <hr class="dropdown-divider">
-        </li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">discount</span>View All Coupons</a></li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">new_label</span>Create New Coupon</a></li>
-    </ul>
-</li>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Appointments
-    </a>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">event</span>View All Appointments</a></li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">edit_calendar</span>Create New Appointment</a></li>
-    </ul>
-</li>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Blog
-    </a>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">feed</span>View All Articles</a></li>
-        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">post_add</span>Create New Article</a></li>
-    </ul>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/">About</a>
-</li>
+{% if session["user"]["accountType"] == "delivery" %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Users
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">groups</span>View All Users</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.addUser") }}"><span class="material-icons me-1">person_add</span>Create User</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Shop
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">shopping_cart</span>View All Orders</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">inventory_2</span>View All Products</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">library_add</span>Create New Product</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminTreatments.viewAllTreatments") }}"><span class="material-icons me-1">medical_services</span>View All Treatments</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">library_add</span>Create New Treatment</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">discount</span>View All Coupons</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">new_label</span>Create New Coupon</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Appointments
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">event</span>View All Appointments</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">edit_calendar</span>Create New Appointment</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Blog
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">feed</span>View All Articles</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">post_add</span>Create New Article</a></li>
+        </ul>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/">About</a>
+    </li>
+{% else %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Orders
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">shopping_cart</span>View All Orders</a></li>
+        </ul>
+    </li>
+{% endif %}

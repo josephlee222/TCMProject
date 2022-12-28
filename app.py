@@ -2,6 +2,7 @@ from flask import Flask, render_template, flash, Blueprint, session, url_for
 from test import test
 from auth import auth
 from adminUsers import adminUsers
+from adminTreatments import adminTreatments
 
 
 app = Flask(__name__)
@@ -11,6 +12,7 @@ app.secret_key = "Secret Key"
 app.register_blueprint(test)
 app.register_blueprint(auth)
 app.register_blueprint(adminUsers)
+app.register_blueprint(adminTreatments)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')

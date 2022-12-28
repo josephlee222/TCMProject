@@ -7,6 +7,8 @@ from wtforms import Form, StringField, PasswordField, RadioField, validators, Em
 
 # Put all forms here with a comment describing the form
 
+# ADMIN USERS FORMS
+
 # Sample form for testpage
 class testForm(Form):
     test = StringField("Testing Field", [
@@ -179,3 +181,11 @@ class deleteUserForm(Form):
     ])
 
     submit = SubmitField("Confirm Delete")
+
+# ADMIN TREATMENT FORMS
+
+class searchTreatmentsForm(Form):
+    name = StringField("Search by treatment name", [
+        validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Treatment name is required to search")
+    ])
