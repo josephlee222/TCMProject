@@ -112,7 +112,7 @@ def viewAddresses(email):
     try:
         with shelve.open("users") as users:
             user = users[email]
-            if user.getAddress() is not None:
+            if user.getAddress() is not None and user.getAddress() != []:
                 addresses = user.getAddress()
             else:
                 addresses = []
