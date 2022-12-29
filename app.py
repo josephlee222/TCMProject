@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, Blueprint, session, url_for
 from test import test
 from auth import auth
+from cart import cartpage
 from adminUsers import adminUsers
 from adminTreatments import adminTreatments
 
@@ -11,6 +12,7 @@ app.secret_key = "Secret Key"
 # Register blueprints
 app.register_blueprint(test)
 app.register_blueprint(auth)
+app.register_blueprint(cartpage)
 app.register_blueprint(adminUsers)
 app.register_blueprint(adminTreatments)
 

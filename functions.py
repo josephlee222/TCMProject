@@ -31,7 +31,7 @@ def unloginAccess(func):
 
     return wrapper_func
 
-# Decorator to ensure that only login users can access the page (ex. cart, checkout, profile)
+# Decorator to ensure that only login users can access the page (ex. carto, checkout, profile)
 def loginAccess(func):
     @wraps(func)
     def wrapper_func(*args, **kwargs):
@@ -41,7 +41,7 @@ def loginAccess(func):
         else:
             return func(*args, **kwargs)
 
-    return wrapper_func()
+    return wrapper_func
 
 def deliveryAccess(func):
     @wraps(func)

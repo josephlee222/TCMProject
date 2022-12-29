@@ -1,9 +1,10 @@
+import shelve
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from functions import loginAccess
+from functions import flashFormErrors, goBack, adminAccess, loginAccess
 
-cart = Blueprint("cart", __name__)
+cartpage = Blueprint("cart", __name__)
 
-@cart.route("/cart")
+@cartpage.route("/cart")
 @loginAccess
 def cart():
-    print("Under construction")
+    return render_template("cart/cart.html")
