@@ -1,5 +1,5 @@
 {% macro renderField(field) %}
-    {% if not field.type == "SubmitField" %}
+    {% if not field.type == "SubmitField" and not field.type == "BooleanField" %}
         <div class="d-flex align-items-center">
             {{ field.label(class="form-label me-2") }}
             {% if field.flags.required %}
@@ -13,7 +13,10 @@
                 {{ item(class="form-check-input")|safe }} {{item.label(class="form-check-label")|safe}}
             </div>
         {% endfor %}
-
+    {% elif field.type == "BooleanField" %}
+        <div class="form-check">
+            {{ field(class="form-check-input")|safe }} {{field.label(class="form-check-label")|safe}}
+        </div>
     {% elif field.type == "SubmitField" %}
         {{ field(class="btn custom-btn", **kwargs)|safe }}
     {% else %}
