@@ -7,6 +7,7 @@ from adminTreatments import adminTreatments
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
+app.config["UPLOAD_FOLDER"] = "/uploads/"
 
 # Register blueprints
 app.register_blueprint(test)

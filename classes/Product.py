@@ -1,18 +1,35 @@
+import itertools
+import shelve
+
+
 class Product:
-    def __init__(self, name, description, benefits, price, salePrice, onSale, images):
+    def __init__(self, name, description, benefits, price, salePrice, onSale, images=[]):
         # Init class with safe measures
+        with shelve.open("counter", writeback=True) as counter:
+            if "shop" not in counter:
+                id = 1
+            else:
+                id = counter["shop"] + 1
+            counter["shop"] = id
+
         try:
-            if type(benefits) != list or type(images) != list:
+            if type(images) != list:
                 raise ValueError
 
+            self.id = id
             self.name = str(name)
             self.description = str(description)
-            self.benefits = benefits
+            self.benefits = str(benefits)
             self.price = float(price)
             self.salePrice = float(salePrice)
             self.onSale = bool(onSale)
+            self.images = images
         except ValueError:
             print("Value error while creating Product class")
+            return False
+
+    def getId(self):
+        return self.id
 
     def getName(self):
         return self.name
@@ -32,6 +49,9 @@ class Product:
     def getOnSale(self):
         return self.onSale
 
+    def getImages(self):
+        return self.images
+
     def setName(self, name):
         self.name = name
 
@@ -49,3 +69,9 @@ class Product:
 
     def setOnSale(self, onSale):
         self.salePrice = bool(onSale)
+
+    def appendImage(self, path):
+        self.images.append(path)
+
+    def deleteImage(self, position):
+        self.images.pop(position)
