@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, Blueprint, session, url_for
+from flask import Flask, render_template, flash, Blueprint, session, url_for, send_from_directory
 from test import test
 from auth import auth
 from adminUsers import adminUsers
@@ -7,7 +7,7 @@ from adminTreatments import adminTreatments
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
-app.config["UPLOAD_FOLDER"] = "/uploads/"
+app.config["UPLOAD_FOLDER"] = "uploads"
 
 # Register blueprints
 app.register_blueprint(test)
@@ -20,6 +20,10 @@ app.register_blueprint(adminTreatments)
 def home():
     session["previous_url"] = url_for("home")
     return render_template("home.html")
+
+@app.route('/uploads/<path:path>')
+def productImg(path):
+    return send_from_directory("uploads/", path=path)
 
 # Give website context
 @app.context_processor

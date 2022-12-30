@@ -34,7 +34,7 @@ def addTreatment():
         duration = form.duration.data
         treatment = Treatment(name, description, benefits, price, salePrice, onSale, [], duration)
         images = request.files.getlist("images")
-        bPath = "uploads/products/" + str(treatment.getId())
+        bPath = "static/uploads/products/" + str(treatment.getId())
         os.makedirs(bPath)
 
         for image in images:
@@ -47,7 +47,29 @@ def addTreatment():
             treatments[str(treatment.getId())] = treatment
 
         flash("Successfully created treatment.", category="success")
+        return redirect(url_for("adminTreatments.viewAllTreatments"))
     else:
         flashFormErrors("Unable to create the treatment", form.errors)
 
     return render_template("admin/shop/addTreatment.html", form=form)
+
+@adminTreatments.route("/admin/treatments/edit/<id>", methods=['GET', 'POST'])
+@adminAccess
+def editTreatment(id):
+    form = createTreatmentForm(request.form)
+    try:
+        with shelve.open("treatments") as treatments:
+            treatment = treatments[id]
+
+            form.description.data = treatment.getDescription()
+            form.benefits.data = treatment.getBenefits()
+            form.onSale.data = treatment.getOnSale()
+
+            if request.method == "POST" and form.validate():
+                print("Edit treatment here")
+
+            print(treatment.getImages())
+            return render_template("admin/shop/editTreatment.html", treatment=treatment, form=form)
+    except KeyError:
+        flash("Unable to edit treatment details: treatment does not exist", category="error")
+        return redirect(url_for("adminTreatments.viewAllTreatments"))

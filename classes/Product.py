@@ -44,7 +44,7 @@ class Product:
         return self.price
 
     def getSalePrice(self):
-        return self.name
+        return self.salePrice
 
     def getOnSale(self):
         return self.onSale
