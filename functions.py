@@ -2,6 +2,7 @@ import functools
 
 from flask import flash, Markup, session, redirect, url_for
 from functools import wraps
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 
 def flashFormErrors(title ,errors):
     if errors:
@@ -19,6 +20,11 @@ def goBack():
         return redirect(session["previous_url"])
     else:
         return redirect(url_for("home"))
+
+# Check for valid file ext
+def allowedFile(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Decorator func to ensure that the page is only visited by NOT login users (login, register pages)
 def unloginAccess(func):
