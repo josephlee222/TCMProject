@@ -21,10 +21,6 @@ def home():
     session["previous_url"] = url_for("home")
     return render_template("home.html")
 
-@app.route('/uploads/<path:path>')
-def productImg(path):
-    return send_from_directory("uploads/", path=path)
-
 # Give website context
 @app.context_processor
 def websiteContextInit():
