@@ -22,9 +22,12 @@ class Tracker:
 class Medicine:
 
     def __init__(self, name, description, dosage):
-        self.name = str(name)
-        self.description = str(description)
-        self.dosage = int(dosage)
+        try:
+            self.name = str(name)
+            self.description = str(description)
+            self.dosage = int(dosage)
+        except ValueError:
+            print('Value error while entering medicine into Medicine class')
 
     def getName(self):
         return self.name
