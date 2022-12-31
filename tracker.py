@@ -3,6 +3,8 @@ from functions import loginAccess
 
 tracker = Blueprint("tracker", __name__)
 
+# User side tracker
+
 @tracker.route("/tracker")
 @loginAccess
 def tracker():
