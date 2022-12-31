@@ -47,7 +47,7 @@ def loginAccess(func):
         else:
             return func(*args, **kwargs)
 
-    return wrapper_func()
+    return wrapper_func
 
 def deliveryAccess(func):
     @wraps(func)

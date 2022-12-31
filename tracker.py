@@ -5,7 +5,7 @@ tracker = Blueprint("tracker", __name__)
 
 # User side tracker
 
-@tracker.route("/tracker")
+@tracker.route("/trackers")
 @loginAccess
-def tracker():
+def trackers():
     print("Under construction")
