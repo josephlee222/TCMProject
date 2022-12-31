@@ -3,6 +3,7 @@ from test import test
 from auth import auth
 from adminUsers import adminUsers
 from adminTreatments import adminTreatments
+from tracker import tracker
 
 
 app = Flask(__name__)
@@ -14,6 +15,7 @@ app.register_blueprint(test)
 app.register_blueprint(auth)
 app.register_blueprint(adminUsers)
 app.register_blueprint(adminTreatments)
+app.register_blueprint(tracker)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')
