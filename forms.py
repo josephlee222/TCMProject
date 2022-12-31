@@ -2,7 +2,7 @@ import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField
 from functions import allowedFile
 
 
@@ -83,13 +83,15 @@ class editUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     submit = SubmitField("Edit User")
 
     def validate_birthday(form, birthday):
         if form.birthday.data > datetime.date.today():
             raise ValidationError("Invalid birthday, date cannot be in the future")
+
 
 class changeUserPasswordForm(Form):
     password = PasswordField("Password", [
@@ -104,6 +106,7 @@ class changeUserPasswordForm(Form):
     ])
 
     submit = SubmitField("Change Password")
+
 
 class addUserForm(Form):
     email = EmailField("Email Address", [
@@ -130,7 +133,8 @@ class addUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     accountType = RadioField("Account Type", choices=[
         ("customer", "Customer Account"),
@@ -163,6 +167,7 @@ class addAddressForm(Form):
 
     submit = SubmitField("Add Address")
 
+
 class editAddressForm(Form):
     name = StringField("Address Name", [
         validators.Length(1, 64, message="Address name must be between 1 to 64 characters"),
@@ -175,6 +180,7 @@ class editAddressForm(Form):
 
     submit = SubmitField("Edit Address")
 
+
 class deleteUserForm(Form):
     name = StringField("Account Name", [
         validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
@@ -183,6 +189,7 @@ class deleteUserForm(Form):
 
     submit = SubmitField("Confirm Delete")
 
+
 # ADMIN TREATMENT FORMS
 
 class searchTreatmentsForm(Form):
@@ -190,6 +197,7 @@ class searchTreatmentsForm(Form):
         validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
         validators.DataRequired(message="Treatment name is required to search")
     ])
+
 
 class createTreatmentForm(Form):
     name = StringField("Treatment Name", [
@@ -216,8 +224,8 @@ class createTreatmentForm(Form):
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
     ])
     images = MultipleFileField("Treatment Images", [
-        #validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
-        #validators.DataRequired(message="Treatment Images are required")
+        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        # validators.DataRequired(message="Treatment Images are required")
     ])
 
     submit = SubmitField("Add Treatment")
@@ -253,6 +261,7 @@ class editTreatmentForm(Form):
 
     submit = SubmitField("Edit Treatment")
 
+
 class uploadImageForm(Form):
     images = MultipleFileField("Treatment Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
@@ -260,3 +269,32 @@ class uploadImageForm(Form):
     ])
 
     submit = SubmitField("Upload Images")
+
+
+class createTracker(Form):
+    name = StringField("Medicine Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Medicine name is required to search")
+    ])
+    duration = SelectField("Duration of the medication",
+                           validators.DataRequired(message="Duration of the medication is required"),
+                           choices=[('One', '1 days'), ('Two', '2 days'), ('Three', '3 days'), ('Four', '4 days'),
+                                    ('Five', '5 days'), ('Six', '6 days'), ('One week', 'One week'),
+                                    ('Two weeks', 'Two weeks')])
+    pills = SelectField('Number of pills per dosage',
+                        validators.DataRequired(message="Pills per dosage of the medication is required"),
+                        choices=[('One Tablet(s)', '1 Tablet(s)'), ('Two Tablet(s)', '2 Tablet(s)'),
+                                 ('Three Tablet(s)', '3 Tablet(s)'),
+                                 ('Four Tablet(s)', '4 Tablet(s)'), ('Five Tablet(s)', '5 Tablet(s)'),
+                                 ('Six Tablet(s)', '6 Tablet(s)')])
+    frequency_of_pills = SelectField('Dosage for medication',
+                                     validators.DataRequired(message="Dosage of the medication is required"),
+                                     choices=[('one times a day', '1 times a day'),
+                                              ('two times a day', '2 times a day'),
+                                              ('three times a day', '3 times a day'),
+                                              ('four times a day', '4 times a day'),
+                                              ('five times a day', '5 times a day')])
+    additional_notes = TextAreaField("Additional Notes", [
+        validators.optional()
+    ])
+    submit = SubmitField("Add Treatment")

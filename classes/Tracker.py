@@ -2,7 +2,7 @@ class Tracker:
     def __init__(self, doctor_email, duration, notes):
         try:
             self.doctor_email = str(doctor_email)
-            self.duration = str(duration)
+            self.duration = float(duration)
             self.notes = str(notes)
         except ValueError:
             print("Value error while entering medicine into Tracker class")
