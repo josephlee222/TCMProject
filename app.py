@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, Blueprint, session, url_for
+from flask import Flask, render_template, flash, Blueprint, session, url_for, send_from_directory
 from test import test
 from auth import auth
 from adminUsers import adminUsers
@@ -8,6 +8,7 @@ from tracker import tracker
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
+app.config["UPLOAD_FOLDER"] = "uploads"
 
 # Register blueprints
 app.register_blueprint(test)

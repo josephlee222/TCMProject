@@ -2,7 +2,8 @@ import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField
+from functions import allowedFile
 
 
 # Put all forms here with a comment describing the form
@@ -189,3 +190,73 @@ class searchTreatmentsForm(Form):
         validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
         validators.DataRequired(message="Treatment name is required to search")
     ])
+
+class createTreatmentForm(Form):
+    name = StringField("Treatment Name", [
+        validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Treatment name is required to search")
+    ])
+    price = DecimalField("Treatment Price ($)", [
+        validators.DataRequired(message="Treatment price is required")
+    ])
+    salePrice = DecimalField("Sale Price ($)", [
+        validators.DataRequired(message="Sale price is required")
+    ])
+    onSale = BooleanField("On Sale?", [
+        validators.optional()
+    ])
+    description = TextAreaField("Treatment Description", [
+        validators.DataRequired(message="Treatment description is required")
+    ])
+    benefits = TextAreaField("Treatment Benefits", [
+        validators.DataRequired(message="Treatment benefits is required")
+    ])
+    duration = DecimalField("Treatment Duration", [
+        validators.DataRequired(message="Treatment duration is required"),
+        validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
+    ])
+    images = MultipleFileField("Treatment Images", [
+        #validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        #validators.DataRequired(message="Treatment Images are required")
+    ])
+
+    submit = SubmitField("Add Treatment")
+
+    def validate_images(form, images):
+        print(form.images.data)
+
+
+class editTreatmentForm(Form):
+    name = StringField("Treatment Name", [
+        validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Treatment name is required to search")
+    ])
+    price = DecimalField("Treatment Price ($)", [
+        validators.DataRequired(message="Treatment price is required")
+    ])
+    salePrice = DecimalField("Sale Price ($)", [
+        validators.DataRequired(message="Sale price is required")
+    ])
+    onSale = BooleanField("On Sale?", [
+        validators.optional()
+    ])
+    description = TextAreaField("Treatment Description", [
+        validators.DataRequired(message="Treatment description is required")
+    ])
+    benefits = TextAreaField("Treatment Benefits", [
+        validators.DataRequired(message="Treatment benefits is required")
+    ])
+    duration = DecimalField("Treatment Duration", [
+        validators.DataRequired(message="Treatment duration is required"),
+        validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
+    ])
+
+    submit = SubmitField("Edit Treatment")
+
+class uploadImageForm(Form):
+    images = MultipleFileField("Treatment Images", [
+        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        # validators.DataRequired(message="Treatment Images are required")
+    ])
+
+    submit = SubmitField("Upload Images")

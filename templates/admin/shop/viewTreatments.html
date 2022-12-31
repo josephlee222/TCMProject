@@ -15,7 +15,7 @@
         </div>
     </div>
     <form method="post">
-        <div class="row mb-3">
+        <div class="row mb-4">
             <div class="col-lg-9 mb-3 mb-lg-0">
                 {{ form.name(class_="form-control", placeholder="Search by Name...") }}
             </div>
@@ -24,38 +24,33 @@
             </div>
         </div>
     </form>
+    <a href="{{ url_for("adminTreatments.addTreatment") }}"><button class="btn custom-btn mb-3">Create New Treatment</button></a>
     <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
                     <th>Treatment Name</th>
                     <th>Duration</th>
-                    <th>Price</th>
+                    <th>Normal Price</th>
+                    <th>Sale Price</th>
+                    <th>On Sale?</th>
                     <th>Actions</th>
                 </thead>
                 <tbody>
+                {% for treatment in treatments %}
                     <tr>
-                        <td>Sample Treatment</td>
-                        <td>1 Hour</td>
-                        <td>$60</td>
+                        <td>{{ treatments[treatment]["name"] }}</td>
+                        <td>{{ treatments[treatment]["duration"] }} Hours</td>
+                        <td>${{ treatments[treatment]["price"] }}</td>
+                        <td>${{ treatments[treatment]["salePrice"] }}</td>
+                        <td>{{ treatments[treatment]["onSale"] }}</td>
                         <td class="text-nowrap">
-                            <a target="_blank" href="#"><button class="btn custom-btn">View Details</button></a>
-                            <a href="#"><button class="btn custom-btn">Edit</button></a>
+                            <a href="#"><button class="btn custom-btn">View Details</button></a>
+                            <a href="{{ url_for("adminTreatments.editTreatment", id=treatments[treatment]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
                             <a href="#"><button class="btn btn-danger">Delete</button></a>
                         </td>
                     </tr>
-{#                {% for user in users %}#}
-{#                    <tr>#}
-{#                        <td>{{ users[user]["email"] }}</td>#}
-{#                        <td>{{ users[user]["name"] }}</td>#}
-{#                        <td>{{ users[user]["accountType"] }}</td>#}
-{#                        <td class="text-nowrap">#}
-{#                            <a href="#"><button class="btn custom-btn">View Prescriptions</button></a>#}
-{#                            <a href="{{ url_for("adminUsers.editUser", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>#}
-{#                            <a href="{{ url_for("adminUsers.deleteUser", email=users[user]["email"]) }}"><button class="btn btn-danger">Delete</button></a>#}
-{#                        </td>#}
-{#                    </tr>#}
-{#                {% endfor %}#}
+                {% endfor %}
                 </tbody>
             </table>
         </div>
