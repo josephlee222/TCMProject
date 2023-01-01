@@ -1,4 +1,5 @@
 import os
+import shutil
 import shelve
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -87,6 +88,20 @@ def editTreatment(id):
         flash("Unable to edit treatment details: treatment does not exist", category="error")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
 
+
+@adminTreatments.route("/admin/treatments/delete/<id>")
+@adminAccess
+def deleteTreatment(id):
+    try:
+        with shelve.open("treatments", writeback=True) as treatments:
+            del treatments[id]
+            shutil.rmtree("static/uploads/products/" + id)
+
+            flash("Successfully deleted treatment", category="success")
+    except KeyError:
+        flash("Unable to delete treatment: treatment does not exist", category="error")
+
+    return redirect(url_for("adminTreatments.viewAllTreatments"))
 
 @adminTreatments.route("/admin/treatments/edit/images/<id>", methods=['GET', 'POST'])
 @adminAccess
