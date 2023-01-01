@@ -271,10 +271,21 @@ class uploadImageForm(Form):
     submit = SubmitField("Upload Images")
 
 
+class searchTracker(Form):
+    name = StringField("Search by patient's name", [
+        validators.Length(3, 128, message="Patients name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Patients name is required to search")
+    ])
+
+
 class createTracker(Form):
     name = StringField("Medicine Name", [
         validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
         validators.DataRequired(message="Medicine name is required to search")
+    ])
+    description = StringField('Description of Medication', [
+        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
+        validators.DataRequired(message="Description of medication is required")
     ])
     duration = SelectField("Duration of the medication",
                            validators.DataRequired(message="Duration of the medication is required"),
@@ -297,4 +308,37 @@ class createTracker(Form):
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
-    submit = SubmitField("Add Treatment")
+    submit = SubmitField("Add Medicine")
+
+
+class editTracker(Form):
+    name = StringField("Medicine Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Medicine name is required to search")
+    ])
+    description = StringField('Description of Medication', [
+        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
+        validators.DataRequired(message="Description of medication is required")
+    ])
+    duration = SelectField("Duration of the medication",
+                           validators.DataRequired(message="Duration of the medication is required"),
+                           choices=[('One', '1 days'), ('Two', '2 days'), ('Three', '3 days'), ('Four', '4 days'),
+                                    ('Five', '5 days'), ('Six', '6 days'), ('One week', 'One week'),
+                                    ('Two weeks', 'Two weeks')])
+    pills = SelectField('Number of pills per dosage',
+                        validators.DataRequired(message="Pills per dosage of the medication is required"),
+                        choices=[('One Tablet(s)', '1 Tablet(s)'), ('Two Tablet(s)', '2 Tablet(s)'),
+                                 ('Three Tablet(s)', '3 Tablet(s)'),
+                                 ('Four Tablet(s)', '4 Tablet(s)'), ('Five Tablet(s)', '5 Tablet(s)'),
+                                 ('Six Tablet(s)', '6 Tablet(s)')])
+    frequency_of_pills = SelectField('Dosage for medication',
+                                     validators.DataRequired(message="Dosage of the medication is required"),
+                                     choices=[('one times a day', '1 times a day'),
+                                              ('two times a day', '2 times a day'),
+                                              ('three times a day', '3 times a day'),
+                                              ('four times a day', '4 times a day'),
+                                              ('five times a day', '5 times a day')])
+    additional_notes = TextAreaField("Additional Notes", [
+        validators.optional()
+    ])
+    submit = SubmitField("Edit Medicine")
