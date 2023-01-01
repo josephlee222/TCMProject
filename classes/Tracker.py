@@ -1,33 +1,14 @@
 class Tracker:
-    def __init__(self, doctor_email, duration, notes):
-        try:
-            self.doctor_email = str(doctor_email)
-            self.duration = float(duration)
-            self.notes = str(notes)
-        except ValueError:
-            print("Value error while entering medicine into Tracker class")
-
-    def getDuration(self):
-        return self.duration
-
-    def getNotes(self):
-        return self.notes
-
-    def setDuration(self,duration):
-        self.duration = duration
-
-    def setNotes(self, notes):
-        self.notes = notes
-
-class Medicine:
-
-    def __init__(self, name, description, dosage):
+    def __init__(self, name, description, duration_of_medication, no_of_pills, frequency_of_pills, notes):
         try:
             self.name = str(name)
             self.description = str(description)
-            self.dosage = int(dosage)
+            self.duration_of_medication = int(duration_of_medication)
+            self.no_of_pills = int(no_of_pills)
+            self.frequency_of_pills = int(frequency_of_pills)
+            self.notes = str(notes)
         except ValueError:
-            print('Value error while entering medicine into Medicine class')
+            print("Value error while entering medicine into Tracker class")
 
     def getName(self):
         return self.name
@@ -35,14 +16,32 @@ class Medicine:
     def getDescription(self):
         return self.description
 
-    def getDosage(self):
-        return self.dosage
+    def getDuration_of_medication(self):
+        return self.duration_of_medication
 
-    def setName(self,name):
-        self.name = name
+    def getNo_of_pills(self):
+        return self.no_of_pills
 
-    def setDescription(self,description):
+    def getFrequency_of_pills(self):
+        return self.frequency_of_pills
+
+    def getNotes(self):
+        return self.notes
+
+    def setName(self, name):
+        self.name, name
+
+    def setDescription(self, description):
         self.description = description
 
-    def setDosage(self,dosage):
-        self.dosage = dosage
+    def setDuration_of_medication(self, duration_of_medication):
+        self.duration_of_medication = duration_of_medication
+
+    def setNo_of_pills(self, no_of_pills):
+        self.no_of_pills = no_of_pills
+
+    def setFrequency_of_pills(self,frequency_of_pills):
+        self.frequency_of_pills = frequency_of_pills
+
+    def setNotes(self, notes):
+        self.notes = notes
