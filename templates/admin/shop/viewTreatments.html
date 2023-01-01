@@ -24,17 +24,19 @@
             </div>
         </div>
     </form>
-    <a href="{{ url_for("adminTreatments.addTreatment") }}"><button class="btn custom-btn mb-3">Create New Treatment</button></a>
+    <a href="{{ url_for("adminTreatments.addTreatment") }}">
+        <button class="btn custom-btn mb-3">Create New Treatment</button>
+    </a>
     <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
-                    <th>Treatment Name</th>
-                    <th>Duration</th>
-                    <th>Normal Price</th>
-                    <th>Sale Price</th>
-                    <th>On Sale?</th>
-                    <th>Actions</th>
+                <th>Treatment Name</th>
+                <th>Duration</th>
+                <th>Normal Price</th>
+                <th>Sale Price</th>
+                <th>On Sale?</th>
+                <th>Actions</th>
                 </thead>
                 <tbody>
                 {% for treatment in treatments %}
@@ -45,9 +47,15 @@
                         <td>${{ treatments[treatment]["salePrice"] }}</td>
                         <td>{{ treatments[treatment]["onSale"] }}</td>
                         <td class="text-nowrap">
-                            <a href="#"><button class="btn custom-btn">View Details</button></a>
-                            <a href="{{ url_for("adminTreatments.editTreatment", id=treatments[treatment]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
-                            <a href="#"><button class="btn btn-danger">Delete</button></a>
+                            <a href="#">
+                                <button class="btn custom-btn">View Details</button>
+                            </a>
+                            <a href="{{ url_for("adminTreatments.editTreatment", id=treatments[treatment]["id"]) }}">
+                                <button class="btn custom-btn">Edit</button>
+                            </a>
+                            <a onclick="showDeleteModal('{{ treatments[treatment]["name"] }}', '{{ url_for("adminTreatments.deleteTreatment", id=treatments[treatment]["id"]) }}')">
+                                <button class="btn btn-danger">Delete</button>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -55,5 +63,24 @@
             </table>
         </div>
     </div>
-
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Treatment?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Treatment? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewTreatments.js') }}"></script>
 {% endblock %}

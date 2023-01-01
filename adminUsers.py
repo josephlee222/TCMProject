@@ -155,6 +155,20 @@ def editAddress(email, id):
         return redirect(url_for("adminUsers.viewAllUsers"))
 
 
+@adminUsers.route("/admin/users/delete/address/<email>/<id>")
+@adminAccess
+def deleteAddress(email, id):
+    try:
+        with shelve.open("users", writeback=True) as users:
+            user = users[email]
+            addresses = user.deleteAddress(id)
+            flash("Address has been successfully deleted", category="success")
+    except KeyError:
+        flash("Unable to delete delivery address: Account or delivery address does not exist", category="error")
+
+    return redirect(url_for("adminUsers.viewAddresses", email=email))
+
+
 @adminUsers.route("/admin/users/add/address/<email>", methods=['GET', 'POST'])
 @adminAccess
 def addAddress(email):

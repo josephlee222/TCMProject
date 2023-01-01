@@ -68,7 +68,7 @@ class User:
 
     def deleteAddress(self, id):
         try:
-            self.address.pop(id)
+            self.address.pop(int(id))
         except IndexError:
             flash("Unable to edit address, address does not exist.", category="error")
-            return False
+            raise IndexError
