@@ -19,7 +19,6 @@ def editOpeningHours():
             data["closing"] = time(21, 0, 0)
 
         if request.method == "POST" and form.validate():
-            print("Update time")
             data["opening"] = form.opening.data
             data["closing"] = form.closing.data
             flash("Opening hours successfully edited.", category="success")
