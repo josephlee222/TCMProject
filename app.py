@@ -7,13 +7,12 @@ from auth import auth
 from adminUsers import adminUsers
 from adminTreatments import adminTreatments
 from adminAppointments import adminAppointments
+from adminCoupons import adminCoupons
 from tracker import tracker
-
 
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
-app.config["UPLOAD_FOLDER"] = "uploads"
 
 # Register blueprints
 app.register_blueprint(test)
@@ -21,6 +20,7 @@ app.register_blueprint(auth)
 app.register_blueprint(adminUsers)
 app.register_blueprint(adminTreatments)
 app.register_blueprint(adminAppointments)
+app.register_blueprint(adminCoupons)
 app.register_blueprint(tracker)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
