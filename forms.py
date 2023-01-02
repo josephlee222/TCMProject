@@ -2,7 +2,7 @@ import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, TimeField
 from functions import allowedFile
 
 
@@ -260,3 +260,22 @@ class uploadImageForm(Form):
     ])
 
     submit = SubmitField("Upload Images")
+
+
+class openingHoursForm(Form):
+    opening = TimeField("Opening Hour", [
+        validators.DataRequired(message="Opening Hours are required")
+    ])
+    closing = TimeField("Closing Hour", [
+        validators.DataRequired(message="Closing Hours are required")
+    ])
+
+    def validate_opening(form, opening):
+        if form.opening.data > form.closing.data:
+            raise ValidationError("Opening time cannot exceed closing time")
+
+    def validate_closing(form, closing):
+        if form.closing.data < form.opening.data:
+            raise ValidationError("Closing time cannot be earlier than opening time")
+
+    submit = SubmitField("Edit Hours")
