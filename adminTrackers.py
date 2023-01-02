@@ -7,7 +7,7 @@ adminTrackers = Blueprint("adminTrackers", __name__)
 
 # Admin side tracker
 
-@adminTrackers.route("/admin/trackers/")
+@adminTrackers.route("/admin/trackers/", methods=['GET', 'POST'])
 @adminAccess
 def viewAllTrackers():
     print("Put your render template here")
