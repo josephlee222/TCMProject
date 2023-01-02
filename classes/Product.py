@@ -68,10 +68,10 @@ class Product:
         self.salePrice = float(salePrice)
 
     def setOnSale(self, onSale):
-        self.salePrice = bool(onSale)
+        self.onSale = bool(onSale)
 
     def appendImage(self, path):
         self.images.append(path)
 
     def deleteImage(self, position):
-        self.images.pop(position)
+        self.images.pop(int(position))

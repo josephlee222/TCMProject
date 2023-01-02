@@ -1,8 +1,8 @@
-import datetime
+from datetime import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, TimeField
 from functions import allowedFile
 
 
@@ -196,10 +196,10 @@ class createTreatmentForm(Form):
         validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
         validators.DataRequired(message="Treatment name is required to search")
     ])
-    price = IntegerField("Treatment Price ($)", [
+    price = DecimalField("Treatment Price ($)", [
         validators.DataRequired(message="Treatment price is required")
     ])
-    salePrice = IntegerField("Sale Price ($)", [
+    salePrice = DecimalField("Sale Price ($)", [
         validators.DataRequired(message="Sale price is required")
     ])
     onSale = BooleanField("On Sale?", [
@@ -224,3 +224,100 @@ class createTreatmentForm(Form):
 
     def validate_images(form, images):
         print(form.images.data)
+
+
+class editTreatmentForm(Form):
+    name = StringField("Treatment Name", [
+        validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Treatment name is required to search")
+    ])
+    price = DecimalField("Treatment Price ($)", [
+        validators.DataRequired(message="Treatment price is required")
+    ])
+    salePrice = DecimalField("Sale Price ($)", [
+        validators.DataRequired(message="Sale price is required")
+    ])
+    onSale = BooleanField("On Sale?", [
+        validators.optional()
+    ])
+    description = TextAreaField("Treatment Description", [
+        validators.DataRequired(message="Treatment description is required")
+    ])
+    benefits = TextAreaField("Treatment Benefits", [
+        validators.DataRequired(message="Treatment benefits is required")
+    ])
+    duration = DecimalField("Treatment Duration", [
+        validators.DataRequired(message="Treatment duration is required"),
+        validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
+    ])
+
+    submit = SubmitField("Edit Treatment")
+
+class uploadImageForm(Form):
+    images = MultipleFileField("Treatment Images", [
+        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        # validators.DataRequired(message="Treatment Images are required")
+    ])
+
+    submit = SubmitField("Upload Images")
+
+
+class openingHoursForm(Form):
+    opening = TimeField("Opening Hour", [
+        validators.DataRequired(message="Opening Hours are required")
+    ])
+    closing = TimeField("Closing Hour", [
+        validators.DataRequired(message="Closing Hours are required")
+    ])
+
+    def validate_opening(form, opening):
+        if form.opening.data > form.closing.data:
+            raise ValidationError("Opening time cannot exceed closing time")
+
+    def validate_closing(form, closing):
+        if form.closing.data < form.opening.data:
+            raise ValidationError("Closing time cannot be earlier than opening time")
+
+    submit = SubmitField("Edit Hours")
+
+# Coupon forms
+class searchCouponsForm(Form):
+    name = StringField("Search by coupon name", [
+        validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Coupon name is required to search")
+    ])
+
+class createCouponForm(Form):
+    name = StringField("Coupon Name", [
+        validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Coupon name is required")
+    ])
+    description = TextAreaField("Coupon Description", [
+        validators.Optional()
+    ])
+    code = StringField("Coupon Code", [
+        validators.Length(3, 64, message="Coupon code must be between 3 to 64 characters"),
+        validators.DataRequired(message="Coupon code is required")
+    ])
+    discount = IntegerField("Discount Amount (%)", [
+        validators.NumberRange(1, 100, "Discount amount must range between 1% to 100%"),
+        validators.DataRequired(message="Discount amount is required")
+    ])
+    startDate = DateField("Start Date", [
+        validators.DataRequired(message="Discount start date is required")
+    ])
+    endDate = DateField("End Date", [
+        validators.DataRequired(message="Discount end date is required")
+    ])
+
+    submit = SubmitField("Add Coupon")
+
+    def validate_startDate(form, startDate):
+        if form.startDate.data < datetime.now().date():
+            raise ValidationError("Coupon start date cannot be earlier than current date")
+        elif form.startDate.data > form.endDate.data:
+            raise ValidationError("Coupon start date cannot exceed end date")
+
+    def validate_endDate(form, endDate):
+        if form.endDate.data < datetime.now().date():
+            raise ValidationError("Coupon end date cannot be earlier than current time")
