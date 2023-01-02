@@ -27,7 +27,7 @@ def viewAllTracker():
         return render_template("admin/shop/viewTreatments.html", form=form, trackers=trackers)
 
 
-@adminTrackers.route("/admin/trackers/")
+@adminTrackers.route("/admin/trackers/add")
 @adminAccess
 def addTracker():
     form = createTracker(request.form)
@@ -52,7 +52,7 @@ def addTracker():
     return render_template("admin/shop/addTreatment.html", form=form)
 
 
-@adminTrackers.route("/admin/trackers/")
+@adminTrackers.route("/admin/trackers/edit/<id>")
 @adminAccess
 def editTracker(id):
     form = editTracker(request.form)
@@ -86,9 +86,9 @@ def editTracker(id):
         return redirect(url_for("adminTreatments.viewAllTreatments"))
 
 
-@adminTreatments.route("/admin/treatments/delete/<id>")
+@adminTrackers.route("/admin/trackers/delete/<id>")
 @adminAccess
-def deleteTreatment(id):
+def deleteTracker(id):
     try:
         with shelve.open("treatments", writeback=True) as treatments:
             del treatments[id]
