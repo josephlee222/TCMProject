@@ -402,3 +402,36 @@ class createCouponForm(Form):
     def validate_endDate(form, endDate):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
+
+class editCouponForm(Form):
+    name = StringField("Coupon Name", [
+        validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Coupon name is required")
+    ])
+    description = TextAreaField("Coupon Description", [
+        validators.Optional()
+    ])
+    code = StringField("Coupon Code", [
+        validators.Length(3, 64, message="Coupon code must be between 3 to 64 characters"),
+        validators.DataRequired(message="Coupon code is required")
+    ])
+    discount = IntegerField("Discount Amount (%)", [
+        validators.NumberRange(1, 100, "Discount amount must range between 1% to 100%"),
+        validators.DataRequired(message="Discount amount is required")
+    ])
+    startDate = DateField("Start Date", [
+        validators.DataRequired(message="Discount start date is required")
+    ])
+    endDate = DateField("End Date", [
+        validators.DataRequired(message="Discount end date is required")
+    ])
+
+    submit = SubmitField("Edit Coupon")
+
+    def validate_startDate(form, startDate):
+        if form.startDate.data > form.endDate.data:
+            raise ValidationError("Coupon start date cannot exceed end date")
+
+    def validate_endDate(form, endDate):
+        if form.endDate.data < datetime.now().date():
+            raise ValidationError("Coupon end date cannot be earlier than current time")
