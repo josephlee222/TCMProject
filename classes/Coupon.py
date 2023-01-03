@@ -39,13 +39,16 @@ class Coupon:
         return self.discount
 
     def getStartDate(self):
-        return self.validity
+        return self.startDate
 
     def getEndDate(self):
-        return self.validity
+        return self.endDate
 
     def setName(self, name):
         self.name = name
+
+    def setCode(self, code):
+        self.code = code
 
     def setDescription(self, description):
         self.description = description
