@@ -2,7 +2,7 @@ import shelve
 from datetime import time
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from functions import flashFormErrors, goBack, adminAccess
-from forms import searchCouponsForm, createCouponForm
+from forms import searchCouponsForm, createCouponForm, editCouponForm
 from classes.Coupon import Coupon
 
 adminCoupons = Blueprint("adminCoupons", __name__)
@@ -43,6 +43,36 @@ def addCoupon():
         flashFormErrors("Unable to create the coupon", form.errors)
 
     return render_template("admin/shop/addCoupon.html", form=form)
+
+
+@adminCoupons.route("/admin/coupons/edit/<id>",  methods=['GET', 'POST'])
+@adminAccess
+def editCoupon(id):
+    form = editCouponForm(request.form)
+
+    try:
+        with shelve.open("coupons", writeback=True) as coupons:
+            coupon = coupons[id]
+            if request.method == "POST" and form.validate():
+                coupon.setName(form.name.data)
+                coupon.setCode(form.code.data)
+                coupon.setDescription(form.description.data)
+                coupon.setDiscount(form.discount.data)
+                coupon.setStartDate(form.startDate.data)
+                coupon.setEndDate(form.endDate.data)
+
+                flash("Successfully edited coupon.", category="success")
+                return redirect(url_for("adminCoupons.viewAllCoupons"))
+
+            form.description.data = coupon.getDescription() if coupon.getDescription() else ""
+            return render_template("admin/shop/editCoupon.html", form=form, coupon=coupon)
+    except KeyError:
+        flash("Unable to edit coupon: coupon does not exist", category="error")
+        return redirect(url_for("adminCoupons.viewAllCoupons"))
+    except ValueError:
+        flash("Unable to edit coupon: unexpected value type when editing coupon", category="error")
+        return redirect(url_for("adminCoupons.viewAllCoupons"))
+
 
 @adminCoupons.route("/admin/coupons/delete/<id>")
 @adminAccess

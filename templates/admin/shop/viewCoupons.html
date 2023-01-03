@@ -49,7 +49,7 @@
                             <td>{{ coupons[coupon].isValid() }}</td>
                             <td class="text-nowrap">
                                 <a href="#"><button class="btn custom-btn">View Details</button></a>
-                                <a href="#"><button class="btn custom-btn">Edit</button></a>
+                                <a href="{{ url_for("adminCoupons.editCoupon", id=coupons[coupon]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
                                 <a onclick="showDeleteModal('{{ coupons[coupon]["name"] }}', '{{ url_for("adminCoupons.deleteCoupon", id=coupons[coupon]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>
