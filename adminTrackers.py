@@ -1,4 +1,6 @@
 import shelve
+import shutil
+
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from functions import flashFormErrors, goBack, adminAccess
 from forms import createTracker, editTracker, searchTracker
@@ -8,13 +10,6 @@ adminTrackers = Blueprint("adminTrackers", __name__)
 
 
 # Admin side tracker
-
-@adminTrackers.route("/admin/trackers/", methods=['GET', 'POST'])
-@adminAccess
-def viewAllTrackers():
-    print("Put your render template here")
-
-
 @adminTrackers.route("/admin/trackers/")
 @adminAccess
 def viewAllTracker():
@@ -94,8 +89,8 @@ def deleteTracker(id):
             del treatments[id]
             shutil.rmtree("static/uploads/products/" + id)
 
-            flash("Successfully deleted treatment", category="success")
+            flash("Successfully deleted tracker", category="success")
     except KeyError:
-        flash("Unable to delete treatment: treatment does not exist", category="error")
+        flash("Unable to delete tracker: tracker does not exist", category="error")
 
-    return redirect(url_for("adminTreatments.viewAllTreatments"))
+    return redirect(url_for("adminTracker.viewAllTracker"))
