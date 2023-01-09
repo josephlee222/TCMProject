@@ -354,3 +354,22 @@ class editCouponForm(Form):
     def validate_endDate(form, endDate):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
+
+# Blog Creation Form
+class createArticleForm(Form):
+    name = StringField("Blog Title Input", [
+        validators.DataRequired(message="Blog Title is required.")
+    ])
+    content = StringField("Content Input", [
+        validators.DataRequired(message="Content is required.")
+    ])
+
+    submit = SubmitField("Create Article")
+    # need to create "clear all" function
+class uploadPreviewImage(Form):
+    articleimage = MultipleFileField("Article Images",[
+        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        # validators.DataRequired(message="Article Images are required"
+    ])
+
+    submit = SubmitField("Insert Image")
