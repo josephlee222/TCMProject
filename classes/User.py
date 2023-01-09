@@ -34,7 +34,7 @@ class User:
         return self.phone
 
     def getAddress(self):
-        return  self.address
+        return self.address
 
     def setPassword(self, password):
         self.password = password
@@ -53,10 +53,13 @@ class User:
 
     # ONLY PASS IN ADDRESS CLASSES HERE, NO TEXT
     def setAddress(self, address):
-        if self.address == None:
+        if self.address is None:
             self.address = [address]
         else:
             self.address.append(address)
+
+    def setAddresses(self, addresses):
+        self.address = addresses
 
     # ONLY PASS IN ADDRESS CLASSES HERE, NO TEXT
     def editAddress(self, id, address):
