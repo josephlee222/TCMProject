@@ -1,9 +1,9 @@
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from functions import loginAccess
 
-tracker = Blueprint("tracker", __name__)
+tracker = Blueprint("medications", __name__)
 
-# User side tracker
+# User side medications
 
 @tracker.route("/trackers")
 @loginAccess

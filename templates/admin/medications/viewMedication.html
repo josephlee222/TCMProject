@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Medications{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">medical_services</span>
+        <div>
+            <h1>View Medications</h1>
+            <h6 class="m-0">{{ email }}</h6>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row mb-4">
+            <div class="col-lg-9 mb-3 mb-lg-0">
+                {{ form.name(class_="form-control", placeholder="Search by Name...") }}
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn custom-btn w-100" value="Search">
+            </div>
+        </div>
+    </form>
+    <a href="{{ url_for("adminTrackers.addTracker", email=email) }}"><button class="btn custom-btn mb-3">Create Medication</button></a>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                <th>Medication Name</th>
+                <th>Duration</th>
+                <th>Dosage</th>
+                <th>Actions</th>
+                </thead>
+                <tbody>
+                {% if trackers|length > 0 %}
+                    {% for tracker in trackers %}
+                        <tr>
+                            <td>{{ tracker.getName() }}</td>
+                            <td>{{ tracker.getDate() }} - {{ tracker.getEnddate() }}</td>
+                            <td>{{ tracker.getFrequency_of_pills() }}</td>
+                            <td class="text-nowrap">
+                                <a href="#"><button class="btn custom-btn">View Details</button></a>
+                                <a href="{{ url_for("adminTrackers.editTracker", email=email, id=loop.index - 1) }}"><button class="btn custom-btn">Edit</button></a>
+                                <a onclick="showDeleteModal('{{ tracker.getName() }}', '{{ url_for("adminTrackers.deleteTracker", email=email, id=loop.index - 1) }}')"><button class="btn btn-danger">Delete</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No medications added yet for this user.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block extras %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Medication?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Medication? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewMedications.js') }}"></script>
+{% endblock %}

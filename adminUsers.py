@@ -35,6 +35,7 @@ def editUser(email):
                 birthday = form.birthday.data
                 phone = form.phone.data
                 addresses = user.getAddress()
+                medications = user.getMedications()
                 user = User(name, password, email, accountType)
 
                 if birthday != "":
@@ -44,6 +45,7 @@ def editUser(email):
                     user.setPhone(phone)
 
                 user.setAddresses(addresses)
+                user.setMedications(medications)
 
                 users[email] = user
 

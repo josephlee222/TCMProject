@@ -2,7 +2,7 @@ from datetime import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, TimeField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
 from functions import allowedFile
 
 
@@ -91,6 +91,7 @@ class editUserForm(Form):
         if form.birthday.data > datetime.now().date():
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
+
 class changeUserPasswordForm(Form):
     password = PasswordField("Password", [
         validators.Length(8, 64, message="New password must be between 8 to 64 characters"),
@@ -104,6 +105,7 @@ class changeUserPasswordForm(Form):
     ])
 
     submit = SubmitField("Change Password")
+
 
 class addUserForm(Form):
     email = EmailField("Email Address", [
@@ -147,7 +149,7 @@ class addUserForm(Form):
                 raise ValidationError("This e-mail has an existing account, please try again")
 
     def validate_birthday(form, birthday):
-        if form.birthday.data > datetime.date.today():
+        if form.birthday.data > datetime.now().date():
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
 
@@ -163,6 +165,7 @@ class addAddressForm(Form):
 
     submit = SubmitField("Add Address")
 
+
 class editAddressForm(Form):
     name = StringField("Address Name", [
         validators.Length(1, 64, message="Address name must be between 1 to 64 characters"),
@@ -175,6 +178,7 @@ class editAddressForm(Form):
 
     submit = SubmitField("Edit Address")
 
+
 class deleteUserForm(Form):
     name = StringField("Account Name", [
         validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
@@ -183,6 +187,7 @@ class deleteUserForm(Form):
 
     submit = SubmitField("Confirm Delete")
 
+
 # ADMIN TREATMENT FORMS
 
 class searchTreatmentsForm(Form):
@@ -190,6 +195,7 @@ class searchTreatmentsForm(Form):
         validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
         validators.DataRequired(message="Treatment name is required to search")
     ])
+
 
 class createTreatmentForm(Form):
     name = StringField("Treatment Name", [
@@ -216,8 +222,8 @@ class createTreatmentForm(Form):
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
     ])
     images = MultipleFileField("Treatment Images", [
-        #validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
-        #validators.DataRequired(message="Treatment Images are required")
+        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        # validators.DataRequired(message="Treatment Images are required")
     ])
 
     submit = SubmitField("Add Treatment")
@@ -253,6 +259,7 @@ class editTreatmentForm(Form):
 
     submit = SubmitField("Edit Treatment")
 
+
 class uploadImageForm(Form):
     images = MultipleFileField("Treatment Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
@@ -260,6 +267,76 @@ class uploadImageForm(Form):
     ])
 
     submit = SubmitField("Upload Images")
+
+
+class searchTracker(Form):
+    name = StringField("Search by patient's name", [
+        validators.Length(3, 128, message="Patients name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Patients name is required to search")
+    ])
+
+
+class createMedicationForm(Form):
+    name = StringField("Medicine Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Medicine name is required to search")
+    ])
+    description = StringField('Description of Medication', [
+        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
+        validators.DataRequired(message="Description of medication is required")
+    ])
+    duration = SelectField("Duration of the medication",
+                           [validators.DataRequired(message="Duration of the medication is required")],
+                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
+                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
+                                    (14, 'Two weeks')])
+    pills = SelectField('Number of pills per dosage',
+                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
+                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
+                                (3, '3 Tablet(s)'),
+                                (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                (6, '6 Tablet(s)')])
+    frequency_of_pills = SelectField('Dosage for medication',
+                                     [validators.DataRequired(message="Dosage of the medication is required")],
+                                     choices=[('one times a day', '1 times a day'),
+                                              ('two times a day', '2 times a day'),
+                                              ('three times a day', '3 times a day')])
+    additional_notes = TextAreaField("Additional Notes", [
+        validators.optional()
+    ])
+    submit = SubmitField("Add Medicine")
+
+
+class editMedicationForm(Form):
+    name = StringField("Medicine Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Medicine name is required to search")
+    ])
+    description = StringField('Description of Medication', [
+        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
+        validators.DataRequired(message="Description of medication is required")
+    ])
+    duration = SelectField("Duration of the medication",
+                           [validators.DataRequired(message="Duration of the medication is required")],
+                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
+                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
+                                    (14, 'Two weeks')])
+    pills = SelectField('Number of pills per dosage',
+                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
+                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
+                                 (3, '3 Tablet(s)'),
+                                 (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                 (6, '6 Tablet(s)')])
+    frequency_of_pills = SelectField('Dosage for medication',
+                                     [validators.DataRequired(message="Dosage of the medication is required")],
+                                     choices=[('one times a day', '1 times a day'),
+                                              ('two times a day', '2 times a day'),
+                                              ('three times a day', '3 times a day')])
+    additional_notes = TextAreaField("Additional Notes", [
+        validators.optional()
+    ])
+    submit = SubmitField("Edit Medicine")
+
 
 
 class openingHoursForm(Form):
