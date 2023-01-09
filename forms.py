@@ -276,7 +276,7 @@ class searchTracker(Form):
     ])
 
 
-class createTracker(Form):
+class createMedicationForm(Form):
     name = StringField("Medicine Name", [
         validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
         validators.DataRequired(message="Medicine name is required to search")
@@ -300,16 +300,14 @@ class createTracker(Form):
                                      [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[('one times a day', '1 times a day'),
                                               ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day'),
-                                              ('four times a day', '4 times a day'),
-                                              ('five times a day', '5 times a day')])
+                                              ('three times a day', '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
     submit = SubmitField("Add Medicine")
 
 
-class editTrackerForm(Form):
+class editMedicationForm(Form):
     name = StringField("Medicine Name", [
         validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
         validators.DataRequired(message="Medicine name is required to search")
@@ -333,9 +331,7 @@ class editTrackerForm(Form):
                                      [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[('one times a day', '1 times a day'),
                                               ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day'),
-                                              ('four times a day', '4 times a day'),
-                                              ('five times a day', '5 times a day')])
+                                              ('three times a day', '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])

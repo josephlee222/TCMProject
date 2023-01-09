@@ -3,13 +3,13 @@ import shutil
 
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from functions import flashFormErrors, goBack, adminAccess
-from forms import createTracker, editTrackerForm, searchTracker
-from classes.Tracker import Tracker
+from forms import createMedicationForm, editMedicationForm, searchTracker
+from classes.Medications import Medication
 
 adminTrackers = Blueprint("adminTrackers", __name__)
 
 
-# Admin side tracker
+# Admin side medications
 @adminTrackers.route("/admin/trackers/<email>")
 @adminAccess
 def viewAllTrackers(email):
@@ -21,13 +21,13 @@ def viewAllTrackers(email):
         if len(trackers) == 0:
             flash("No medications added yet. Add one by clicking 'Create Medication'")
 
-        return render_template("admin/tracker/viewTracker.html", form=form, trackers=trackers, email=email)
+        return render_template("admin/medications/viewMedication.html", form=form, trackers=trackers, email=email)
 
 
 @adminTrackers.route("/admin/trackers/add/<email>", methods=['GET', 'POST'])
 @adminAccess
 def addTracker(email):
-    form = createTracker(request.form)
+    form = createMedicationForm(request.form)
 
     if request.method == "POST" and form.validate():
         name = form.name.data
@@ -36,7 +36,7 @@ def addTracker(email):
         pills = form.pills.data
         frequency_of_pills = form.frequency_of_pills.data
         additional_notes = form.additional_notes.data
-        tracker = Tracker(name, description, duration, pills, frequency_of_pills, additional_notes)
+        tracker = Medication(name, description, duration, pills, frequency_of_pills, additional_notes)
 
         with shelve.open("users", writeback=True) as users:
             users[email].setMedication(tracker)
@@ -46,13 +46,13 @@ def addTracker(email):
     else:
         flashFormErrors("Unable to create the medication", form.errors)
 
-    return render_template("admin/tracker/addTracker.html", form=form, email=email)
+    return render_template("admin/medications/addMedication.html", form=form, email=email)
 
 
 @adminTrackers.route("/admin/trackers/edit/<email>/<id>", methods=['GET', 'POST'])
 @adminAccess
 def editTracker(email, id):
-    form = editTrackerForm(request.form)
+    form = editMedicationForm(request.form)
     try:
         with shelve.open("users", writeback=True) as users:
             medication = users[email].getMedications()[int(id)]
@@ -77,7 +77,7 @@ def editTracker(email, id):
             form.frequency_of_pills.data = medication.getFrequency_of_pills()
             form.additional_notes.data = medication.getNotes()
 
-            return render_template("admin/tracker/editTracker.html", medication=medication, form=form, email=email)
+            return render_template("admin/medications/editMedication.html", medication=medication, form=form, email=email)
     except KeyError:
         flash("Unable to edit treatment details: treatment does not exist", category="error")
         return redirect(url_for("adminTrackers.viewAllTrackers", email=email))

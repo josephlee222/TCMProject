@@ -6,7 +6,7 @@ from forms import openingHoursForm
 
 adminAppointments = Blueprint("adminAppointments", __name__)
 
-# Admin side tracker
+# Admin side medications
 
 @adminAppointments.route("/admin/appointments/openinghours", methods=['GET', 'POST'])
 @adminAccess

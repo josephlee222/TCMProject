@@ -8,7 +8,7 @@ from adminUsers import adminUsers
 from adminTreatments import adminTreatments
 from adminAppointments import adminAppointments
 from adminCoupons import adminCoupons
-from adminTracker import adminTrackers
+from adminMedications import adminTrackers
 from tracker import tracker
 
 

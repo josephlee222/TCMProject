@@ -1,7 +1,9 @@
 import shelve
 from flask import flash
+from datetime import datetime, timedelta
 
-class Tracker:
+
+class Medication:
     def __init__(self, name, description, duration_of_medication, no_of_pills, frequency_of_pills, notes):
 
         with shelve.open("tracker_count", writeback=True) as tracker_count:
@@ -13,6 +15,8 @@ class Tracker:
 
         try:
             self.id = id
+            self.date = datetime.now().date()
+            self.enddate = self.date + timedelta(days=int(duration_of_medication))
             self.name = str(name)
             self.description = str(description)
             self.duration_of_medication = int(duration_of_medication)
@@ -22,6 +26,12 @@ class Tracker:
         except ValueError as e:
             print("Value error while entering medicine into Tracker class")
             flash(str(e))
+
+    def getDate(self):
+        return self.date
+
+    def getEnddate(self):
+        return self.enddate
 
     def getName(self):
         return self.name
@@ -49,6 +59,7 @@ class Tracker:
 
     def setDuration_of_medication(self, duration_of_medication):
         self.duration_of_medication = duration_of_medication
+        self.enddate = self.date + timedelta(days=int(duration_of_medication))
 
     def setNo_of_pills(self, no_of_pills):
         self.no_of_pills = no_of_pills
