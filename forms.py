@@ -149,7 +149,7 @@ class addUserForm(Form):
                 raise ValidationError("This e-mail has an existing account, please try again")
 
     def validate_birthday(form, birthday):
-        if form.birthday.data > datetime.date.today():
+        if form.birthday.data > datetime.now().date():
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
 
