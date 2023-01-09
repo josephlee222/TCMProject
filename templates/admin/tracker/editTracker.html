@@ -12,35 +12,35 @@
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
         <div>
-            <h1>Edit Tracker</h1>
-            <h6 class="m-0">Edit tracker</h6>
+            <h1>Edit Medication</h1>
+            <h6 class="m-0">{{email}}</h6>
         </div>
     </div>
     <form method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-6">
-                <h2 class="h4">Tracker Information</h2>
+                <h2 class="h4">Medication Information</h2>
                 <div class="mb-3">
-                    {{ formHelper.renderField(form.name, value = tracker.getName())}}
+                    {{ formHelper.renderField(form.name, value=medication.getName())}}
                     <div class="form-text">Markdown supported</div>
                 </div>
                 <div class="mb-3">
-                    {{ formHelper.renderField(form.description, value = tracker.getDescription())}}
+                    {{ formHelper.renderField(form.description, value=medication.getDescription())}}
                     <div class="form-text">Markdown supported</div>
                 </div>
                 <div class="row">
                     <div class=".col-6 .col-md-4">
-                        {{ formHelper.renderField(form.duration, value = tracker.getDuration()) }}
+                        {{ formHelper.renderField(form.duration, value=medication.getDuration_of_medication()) }}
                     </div>
                     <div class=".col-6 .col-md-4">
                         {{ formHelper.renderField(form.pills) }}
                     </div>
                     <div class=".col-6 .col-md-4">
-                        {{ formHelper.renderField(form.frequency_of_pills, value = tracker.getFrequency_of_pills()) }}
+                        {{ formHelper.renderField(form.frequency_of_pills, value=medication.getFrequency_of_pills()) }}
                     </div>
                 </div>
                 <div class="mb-3">
-                    {{ formHelper.renderField(form.additional_notes, value = tracker.getAdditional_notes()) }}
+                    {{ formHelper.renderField(form.additional_notes, value=medication.getNotes()) }}
                     <div class="form-text">Markdown supported</div>
                 </div>
             </div>

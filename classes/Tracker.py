@@ -1,14 +1,27 @@
+import shelve
+from flask import flash
+
 class Tracker:
     def __init__(self, name, description, duration_of_medication, no_of_pills, frequency_of_pills, notes):
+
+        with shelve.open("tracker_count", writeback=True) as tracker_count:
+            if "tracking_id" not in tracker_count:
+                id = 1
+            else:
+                id = tracker_count["tracking_id"] + 1
+            tracker_count["tracking_id"] = id
+
         try:
+            self.id = id
             self.name = str(name)
             self.description = str(description)
             self.duration_of_medication = int(duration_of_medication)
             self.no_of_pills = int(no_of_pills)
-            self.frequency_of_pills = int(frequency_of_pills)
+            self.frequency_of_pills = str(frequency_of_pills)
             self.notes = str(notes)
-        except ValueError:
+        except ValueError as e:
             print("Value error while entering medicine into Tracker class")
+            flash(str(e))
 
     def getName(self):
         return self.name
@@ -29,7 +42,7 @@ class Tracker:
         return self.notes
 
     def setName(self, name):
-        self.name, name
+        self.name = name
 
     def setDescription(self, description):
         self.description = description

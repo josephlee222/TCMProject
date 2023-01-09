@@ -14,6 +14,7 @@ class User:
         self.birthday = birthday
         self.phone = phone
         self.address = []
+        self.medications = []
 
     def getName(self):
         return self.name
@@ -35,6 +36,9 @@ class User:
 
     def getAddress(self):
         return self.address
+
+    def getMedications(self):
+        return self.medications
 
     def setPassword(self, password):
         self.password = password
@@ -58,8 +62,17 @@ class User:
         else:
             self.address.append(address)
 
+    def setMedication(self, medication):
+        if self.medications is None:
+            self.medications = [medication]
+        else:
+            self.medications.append(medication)
+
     def setAddresses(self, addresses):
         self.address = addresses
+
+    def setMedications(self, medications):
+        self.medications = medications
 
     # ONLY PASS IN ADDRESS CLASSES HERE, NO TEXT
     def editAddress(self, id, address):
@@ -75,3 +88,7 @@ class User:
         except IndexError:
             flash("Unable to edit address, address does not exist.", category="error")
             raise IndexError
+
+    def deleteMedication(self, id):
+        self.medications.pop(int(id))
+

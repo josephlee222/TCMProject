@@ -286,18 +286,18 @@ class createTracker(Form):
         validators.DataRequired(message="Description of medication is required")
     ])
     duration = SelectField("Duration of the medication",
-                           validators.DataRequired(message="Duration of the medication is required"),
-                           choices=[('One', '1 days'), ('Two', '2 days'), ('Three', '3 days'), ('Four', '4 days'),
-                                    ('Five', '5 days'), ('Six', '6 days'), ('One week', 'One week'),
-                                    ('Two weeks', 'Two weeks')])
+                           [validators.DataRequired(message="Duration of the medication is required")],
+                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
+                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
+                                    (14, 'Two weeks')])
     pills = SelectField('Number of pills per dosage',
-                        validators.DataRequired(message="Pills per dosage of the medication is required"),
-                        choices=[('One Tablet(s)', '1 Tablet(s)'), ('Two Tablet(s)', '2 Tablet(s)'),
-                                 ('Three Tablet(s)', '3 Tablet(s)'),
-                                 ('Four Tablet(s)', '4 Tablet(s)'), ('Five Tablet(s)', '5 Tablet(s)'),
-                                 ('Six Tablet(s)', '6 Tablet(s)')])
+                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
+                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
+                                (3, '3 Tablet(s)'),
+                                (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('Dosage for medication',
-                                     validators.DataRequired(message="Dosage of the medication is required"),
+                                     [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[('one times a day', '1 times a day'),
                                               ('two times a day', '2 times a day'),
                                               ('three times a day', '3 times a day'),
@@ -309,7 +309,7 @@ class createTracker(Form):
     submit = SubmitField("Add Medicine")
 
 
-class editTracker(Form):
+class editTrackerForm(Form):
     name = StringField("Medicine Name", [
         validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
         validators.DataRequired(message="Medicine name is required to search")
@@ -319,18 +319,18 @@ class editTracker(Form):
         validators.DataRequired(message="Description of medication is required")
     ])
     duration = SelectField("Duration of the medication",
-                           validators.DataRequired(message="Duration of the medication is required"),
-                           choices=[('One', '1 days'), ('Two', '2 days'), ('Three', '3 days'), ('Four', '4 days'),
-                                    ('Five', '5 days'), ('Six', '6 days'), ('One week', 'One week'),
-                                    ('Two weeks', 'Two weeks')])
+                           [validators.DataRequired(message="Duration of the medication is required")],
+                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
+                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
+                                    (14, 'Two weeks')])
     pills = SelectField('Number of pills per dosage',
-                        validators.DataRequired(message="Pills per dosage of the medication is required"),
-                        choices=[('One Tablet(s)', '1 Tablet(s)'), ('Two Tablet(s)', '2 Tablet(s)'),
-                                 ('Three Tablet(s)', '3 Tablet(s)'),
-                                 ('Four Tablet(s)', '4 Tablet(s)'), ('Five Tablet(s)', '5 Tablet(s)'),
-                                 ('Six Tablet(s)', '6 Tablet(s)')])
+                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
+                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
+                                 (3, '3 Tablet(s)'),
+                                 (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                 (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('Dosage for medication',
-                                     validators.DataRequired(message="Dosage of the medication is required"),
+                                     [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[('one times a day', '1 times a day'),
                                               ('two times a day', '2 times a day'),
                                               ('three times a day', '3 times a day'),

@@ -12,7 +12,8 @@
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">library_add</span>
         <div>
-            <h1>Create Medicine Tracker</h1>
+            <h1>Create Medication</h1>
+            <h6 class="m-0">{{ email }}</h6>
         </div>
     </div>
     <form method="post" enctype="multipart/form-data">
@@ -28,13 +29,13 @@
                     <div class="form-text">Markdown supported</div>
                 </div>
                 <div class="row">
-                    <div class=".col-6 .col-md-4">
+                    <div class="col-6 col-md-4 mb-3">
                         {{ formHelper.renderField(form.duration) }}
                     </div>
-                    <div class=".col-6 .col-md-4">
+                    <div class="col-6 col-md-4">
                         {{ formHelper.renderField(form.pills) }}
                     </div>
-                    <div class=".col-6 .col-md-4">
+                    <div class="col-6 col-md-4">
                         {{ formHelper.renderField(form.frequency_of_pills) }}
                     </div>
                 </div>
