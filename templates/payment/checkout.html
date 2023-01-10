@@ -51,11 +51,13 @@
         <h4>CVV: </h4><h4 style="color:red;">*</h4> <h4>Expiry Date: </h4><h4 style="color:red;">*</h4>
         <input type="text" placeholder="3 Digit Security Code"> <input type="text" placeholder="mm/yyyy">
         <h4>Shipping Address: </h4>
-        <option value="" placeholder="Choose" required></option>
-        <option value="Home"></option>
-        <option value="Office"></option>
-        <option value="Parent's Home"></option>
-        <option value="Grandparent's Home"></option>
+        <select name="area">
+         <option value="" placeholder="Choose" required></option>
+         <option value="Home"></option>
+         <option value="Office"></option>
+         <option value="Parent's Home"></option>
+         <option value="Grandparent's Home"></option>
+        </select>
         <input height="30" type="text" size="40" placeholder="Enter Address">
         <h4>Voucher: </h4>
         <input type="text" placeholder="Eg. NEWUSER">
