@@ -1,8 +1,8 @@
-import datetime
+from datetime import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
 from functions import allowedFile
 
 
@@ -88,8 +88,9 @@ class editUserForm(Form):
     submit = SubmitField("Edit User")
 
     def validate_birthday(form, birthday):
-        if form.birthday.data > datetime.date.today():
+        if form.birthday.data > datetime.now().date():
             raise ValidationError("Invalid birthday, date cannot be in the future")
+
 
 class changeUserPasswordForm(Form):
     password = PasswordField("Password", [
@@ -104,6 +105,7 @@ class changeUserPasswordForm(Form):
     ])
 
     submit = SubmitField("Change Password")
+
 
 class addUserForm(Form):
     email = EmailField("Email Address", [
@@ -147,7 +149,7 @@ class addUserForm(Form):
                 raise ValidationError("This e-mail has an existing account, please try again")
 
     def validate_birthday(form, birthday):
-        if form.birthday.data > datetime.date.today():
+        if form.birthday.data > datetime.now().date():
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
 
@@ -163,6 +165,7 @@ class addAddressForm(Form):
 
     submit = SubmitField("Add Address")
 
+
 class editAddressForm(Form):
     name = StringField("Address Name", [
         validators.Length(1, 64, message="Address name must be between 1 to 64 characters"),
@@ -175,6 +178,7 @@ class editAddressForm(Form):
 
     submit = SubmitField("Edit Address")
 
+
 class deleteUserForm(Form):
     name = StringField("Account Name", [
         validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
@@ -183,6 +187,7 @@ class deleteUserForm(Form):
 
     submit = SubmitField("Confirm Delete")
 
+
 # ADMIN TREATMENT FORMS
 
 class searchTreatmentsForm(Form):
@@ -190,6 +195,7 @@ class searchTreatmentsForm(Form):
         validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
         validators.DataRequired(message="Treatment name is required to search")
     ])
+
 
 class createTreatmentForm(Form):
     name = StringField("Treatment Name", [
@@ -216,8 +222,8 @@ class createTreatmentForm(Form):
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
     ])
     images = MultipleFileField("Treatment Images", [
-        #validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
-        #validators.DataRequired(message="Treatment Images are required")
+        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        # validators.DataRequired(message="Treatment Images are required")
     ])
 
     submit = SubmitField("Add Treatment")
@@ -253,6 +259,7 @@ class editTreatmentForm(Form):
 
     submit = SubmitField("Edit Treatment")
 
+
 class uploadImageForm(Form):
     images = MultipleFileField("Treatment Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
@@ -260,6 +267,171 @@ class uploadImageForm(Form):
     ])
 
     submit = SubmitField("Upload Images")
+
+
+class searchTracker(Form):
+    name = StringField("Search by patient's name", [
+        validators.Length(3, 128, message="Patients name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Patients name is required to search")
+    ])
+
+
+class createMedicationForm(Form):
+    name = StringField("Medicine Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Medicine name is required to search")
+    ])
+    description = StringField('Description of Medication', [
+        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
+        validators.DataRequired(message="Description of medication is required")
+    ])
+    duration = SelectField("Duration of the medication",
+                           [validators.DataRequired(message="Duration of the medication is required")],
+                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
+                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
+                                    (14, 'Two weeks')])
+    pills = SelectField('Number of pills per dosage',
+                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
+                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
+                                (3, '3 Tablet(s)'),
+                                (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                (6, '6 Tablet(s)')])
+    frequency_of_pills = SelectField('Dosage for medication',
+                                     [validators.DataRequired(message="Dosage of the medication is required")],
+                                     choices=[('one times a day', '1 times a day'),
+                                              ('two times a day', '2 times a day'),
+                                              ('three times a day', '3 times a day')])
+    additional_notes = TextAreaField("Additional Notes", [
+        validators.optional()
+    ])
+    submit = SubmitField("Add Medicine")
+
+
+class editMedicationForm(Form):
+    name = StringField("Medicine Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Medicine name is required to search")
+    ])
+    description = StringField('Description of Medication', [
+        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
+        validators.DataRequired(message="Description of medication is required")
+    ])
+    duration = SelectField("Duration of the medication",
+                           [validators.DataRequired(message="Duration of the medication is required")],
+                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
+                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
+                                    (14, 'Two weeks')])
+    pills = SelectField('Number of pills per dosage',
+                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
+                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
+                                 (3, '3 Tablet(s)'),
+                                 (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                 (6, '6 Tablet(s)')])
+    frequency_of_pills = SelectField('Dosage for medication',
+                                     [validators.DataRequired(message="Dosage of the medication is required")],
+                                     choices=[('one times a day', '1 times a day'),
+                                              ('two times a day', '2 times a day'),
+                                              ('three times a day', '3 times a day')])
+    additional_notes = TextAreaField("Additional Notes", [
+        validators.optional()
+    ])
+    submit = SubmitField("Edit Medicine")
+
+
+
+class openingHoursForm(Form):
+    opening = TimeField("Opening Hour", [
+        validators.DataRequired(message="Opening Hours are required")
+    ])
+    closing = TimeField("Closing Hour", [
+        validators.DataRequired(message="Closing Hours are required")
+    ])
+
+    def validate_opening(form, opening):
+        if form.opening.data > form.closing.data:
+            raise ValidationError("Opening time cannot exceed closing time")
+
+    def validate_closing(form, closing):
+        if form.closing.data < form.opening.data:
+            raise ValidationError("Closing time cannot be earlier than opening time")
+
+    submit = SubmitField("Edit Hours")
+
+# Coupon forms
+class searchCouponsForm(Form):
+    name = StringField("Search by coupon name", [
+        validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Coupon name is required to search")
+    ])
+
+class createCouponForm(Form):
+    name = StringField("Coupon Name", [
+        validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Coupon name is required")
+    ])
+    description = TextAreaField("Coupon Description", [
+        validators.Optional()
+    ])
+    code = StringField("Coupon Code", [
+        validators.Length(3, 64, message="Coupon code must be between 3 to 64 characters"),
+        validators.DataRequired(message="Coupon code is required")
+    ])
+    discount = IntegerField("Discount Amount (%)", [
+        validators.NumberRange(1, 100, "Discount amount must range between 1% to 100%"),
+        validators.DataRequired(message="Discount amount is required")
+    ])
+    startDate = DateField("Start Date", [
+        validators.DataRequired(message="Discount start date is required")
+    ])
+    endDate = DateField("End Date", [
+        validators.DataRequired(message="Discount end date is required")
+    ])
+
+    submit = SubmitField("Add Coupon")
+
+    def validate_startDate(form, startDate):
+        if form.startDate.data < datetime.now().date():
+            raise ValidationError("Coupon start date cannot be earlier than current date")
+        elif form.startDate.data > form.endDate.data:
+            raise ValidationError("Coupon start date cannot exceed end date")
+
+    def validate_endDate(form, endDate):
+        if form.endDate.data < datetime.now().date():
+            raise ValidationError("Coupon end date cannot be earlier than current time")
+
+class editCouponForm(Form):
+    name = StringField("Coupon Name", [
+        validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Coupon name is required")
+    ])
+    description = TextAreaField("Coupon Description", [
+        validators.Optional()
+    ])
+    code = StringField("Coupon Code", [
+        validators.Length(3, 64, message="Coupon code must be between 3 to 64 characters"),
+        validators.DataRequired(message="Coupon code is required")
+    ])
+    discount = IntegerField("Discount Amount (%)", [
+        validators.NumberRange(1, 100, "Discount amount must range between 1% to 100%"),
+        validators.DataRequired(message="Discount amount is required")
+    ])
+    startDate = DateField("Start Date", [
+        validators.DataRequired(message="Discount start date is required")
+    ])
+    endDate = DateField("End Date", [
+        validators.DataRequired(message="Discount end date is required")
+    ])
+
+    submit = SubmitField("Edit Coupon")
+
+    def validate_startDate(form, startDate):
+        if form.startDate.data > form.endDate.data:
+            raise ValidationError("Coupon start date cannot exceed end date")
+
+    def validate_endDate(form, endDate):
+        if form.endDate.data < datetime.now().date():
+            raise ValidationError("Coupon end date cannot be earlier than current time")
+
 
 class CheckoutForm(Form):
     Fname: StringField("First Name:", [

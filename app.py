@@ -1,20 +1,28 @@
+import shelve
+from datetime import time
+
 from flask import Flask, render_template, flash, Blueprint, session, url_for, send_from_directory
 from test import test
 from auth import auth
 from adminUsers import adminUsers
 from adminTreatments import adminTreatments
+from adminAppointments import adminAppointments
+from adminCoupons import adminCoupons
+from adminMedications import adminTrackers
 from tracker import tracker
 
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
-app.config["UPLOAD_FOLDER"] = "uploads"
 
 # Register blueprints
 app.register_blueprint(test)
 app.register_blueprint(auth)
 app.register_blueprint(adminUsers)
 app.register_blueprint(adminTreatments)
+app.register_blueprint(adminAppointments)
+app.register_blueprint(adminCoupons)
+app.register_blueprint(adminTrackers)
 app.register_blueprint(tracker)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
@@ -29,6 +37,15 @@ def websiteContextInit():
     return {
         "websiteName": "TCM Shifu",
     }
+
+def initialization():
+    print("Init code start")
+    with shelve.open("data", writeback=True) as data:
+        if "opening" not in data or "closing" not in data:
+            data["opening"] = time(9, 0, 0)
+            data["closing"] = time(21, 0, 0)
+
+initialization()
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}All Treatments{% endblock %}
+{% block title %}Medications{% endblock %}
 {% block nav %}
     {% include "includes/adminNavControls.html" %}
 {% endblock %}
@@ -10,8 +10,8 @@
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">medical_services</span>
         <div>
-            <h1>View Treatments</h1>
-            <h6 class="m-0">View and manage treatments</h6>
+            <h1>View Medications</h1>
+            <h6 class="m-0">{{ email }}</h6>
         </div>
     </div>
     <form method="post">
@@ -24,54 +24,50 @@
             </div>
         </div>
     </form>
-    <a href="{{ url_for("adminTreatments.addTreatment") }}">
-        <button class="btn custom-btn mb-3">Create New Treatment</button>
-    </a>
+    <a href="{{ url_for("adminTrackers.addTracker", email=email) }}"><button class="btn custom-btn mb-3">Create Medication</button></a>
     <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
-                <th>Treatment Name</th>
+                <th>Medication Name</th>
                 <th>Duration</th>
-                <th>Normal Price</th>
-                <th>Sale Price</th>
-                <th>On Sale?</th>
+                <th>Dosage</th>
                 <th>Actions</th>
                 </thead>
                 <tbody>
-                {% if treatments|length > 0 %}
-                    {% for treatment in treatments %}
+                {% if trackers|length > 0 %}
+                    {% for tracker in trackers %}
                         <tr>
-                            <td>{{ treatments[treatment]["name"] }}</td>
-                            <td>{{ treatments[treatment]["duration"] }} Hours</td>
-                            <td>${{ treatments[treatment]["price"] }}</td>
-                            <td>${{ treatments[treatment]["salePrice"] }}</td>
-                            <td>{{ treatments[treatment]["onSale"] }}</td>
+                            <td>{{ tracker.getName() }}</td>
+                            <td>{{ tracker.getDate() }} - {{ tracker.getEnddate() }}</td>
+                            <td>{{ tracker.getFrequency_of_pills() }}</td>
                             <td class="text-nowrap">
                                 <a href="#"><button class="btn custom-btn">View Details</button></a>
-                                <a href="{{ url_for("adminTreatments.editTreatment", id=treatments[treatment]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
-                                <a onclick="showDeleteModal('{{ treatments[treatment]["name"] }}', '{{ url_for("adminTreatments.deleteTreatment", id=treatments[treatment]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
+                                <a href="{{ url_for("adminTrackers.editTracker", email=email, id=loop.index - 1) }}"><button class="btn custom-btn">Edit</button></a>
+                                <a onclick="showDeleteModal('{{ tracker.getName() }}', '{{ url_for("adminTrackers.deleteTracker", email=email, id=loop.index - 1) }}')"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="6">No treatments added yet.</td>
+                        <td colspan="6">No medications added yet for this user.</td>
                     </tr>
                 {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
+{% endblock %}
+{% block extras %}
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Treatment?</h1>
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Medication?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="delete-treatment-text">
-                    Delete Treatment? (Placeholder)
+                    Delete Medication? (Placeholder)
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -82,5 +78,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/viewTreatments.js') }}"></script>
+<script src="{{ url_for('static', filename='js/viewMedications.js') }}"></script>
 {% endblock %}

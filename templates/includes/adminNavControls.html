@@ -27,8 +27,8 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">discount</span>View All Coupons</a></li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">new_label</span>Create New Coupon</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminCoupons.viewAllCoupons") }}"><span class="material-icons me-1">discount</span>View All Coupons</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminCoupons.addCoupon") }}"><span class="material-icons me-1">new_label</span>Create New Coupon</a></li>
         </ul>
     </li>
     <li class="nav-item dropdown">
@@ -43,6 +43,10 @@
             </li>
             <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">notifications</span>View Medicine Trackers</a></li>
             <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">notification_add</span>Create New Tracker</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminAppointments.editOpeningHours") }}"><span class="material-icons me-1">schedule</span>Edit Opening Hours</a></li>
         </ul>
     </li>
     <li class="nav-item dropdown">

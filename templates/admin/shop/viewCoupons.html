@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}All Treatments{% endblock %}
+{% block title %}All Coupons{% endblock %}
 {% block nav %}
     {% include "includes/adminNavControls.html" %}
 {% endblock %}
@@ -8,55 +8,55 @@
 {% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
-        <span class="material-icons me-3" style="font-size: 60px">medical_services</span>
+        <span class="material-icons me-3" style="font-size: 60px">discount</span>
         <div>
-            <h1>View Treatments</h1>
-            <h6 class="m-0">View and manage treatments</h6>
+            <h1>View Coupons</h1>
+            <h6 class="m-0">View and manage discount coupons</h6>
         </div>
     </div>
     <form method="post">
         <div class="row mb-4">
             <div class="col-lg-9 mb-3 mb-lg-0">
-                {{ form.name(class_="form-control", placeholder="Search by Name...") }}
+                {{ form.name(class_="form-control", placeholder="Search by Coupon Name...") }}
             </div>
             <div class="col-lg-3">
                 <input type="submit" class="btn custom-btn w-100" value="Search">
             </div>
         </div>
     </form>
-    <a href="{{ url_for("adminTreatments.addTreatment") }}">
-        <button class="btn custom-btn mb-3">Create New Treatment</button>
+    <a href="{{ url_for("adminCoupons.addCoupon") }}">
+        <button class="btn custom-btn mb-3">Create New Coupon</button>
     </a>
     <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
-                <th>Treatment Name</th>
-                <th>Duration</th>
-                <th>Normal Price</th>
-                <th>Sale Price</th>
-                <th>On Sale?</th>
-                <th>Actions</th>
+                    <th>Coupon Name</th>
+                    <th>Code</th>
+                    <th>Discount Amt</th>
+                    <th>Duration</th>
+                    <th>Valid?</th>
+                    <th>Actions</th>
                 </thead>
                 <tbody>
-                {% if treatments|length > 0 %}
-                    {% for treatment in treatments %}
+                {% if coupons|length > 0 %}
+                    {% for coupon in coupons %}
                         <tr>
-                            <td>{{ treatments[treatment]["name"] }}</td>
-                            <td>{{ treatments[treatment]["duration"] }} Hours</td>
-                            <td>${{ treatments[treatment]["price"] }}</td>
-                            <td>${{ treatments[treatment]["salePrice"] }}</td>
-                            <td>{{ treatments[treatment]["onSale"] }}</td>
+                            <td>{{ coupons[coupon]["name"] }}</td>
+                            <td>{{ coupons[coupon]["code"] }}</td>
+                            <td>{{ coupons[coupon]["discount"] }}%</td>
+                            <td>{{ coupons[coupon]["startDate"] }} to {{ coupons[coupon]["endDate"] }}</td>
+                            <td>{{ coupons[coupon].isValid() }}</td>
                             <td class="text-nowrap">
                                 <a href="#"><button class="btn custom-btn">View Details</button></a>
-                                <a href="{{ url_for("adminTreatments.editTreatment", id=treatments[treatment]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
-                                <a onclick="showDeleteModal('{{ treatments[treatment]["name"] }}', '{{ url_for("adminTreatments.deleteTreatment", id=treatments[treatment]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
+                                <a href="{{ url_for("adminCoupons.editCoupon", id=coupons[coupon]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
+                                <a onclick="showDeleteModal('{{ coupons[coupon]["name"] }}', '{{ url_for("adminCoupons.deleteCoupon", id=coupons[coupon]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="6">No treatments added yet.</td>
+                        <td colspan="6">No coupons added yet.</td>
                     </tr>
                 {% endif %}
                 </tbody>
@@ -67,7 +67,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Treatment?</h1>
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Coupon?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="delete-treatment-text">
@@ -82,5 +82,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/viewTreatments.js') }}"></script>
+<script src="{{ url_for('static', filename='js/viewCoupons.js') }}"></script>
 {% endblock %}
