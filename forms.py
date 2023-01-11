@@ -260,3 +260,29 @@ class uploadImageForm(Form):
     ])
 
     submit = SubmitField("Upload Images")
+
+class CheckoutForm(Form):
+    Fname: StringField("First Name:", [
+
+    ])
+    Lname: StringField("Last Name:", [
+
+    ])
+    Cnumber: StringField("Card Number:", [
+        validators.Length(16, message="Card number must be 16 digits"),
+        validators.DataRequired(message="Card number is required for purchase")
+    ])
+    CVV: StringField("CVV:", [
+        validators.Length(3, message="CVV must be 3 digits"),
+        validators.DataRequired(message="CVV is required for purchase")
+    ])
+    Expiry: StringField("Expiry Date:", [
+        validators.Length(2,3, message="Expiry date must in numerals"),
+        validators.DataRequired(message="Card Expiry Date is required for purchase")
+    ])
+    Shipping: StringField("", [
+
+    ])
+    Voucher: StringField("", [
+
+    ])

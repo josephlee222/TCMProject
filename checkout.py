@@ -35,3 +35,5 @@ def payment():
         return jsonify(error=str(e)), 403
 
     return render_template("payment/checkout.html", form=form)
+
+
