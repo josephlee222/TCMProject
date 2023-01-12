@@ -1,10 +1,10 @@
 import shelve
+import stripe
+import json
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, jsonify
 from forms import loginUserForm, registerUserForm
 from functions import flashFormErrors, goBack, unloginAccess, loginAccess
 from classes.User import User
-import stripe
-import json
 
 checkout = Blueprint("checkout", __name__)
 stripe.api_key = 'sk_test_Ou1w6LVt3zmVipDVJsvMeQsc'
