@@ -10,6 +10,7 @@ from adminAppointments import adminAppointments
 from adminCoupons import adminCoupons
 from adminMedications import adminTrackers
 from tracker import tracker
+from checkout import checkout
 
 
 app = Flask(__name__)
@@ -24,6 +25,7 @@ app.register_blueprint(adminAppointments)
 app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
 app.register_blueprint(tracker)
+app.register_blueprint(checkout)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')
