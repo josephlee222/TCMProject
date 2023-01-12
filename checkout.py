@@ -34,8 +34,6 @@ def payment():
     except Exception as e:
         return jsonify(error=str(e)), 403
 
-    print(request.get(your_url).content)
-
     return render_template("/payment/checkout.html", form=form)
 
 
