@@ -2,7 +2,7 @@ import shelve
 
 
 class Appointment:
-    def __init__(self, name, userEmail, doctorEmail, date, notes):
+    def __init__(self, name, userEmail, doctorEmail, date, time, notes):
         with shelve.open("counter", writeback=True) as counter:
             if "appointment" not in counter:
                 id = 1
@@ -15,7 +15,8 @@ class Appointment:
             self.userEmail = str(userEmail)
             self.doctorEmail = str(doctorEmail)
             self.date = date
-            self.notes = float(notes)
+            self.time = time
+            self.notes = str(notes)
 
     def getId(self):
         return self.id
@@ -42,6 +43,9 @@ class Appointment:
     def getDate(self):
         return self.date
 
+    def getTime(self):
+        return self.time
+
     def getNotes(self):
         return self.notes
 
@@ -55,7 +59,10 @@ class Appointment:
         self.doctorEmail = email
 
     def setDate(self, date):
-        self.setDate(date)
+        self.date = date
+
+    def setTime(self, time):
+        self.time = time
 
     def setNotes(self, notes):
         self.notes = notes

@@ -1,4 +1,5 @@
 {% import "includes/formHelper.html" as formHelper %}
+{% import "includes/infoBox.html" as infoBox %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,6 +99,7 @@
 {% block extras %}{% endblock %}
 </body>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6/index.global.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% block scripts %}{% endblock %}
 </html>
