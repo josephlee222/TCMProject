@@ -4,7 +4,7 @@ import shelve
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from werkzeug.utils import secure_filename
 from functions import flashFormErrors, goBack, adminAccess, allowedFile
-from forms import createArticleForm, uploadImageForm
+from forms import createArticleForm, uploadPreviewImage
 from classes.Blog import Blog
 
 adminBlog = Blueprint("adminBlog", __name__)
