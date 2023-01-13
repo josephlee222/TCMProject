@@ -435,10 +435,10 @@ class editCouponForm(Form):
 # Blog Creation Form
 class createArticleForm(Form):
     name = StringField("Blog Title Input", [
-        validators.DataRequired(message="Blog Title is required.")
+        validators.DataRequired(message = "Blog Title is required.")
     ])
     content = StringField("Content Input", [
-        validators.DataRequired(message="Content is required.")
+        validators.DataRequired(message = "Content is required.")
     ])
 
     submit = SubmitField("Create Article")
@@ -450,4 +450,3 @@ class uploadPreviewImage(Form):
     ])
 
     submit = SubmitField("Insert Image")
-
