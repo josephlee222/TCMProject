@@ -9,7 +9,7 @@ history = Blueprint("history", __name__)
 
 @history.route('/history', methods=['GET', 'POST'])
 @loginAccess
-def order_history(request, username):
+def order_history(username):
     order_qs = Order.objects.filter(user__username=username)
 
     context = {
