@@ -35,18 +35,24 @@
                     <th>Actions</th>
                 </thead>
                 <tbody>
-                {% for product in products %}
+                {% if products|length > 0 %}
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ products[product]["name"] }}</td>
+                            <td>{{ products[product]["onSale"] }}</td>
+                            <td>{{ products[product]["price"] }}</td>
+                            <td class="text-nowrap">
+                                <a href="#"><button class="btn custom-btn">View Product</button></a>
+                                <a href="{{ url_for("adminProducts.editProduct", id=products[product]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
+                                <a onclick="showDeleteModal('{{ products[product]["name"] }}', '{{ url_for("adminProducts.deleteProduct", id=products[product]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
                     <tr>
-                        <td>{{ products[product]["name"] }}</td>
-                        <td>{{ products[product]["onSale"] }}</td>
-                        <td>{{ products[product]["price"] }}</td>
-                        <td class="text-nowrap">
-                            <a href="#"><button class="btn custom-btn">View Product</button></a>
-                            <a href="{{ url_for("adminProducts.editProduct", id=products[product]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
-                            <a onclick="showDeleteModal('{{ products[product]["name"] }}', '{{ url_for("adminProducts.deleteProduct", id=products[product]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
-                        </td>
+                        <td colspan="6">No products added yet.</td>
                     </tr>
-                {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </div>

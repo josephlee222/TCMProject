@@ -4,6 +4,7 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from functions import flashFormErrors, goBack, adminAccess
 from forms import addProductForm, editProductForm, searchProductForm
 from classes.Product import Product
+
 adminProducts = Blueprint("adminProducts", __name__)
 
 # Admin side products
@@ -20,7 +21,7 @@ def addProduct():
         price = form.price.data
         details = form.details.data
         #Take data from form and combine into a single object representing the product
-        product = Product(name, description, benefits, details, price)
+        product = Product(name, description, benefits, price, details)
 
         with shelve.open("products", writeback=True) as products:
             products[str(product.getId())] = product
@@ -28,6 +29,8 @@ def addProduct():
         flash("Product successfully created")
         return redirect(url_for("adminProducts.viewAllProducts"))
     return render_template("admin/products/addProduct.html", form=form)
+
+
 @adminProducts.route("/admin/products", methods=['GET', 'POST'])
 @adminAccess
 def viewAllProducts():
@@ -39,6 +42,7 @@ def viewAllProducts():
             flash("No products found.")
         #Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
         return render_template("admin/products/viewProducts.html", form=form, products=products)
+
 
 @adminProducts.route("/admin/products/edit/<id>", methods=['GET', 'POST'])
 @adminAccess
@@ -64,9 +68,11 @@ def editProduct(id):
             else:
                 flashFormErrors("Unable to edit the product", form.errors)
 
+        form.name.data = product.getName()
+        form.price.data = product.getPrice()
         form.description.data = product.getDescription()
         form.benefits.data = product.getBenefits()
-        #form.onSale.data = product.getOnSale()
+        form.details.data = product.getDetails()
 
         return render_template("admin/products/editProduct.html", product=product, form=form)
     except KeyError:
