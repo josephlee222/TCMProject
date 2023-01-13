@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}All Users{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">groups</span>
+        <div>
+            <h1>View Products</h1>
+            <h6 class="m-0">View all products</h6>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row mb-4">
+            <div class="col-lg-9 mb-3 mb-lg-0">
+                {{ form.name(class_="form-control", placeholder="Search by Name...") }}
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn custom-btn w-100" value="Search">
+            </div>
+        </div>
+    </form>
+    <a href="{{ url_for("adminProducts.addProduct") }}"><button class="btn custom-btn mb-3">Create New Product</button></a>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                    <th>Product Name</th>
+                    <th>On Sale?</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                {% if products|length > 0 %}
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ products[product]["name"] }}</td>
+                            <td>{{ products[product]["onSale"] }}</td>
+                            <td>{{ products[product]["price"] }}</td>
+                            <td class="text-nowrap">
+                                <a href="#"><button class="btn custom-btn">View Product</button></a>
+                                <a href="{{ url_for("adminProducts.editProduct", id=products[product]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
+                                <a onclick="showDeleteModal('{{ products[product]["name"] }}', '{{ url_for("adminProducts.deleteProduct", id=products[product]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No products added yet.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Product?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Product? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewProducts.js') }}"></script>
+{% endblock %}
