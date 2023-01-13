@@ -24,7 +24,7 @@ def payment():
         # Create a PaymentIntent with the order amount and currency
         intent = stripe.PaymentIntent.create(
             amount=calculate_order_amount(data['items']),
-            currency='usd',
+            currency='sgd',
             automatic_payment_methods={
                 'enabled': True,
             },
