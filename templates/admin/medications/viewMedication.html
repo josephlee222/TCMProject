@@ -40,7 +40,7 @@
                         <tr>
                             <td>{{ tracker.getName() }}</td>
                             <td>{{ tracker.getDate() }} - {{ tracker.getEnddate() }}</td>
-                            <td>{{ tracker.getFrequency_of_pills() }}</td>
+                            <td>{{ tracker.getNo_of_pills() }} pills / {{ tracker.getFrequency_of_pills() }}</td>
                             <td class="text-nowrap">
                                 <a href="#"><button class="btn custom-btn">View Details</button></a>
                                 <a href="{{ url_for("adminTrackers.editTracker", email=email, id=loop.index - 1) }}"><button class="btn custom-btn">Edit</button></a>

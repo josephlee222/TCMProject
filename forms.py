@@ -298,9 +298,9 @@ class createMedicationForm(Form):
                                 (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('Dosage for medication',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('one times a day', '1 times a day'),
-                                              ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day')])
+                                     choices=[('1 times a day', '1 times a day'),
+                                              ('2 times a day', '2 times a day'),
+                                              ('3 times a day', '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
@@ -329,9 +329,9 @@ class editMedicationForm(Form):
                                  (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('Dosage for medication',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('one times a day', '1 times a day'),
-                                              ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day')])
+                                     choices=[('1 times a day', '1 times a day'),
+                                              ('2 times a day', '2 times a day'),
+                                              ('3 times a day', '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
