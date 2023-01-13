@@ -16,21 +16,20 @@ def addBlog():
 
     if request.method == "POST" and form.validate():
         print("add blog")
-        name = form.name.data
-        description = form.description.data
-        code = form.code.data
-        discount = form.discount.data
-        startDate = form.startDate.data
-        endDate = form.endDate.data
+        title = form.title.data
+        content = form.content.data
 
-        coupon = Coupon(name, code, discount, startDate, endDate, description)
+        blog = blog(title, content)
 
-        with shelve.open("coupons", writeback=True) as coupons:
-            coupons[str(coupon.getId())] = coupon
+        with shelve.open("blog", writeback=True) as blog:
+            blog[str(blog.getId())] = blog
 
-        flash("Successfully created coupon.", category="success")
-        return redirect(url_for("adminCoupons.viewAllCoupons"))
+        flash("Successfully created blog article.", category="success")
+        return redirect(url_for("adminBlog.viewAllBlogs"))
     else:
-        flashFormErrors("Unable to create the coupon", form.errors)
+        flashFormErrors("Unable to create the blog article", form.errors)
 
-    return render_template("admin/shop/addCoupon.html", form=form)
+    return render_template("admin/blog/blogcreation.html", form=form)
+
+
+@adminBlog.route("/admin/blog/")
