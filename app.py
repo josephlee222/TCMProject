@@ -2,6 +2,7 @@ import shelve
 from datetime import time
 
 from flask import Flask, render_template, flash, Blueprint, session, url_for, send_from_directory
+
 from test import test
 from auth import auth
 from adminUsers import adminUsers
@@ -11,6 +12,7 @@ from adminCoupons import adminCoupons
 from adminMedications import adminTrackers
 from tracker import tracker
 from checkout import checkout
+from orderhistory import history
 
 
 app = Flask(__name__)
@@ -26,7 +28,7 @@ app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
 app.register_blueprint(tracker)
 app.register_blueprint(checkout)
-app.register_blueprint(oh)
+app.register_blueprint(history)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')
