@@ -5,7 +5,7 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from werkzeug.utils import secure_filename
 from functions import flashFormErrors, goBack, adminAccess, allowedFile
 from forms import createArticleForm, uploadImageForm
-
+from classes.Form import Form
 
 adminBlog = Blueprint("adminBlog", __name__)
 
