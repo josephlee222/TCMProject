@@ -469,3 +469,58 @@ class createAppointmentForm(Form):
     def validate_date(form, date):
         if form.date.data < datetime.now().date():
             raise ValidationError("Appointment date cannot be in the past")
+# PRODUCT FORMS
+
+class searchProductForm(Form):
+    name = StringField("Search by name", [
+        validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Name is required to search")
+    ])
+
+class addProductForm(Form):
+    name = StringField("Product Name", [
+        validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
+        validators.DataRequired(message="Product name is required")
+    ])
+    price = DecimalField("Product Price",[
+        validators.DataRequired(message="Price must be included"),
+        validators.NumberRange(0,message="Price must be above $0.")
+    ])
+    details = StringField("Product Details", [
+        validators.Length(0, 100, message="Product detail must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    benefits = TextAreaField("Product Benefits", [
+        validators.Length(0, message="Product benefits must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    description = TextAreaField("Product Description", [
+        validators.Length(0, message="Product description must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Add Product")
+
+class editProductForm(Form):
+    name = StringField("Product Name", [
+        validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
+        validators.DataRequired(message="Product name is required")
+    ])
+    price = DecimalField("Product Price",[
+        validators.DataRequired(message="Price must be included"),
+    validators.NumberRange(0, message="Price must be above $0.")
+    ])
+    details = StringField("Product Details", [
+        validators.Length(0, 100, message="Product detail must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    benefits = TextAreaField("Product Benefits", [
+        validators.Length(0, message="Product benefits must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    description = TextAreaField("Product Description", [
+        validators.Length(0, message="Product description must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Edit Product")
