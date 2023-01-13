@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ appointment.getName() }}
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">event</span>
+        <div>
+            <h1>Appointment Details</h1>
+            <h6 class="m-0">{{ appointment.getName() }}</h6>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-12 d-flex">
+                <a href="#" class="me-1"><button type="button" class="btn custom-btn">Edit</button></a>
+                <a href="#"><button type="button" class="btn btn-danger">Delete</button></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="h4 mb-4">Appointment Information</h2>
+                {{ infoBox.infoBox("Appointment Name", appointment.getName()) }}
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{ infoBox.infoBox("Date", appointment.getDate()) }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ infoBox.infoBox("Time", appointment.getTime()) }}
+                    </div>
+                </div>
+                {{ infoBox.infoBox("Additional Notes", appointment.getNotes() if appointment.getNotes() else "N/A") }}
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h4 mb-4">User Information</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{ infoBox.infoBox("Name", appointment.getUser().getName()) }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ infoBox.infoBox("Birthday", appointment.getUser().getBirthday() if appointment.getUser().getBirthday() else "Not Specified") }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{ infoBox.infoBox("E-mail Address", appointment.getUser().getEmail()) }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ infoBox.infoBox("Phone Number", appointment.getUser().getPhone() if appointment.getUser().getPhone() else "Not Specified") }}
+                    </div>
+                </div>
+                <a href="{{ url_for("adminTrackers.viewAllTrackers", email=appointment.getUser().getEmail()) }}"><button type="button" class="btn custom-btn">View Medications</button></a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

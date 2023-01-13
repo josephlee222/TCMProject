@@ -1,5 +1,5 @@
 import shelve
-from datetime import time
+from datetime import time, datetime
 
 from flask import Flask, render_template, flash, Blueprint, session, url_for, send_from_directory
 from test import test
@@ -37,6 +37,7 @@ def home():
 def websiteContextInit():
     return {
         "websiteName": "TCM Shifu",
+        "now": datetime.now().date(),
     }
 
 def initialization():

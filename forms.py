@@ -2,7 +2,7 @@ from datetime import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, DateTimeLocalField
 from functions import allowedFile
 
 
@@ -432,6 +432,43 @@ class editCouponForm(Form):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
 
+
+class searchAppointmentsForm(Form):
+    name = StringField("Search by appointment name", [
+        validators.Length(3, 128, message="Appointment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Appointment name is required to search")
+    ])
+
+
+class createAppointmentForm(Form):
+    name = StringField("Appointment Name", [
+        validators.Length(3, 128, message="Appointment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Appointment name is required")
+    ])
+    userEmail = EmailField("User E-mail Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail Address is required")
+    ])
+    date = DateField("Appointment Date", [
+        validators.DataRequired("Appointment date is required")
+    ])
+    time = TimeField("Appointment Time", [
+        validators.DataRequired("Appointment time is required")
+    ])
+    notes = TextAreaField("Additional Notes", [
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Add Appointment")
+
+    def validate_userEmail(form, userEmail):
+        with shelve.open("users") as users:
+            if form.userEmail.data not in users.keys():
+                raise ValidationError("User with associated e-mail does not exist")
+
+    def validate_date(form, date):
+        if form.date.data < datetime.now().date():
+            raise ValidationError("Appointment date cannot be in the past")
 # PRODUCT FORMS
 
 class searchProductForm(Form):
