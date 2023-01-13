@@ -26,6 +26,7 @@ app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
 app.register_blueprint(tracker)
 app.register_blueprint(checkout)
+app.register_blueprint(oh)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')
