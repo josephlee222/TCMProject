@@ -29,7 +29,7 @@ def addBlog():
     else:
         flashFormErrors("Unable to create the blog article", form.errors)
 
-    return render_template("admin/blog/blogcreation.html", form=form)
+    return render_template("admin/blog/blogcreation.html", form=form, user=user)
 
 
 @adminBlog.route("/admin/blog/")
