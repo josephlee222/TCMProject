@@ -5,14 +5,13 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from werkzeug.utils import secure_filename
 from functions import flashFormErrors, goBack, adminAccess, allowedFile
 from forms import createArticleForm, uploadImageForm
-from classes.Form import Form
 
 adminBlog = Blueprint("adminBlog", __name__)
 
 @adminBlog.route("/admin/blog", methods=['GET', 'POST'])
 @adminAccess
 def addBlog():
-    form = createBlogForm(request.form)
+    form = createArticleForm(request.form)
 
     if request.method == "POST" and form.validate():
         print("add blog")
