@@ -12,7 +12,7 @@ adminBlog = Blueprint("adminBlog", __name__)
 @adminBlog.route("/admin/blog", methods=['GET', 'POST'])
 @adminAccess
 def addBlog():
-    form = createArticleForm(request.form)
+    form = createArticleForm(request.Post)
 
     if request.method == "POST" and form.validate():
         print("add blog")
