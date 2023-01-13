@@ -1,4 +1,6 @@
 import shelve
+
+import data as data
 import stripe
 import json
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, jsonify
