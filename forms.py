@@ -1,9 +1,8 @@
-from datetime import datetime
 import shelve
+from datetime import datetime
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
     SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
-from functions import allowedFile
 
 
 # Put all forms here with a comment describing the form
@@ -83,7 +82,8 @@ class editUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     submit = SubmitField("Edit User")
 
@@ -132,7 +132,8 @@ class addUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     accountType = RadioField("Account Type", choices=[
         ("customer", "Customer Account"),
@@ -293,9 +294,9 @@ class createMedicationForm(Form):
     pills = SelectField('Number of pills per dosage',
                         [validators.DataRequired(message="Pills per dosage of the medication is required")],
                         choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
-                                (3, '3 Tablet(s)'),
-                                (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
-                                (6, '6 Tablet(s)')])
+                                 (3, '3 Tablet(s)'),
+                                 (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                 (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('Dosage for medication',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[('one times a day', '1 times a day'),
@@ -338,7 +339,6 @@ class editMedicationForm(Form):
     submit = SubmitField("Edit Medicine")
 
 
-
 class openingHoursForm(Form):
     opening = TimeField("Opening Hour", [
         validators.DataRequired(message="Opening Hours are required")
@@ -357,12 +357,14 @@ class openingHoursForm(Form):
 
     submit = SubmitField("Edit Hours")
 
+
 # Coupon forms
 class searchCouponsForm(Form):
     name = StringField("Search by coupon name", [
         validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
         validators.DataRequired(message="Coupon name is required to search")
     ])
+
 
 class createCouponForm(Form):
     name = StringField("Coupon Name", [
@@ -399,6 +401,7 @@ class createCouponForm(Form):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
 
+
 class editCouponForm(Form):
     name = StringField("Coupon Name", [
         validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
@@ -434,15 +437,15 @@ class editCouponForm(Form):
 
 
 class CheckoutForm(Form):
-    Cnumber: StringField("Card Number:", [
+    Cnumber= StringField("Card Number:", [
         validators.Length(16, message="Card number must be 16 digits"),
         validators.DataRequired(message="Card number is required for purchase")
     ])
-    CVV: StringField("CVV:", [
+    CVV= StringField("CVV:", [
         validators.Length(3, message="CVV must be 3 digits"),
         validators.DataRequired(message="CVV is required for purchase")
     ])
-    Expiry: StringField("Expiry Date:", [
-        validators.Length(2,3, message="Expiry date must in numerals"),
+    Expiry= StringField("Expiry Date:", [
+        validators.Length(2, 3, message="Expiry date must in numerals"),
         validators.DataRequired(message="Card Expiry Date is required for purchase")
-        ])
+    ])
