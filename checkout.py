@@ -2,7 +2,9 @@ import shelve
 import stripe
 import json
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, jsonify
-from forms import loginUserForm, registerUserForm
+from pyexpat.errors import messages
+
+from forms import loginUserForm, registerUserForm, CheckoutForm
 from functions import flashFormErrors, goBack, unloginAccess, loginAccess
 from classes.User import User
 
@@ -19,21 +21,29 @@ def calculate_order_amount(items):
 @checkout.route('/checkout', methods=['GET', 'POST'])
 @loginAccess
 def payment():
-    try:
-        data = json.loads(request.data)
-        # Create a PaymentIntent with the order amount and currency
-        intent = stripe.PaymentIntent.create(
-            amount=calculate_order_amount(data['items']),
-            currency='sgd',
-            automatic_payment_methods={
-                'enabled': True,
-            },
-        )
-        return jsonify({
-            'clientSecret': intent['client_secret']
-        })
-    except Exception as e:
-        return jsonify(error=str(e)), 403
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            try:
+                customer = stripe.Charge.create(
+                    amount=calculate_order_amount(data['items']),
+                    currency='sgd',
+                    card=form.cleaned_data['stripe_id'],
+                )
+            except (stripe.error.CardError):
+                messages.error(request, "Your card was declined!")
+
+            if customer.paid:
+                messages.success(request, "You have successfully paid")
+                return redirect("")
+            else:
+                messages.error(request, "Unable to take payment")
+        else:
+            messages.error(request, "We were unable to take a payment with that card!")
+
+    else:
+        form = CheckoutForm()
+
 
     return render_template("payment/checkout.html", form=form)
 
