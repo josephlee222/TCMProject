@@ -1,7 +1,6 @@
 import shelve
 import stripe
 import json
-import os
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, jsonify
 from forms import loginUserForm, registerUserForm
 from functions import flashFormErrors, goBack, unloginAccess, loginAccess
@@ -36,6 +35,6 @@ def payment():
     except Exception as e:
         return jsonify(error=str(e)), 403
 
-    return render_template("/payment/checkout.html", form=form)
+    return render_template("payment/checkout.html", form=form)
 
 
