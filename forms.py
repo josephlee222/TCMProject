@@ -449,3 +449,4 @@ class CheckoutForm(Form):
         validators.Length(2, 3, message="Expiry date must in numerals"),
         validators.DataRequired(message="Card Expiry Date is required for purchase")
     ])
+    submit = SubmitField("Pay")
