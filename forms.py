@@ -434,7 +434,7 @@ class editCouponForm(Form):
 
 # Blog Creation Form
 class createArticleForm(Form):
-    name = StringField("Blog Title Input", [
+    title = StringField("Blog Title Input", [
         validators.DataRequired(message = "Blog Title is required.")
     ])
     content = StringField("Content Input", [
@@ -443,6 +443,7 @@ class createArticleForm(Form):
 
     submit = SubmitField("Create Article")
     # need to create "clear all" function
+    # images =
 class uploadPreviewImage(Form):
     articleimage = MultipleFileField("Article Images",[
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")

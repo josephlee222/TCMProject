@@ -6,13 +6,14 @@ from werkzeug.utils import secure_filename
 from functions import flashFormErrors, goBack, adminAccess, allowedFile
 from forms import createArticleForm, uploadPreviewImage
 from classes.Blog import Blog
+from classes.User import User
 
 adminBlog = Blueprint("adminBlog", __name__)
 
 @adminBlog.route("/admin/blog", methods=['GET', 'POST'])
 @adminAccess
 def addBlog():
-    form = createArticleForm(request.Post)
+    form = createArticleForm(request.form)
 
     if request.method == "POST" and form.validate():
         print("add blog")
@@ -29,6 +30,8 @@ def addBlog():
     else:
         flashFormErrors("Unable to create the blog article", form.errors)
 
+    # def __init__(self, name, password, email, accountType, birthday=None, phone=None):
+    user = User("Test User 01","1111","test@gmail.com","ADMIN")
     return render_template("admin/blog/blogcreation.html", form=form, user=user)
 
 

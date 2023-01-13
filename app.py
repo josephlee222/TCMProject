@@ -8,6 +8,7 @@ from adminUsers import adminUsers
 from adminTreatments import adminTreatments
 from adminAppointments import adminAppointments
 from adminCoupons import adminCoupons
+from adminBlog import adminBlog
 from tracker import tracker
 
 
@@ -22,6 +23,7 @@ app.register_blueprint(adminTreatments)
 app.register_blueprint(adminAppointments)
 app.register_blueprint(adminCoupons)
 app.register_blueprint(tracker)
+app.register_blueprint(adminBlog)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')
