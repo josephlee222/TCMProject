@@ -8,4 +8,10 @@ oh = Blueprint("oh", __name__)
 
 @oh.route('/login', methods=['GET', 'POST'])
 @loginAccess
-def
+def order_history(request, username):
+    order_qs = Order.objects.filter(user__username=username)
+
+    context = {
+        'order_qs': order_qs,
+    }
+    return render_template("orderhistory/orderhistory.html.html", form=form)
