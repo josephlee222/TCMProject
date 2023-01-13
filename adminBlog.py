@@ -4,7 +4,7 @@ import shelve
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from werkzeug.utils import secure_filename
 from functions import flashFormErrors, goBack, adminAccess, allowedFile
-from forms import searchTreatmentsForm, createTreatmentForm, editTreatmentForm, uploadImageForm
+from forms import createArticleForm, uploadImageForm
 from classes.Form import Form
 
 adminBlog = Blueprint("adminBlog", __name__)
@@ -32,4 +32,4 @@ def addBlog():
     return render_template("admin/blog/blogcreation.html", form=form, user=user)
 
 
-@adminBlog.route("/admin/blog/")
+
