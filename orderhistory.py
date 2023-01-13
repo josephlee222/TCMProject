@@ -8,7 +8,7 @@ from classes.User import User
 
 oh = Blueprint("oh", __name__)
 
-@oh.route('/login', methods=['GET', 'POST'])
+@oh.route('/history', methods=['GET', 'POST'])
 @loginAccess
 def order_history(request, username):
     order_qs = Order.objects.filter(user__username=username)
