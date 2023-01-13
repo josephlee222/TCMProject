@@ -17,7 +17,7 @@ def calculate_order_amount(items):
     # people from directly manipulating the amount on the client
     return 1400
 
-@checkout.route('/checkout', methods=['POST'])
+@checkout.route('/checkout', methods=['GET', 'POST'])
 @loginAccess
 def payment():
     try:
