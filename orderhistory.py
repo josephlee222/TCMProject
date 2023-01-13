@@ -1,6 +1,5 @@
 import shelve
 
-import Order as Order
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from forms import loginUserForm, registerUserForm
 from functions import flashFormErrors, goBack, unloginAccess, loginAccess
