@@ -3,7 +3,7 @@ import shelve
 
 
 class Product:
-    def __init__(self, name, description, benefits, price, salePrice, onSale, images=[]):
+    def __init__(self, name, description, benefits, details, price, salePrice=0, onSale=0, images=[]):
         # Init class with safe measures
         with shelve.open("counter", writeback=True) as counter:
             if "shop" not in counter:
@@ -20,6 +20,7 @@ class Product:
             self.name = str(name)
             self.description = str(description)
             self.benefits = str(benefits)
+            self.details = str(details)
             self.price = float(price)
             self.salePrice = float(salePrice)
             self.onSale = bool(onSale)
@@ -38,6 +39,9 @@ class Product:
         return self.description
 
     def getBenefits(self):
+        return self.benefits
+
+    def getDetails(self):
         return self.benefits
 
     def getPrice(self):
@@ -60,6 +64,9 @@ class Product:
 
     def setBenefits(self, benefits):
         self.benefits = benefits
+
+    def setDetails(self, details):
+        self.details = details
 
     def setPrice(self, price):
         self.price = float(price)
