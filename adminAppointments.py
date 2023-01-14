@@ -19,7 +19,8 @@ def viewAllAppointments():
         for appointment in appointments:
             if appointments[appointment].getDoctorEmail() == session["user"]["email"]:
                 dict = appointments[appointment].__dict__
-                dict["datetime"] = datetime.combine(dict["date"], dict["time"]).isoformat()
+                dict["startTime"] = datetime.combine(dict["date"], dict["time"]).isoformat()
+                dict["endTime"] = datetime.combine(dict["date"], dict["endTime"]).isoformat()
                 del dict["date"]
                 del dict["time"]
                 userAppointmentsDict.append(dict)
@@ -56,8 +57,9 @@ def addAppointment():
         doctorEmail = session["user"]["email"]
         date = form.date.data
         time = form.time.data
+        endTime = form.endTime.data
         notes = form.notes.data
-        appointment = Appointment(name, userEmail, doctorEmail, date, time, notes)
+        appointment = Appointment(name, userEmail, doctorEmail, date, time, endTime, notes)
 
         with shelve.open("appointments") as appointments:
             appointments[str(appointment.getId())] = appointment
@@ -71,8 +73,61 @@ def addAppointment():
         return render_template("admin/appointments/addAppointment.html", form=form, users=list(users.keys()))
 
 
+@adminAppointments.route("/admin/appointments/edit/<id>", methods=['GET', 'POST'])
+@adminAccess
+def editAppointment(id):
+    form = createAppointmentForm(request.form)
 
-# Admin side medications
+    try:
+        with shelve.open("appointments", writeback=True) as appointments:
+            appointment = appointments[id]
+
+            if request.method == "POST" and form.validate():
+                print("edit appointment")
+                appointment.setName(form.name.data)
+                appointment.setDate(form.date.data)
+                appointment.setUserEmail(form.userEmail.data)
+                appointment.setTime(form.time.data)
+                appointment.setEndTime(form.endTime.data)
+                appointment.setNotes(form.notes.data)
+
+                flash("Successfully edited appointment.", category="success")
+                return redirect(url_for("adminAppointments.viewAppointment", id=id))
+            else:
+                flashFormErrors("Unable to edit the appointment", form.errors)
+
+            #set form fields
+            form.name.data = appointment.getName()
+            form.date.data = appointment.getDate()
+            form.userEmail.data = appointment.getUserEmail()
+            form.time.data = appointment.getTime()
+            form.endTime.data = appointment.getEndTime()
+            form.notes.data = appointment.getNotes()
+
+            with shelve.open("users") as users:
+                return render_template("admin/appointments/editAppointment.html", appointment=appointment, form=form, users=list(users.keys()))
+
+
+
+    except KeyError:
+        flash("Unable to edit appointment: appointment does not exist", category="error")
+        return redirect(url_for("adminAppointments.viewAllAppointments"))
+
+
+@adminAppointments.route("/admin/appointments/delete/<id>")
+@adminAccess
+def deleteAppointment(id):
+    try:
+        with shelve.open("appointments", writeback=True) as appointments:
+            del appointments[id]
+
+        flash("Successfully deleted appointment", category="success")
+    except KeyError:
+        flash("Unable to delete appointment: appointment does not exist", category="error")
+
+    return redirect(url_for("adminAppointments.viewAllAppointments"))
+
+
 
 @adminAppointments.route("/admin/appointments/openinghours", methods=['GET', 'POST'])
 @adminAccess

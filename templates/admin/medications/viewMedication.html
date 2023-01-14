@@ -39,7 +39,7 @@
                     {% for tracker in trackers %}
                         <tr>
                             <td>{{ tracker.getName() }}</td>
-                            <td>{{ tracker.getDate() }} - {{ tracker.getEnddate() }}</td>
+                            <td>{{ tracker.getDate().strftime('%d/%m/%Y') }} - {{ tracker.getEnddate().strftime('%d/%m/%Y') }}</td>
                             <td>{{ tracker.getFrequency_of_pills() }}</td>
                             <td class="text-nowrap">
                                 <a href="#"><button class="btn custom-btn">View Details</button></a>

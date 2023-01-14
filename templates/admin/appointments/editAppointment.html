@@ -12,8 +12,8 @@
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">edit_calendar</span>
         <div>
-            <h1>Create Appointment</h1>
-            <h6 class="m-0">Create a new Appointment</h6>
+            <h1>Edit Appointment</h1>
+            <h6 class="m-0">{{ appointment.getName() }}</h6>
         </div>
     </div>
     <form method="post" enctype="multipart/form-data">
@@ -55,7 +55,7 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                {{ formHelper.renderField(form.submit) }}
+                {{ formHelper.renderField(form.submit, value="Edit Appointment") }}
             </div>
         </div>
     </form>
