@@ -1,16 +1,17 @@
 import shelve
 from datetime import time, datetime
 
-from flask import Flask, render_template, flash, Blueprint, session, url_for, send_from_directory
-from test import test
-from auth import auth
-from adminUsers import adminUsers
-from adminTreatments import adminTreatments
-from adminAppointments import adminAppointments
-from adminCoupons import adminCoupons
-from adminMedications import adminTrackers
-from tracker import tracker
-from adminProducts import adminProducts
+from flask import Flask, render_template, session, url_for
+from routes.test import test
+from routes.auth import auth
+from routes.adminUsers import adminUsers
+from routes.adminTreatments import adminTreatments
+from routes.adminAppointments import adminAppointments
+from routes.adminCoupons import adminCoupons
+from routes.adminMedications import adminTrackers
+from routes.tracker import tracker
+from routes.adminProducts import adminProducts
+from routes.profile import profile
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
@@ -25,6 +26,7 @@ app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
 app.register_blueprint(tracker)
 app.register_blueprint(adminProducts)
+app.register_blueprint(profile)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')

@@ -69,18 +69,18 @@ nav p, .card p, .card h5 {
 }
 
 .list-group {
-    border-radius: 0px;
+    border-radius: 4px;
 }
 
 .list-group .list-group-item {
-    background-color: var(--primary-light-colour);
+    background-color: var(--primary-colour);
     color: var(--text-colour-primary);
     border: 3px solid rgba(0, 0, 0, .125);
 }
 
 .list-group .list-group-item.active {
-    color: var(--primary-colour);
-    border-color: var(--secondary-colour-dark);
+    color: var(--secondary-colour);
+    border-color: var(--secondary-colour);
     border-width: 3px;
     font-weight: 700;
 }
@@ -91,13 +91,8 @@ nav p, .card p, .card h5 {
     margin: 0;
 }
 
-.card.white p,
-.card.white h1,
-.card.white h5,
-.card.white h6,
-.card.white small,
-.card.white .card-header {
-    color: var(--primary-colour);
+.card.white *:not(.btn) {
+    color: var(--text-colour-background);
 }
 
 .card-title,
