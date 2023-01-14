@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
         events.push({
             title: item.name,
             description: item.notes,
-            start: item.datetime,
+            start: item.startTime,
+            end: item.endTime,
             url: "/admin/appointments/details/" + item.id
         })
     }
@@ -22,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
     appointments.forEach(makeEvents)
     console.log(events)
     var calendar = new FullCalendar.Calendar(appointmentCalendar, {
-        initialView: 'listWeek',
+        initialView: 'timeGridDay',
+        nowIndicator: true,
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',

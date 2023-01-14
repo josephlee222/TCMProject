@@ -448,12 +448,17 @@ class createAppointmentForm(Form):
     userEmail = EmailField("User E-mail Address", [
         validators.Email(granular_message=True),
         validators.DataRequired(message="E-mail Address is required")
-    ])
+    ], render_kw={
+        "autocomplete": "off"
+    })
     date = DateField("Appointment Date", [
         validators.DataRequired("Appointment date is required")
     ])
-    time = TimeField("Appointment Time", [
-        validators.DataRequired("Appointment time is required")
+    time = TimeField("Start Time", [
+        validators.DataRequired("Appointment start time is required")
+    ])
+    endTime = TimeField("End Time", [
+        validators.DataRequired("Appointment end time is required")
     ])
     notes = TextAreaField("Additional Notes", [
         validators.Optional()
@@ -469,6 +474,21 @@ class createAppointmentForm(Form):
     def validate_date(form, date):
         if form.date.data < datetime.now().date():
             raise ValidationError("Appointment date cannot be in the past")
+
+    def validate_time(form, time):
+        with shelve.open("data", writeback=True) as data:
+            if form.time.data < data["opening"] or form.time.data > data["closing"]:
+                raise ValidationError("Appointment start time cannot be set outside of operating hours.")
+
+            if form.time.data >= form.endTime.data:
+                raise ValidationError("Appointment start time cannot exceed end time.")
+
+    def validate_endTime(form, endTime):
+        with shelve.open("data", writeback=True) as data:
+            if form.time.data < data["opening"] or form.time.data > data["closing"]:
+                raise ValidationError("Appointment end time cannot be set outside of operating hours.")
+
+
 # PRODUCT FORMS
 
 class searchProductForm(Form):
