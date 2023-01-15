@@ -14,44 +14,34 @@
         <h3>Total: </h3>
         <h3>TO DO ADD SOMETHING HERE</h3>
     </div>
-    <style>
-        .vertical {
-            border-left: 6px solid black;
-            height: 200px;
-            position: absolute;
-            left: 50%;
-        }
-    </style>
-    <div class="">
+    <div class="pay">
+    <form method="post">
         <h2 class="bold" style="font-weight: bold">Payment Details</h2>
-        <h4>First Name: </h4> <h4>Last Name: </h4>
-        <input type="text" placeholder="Eg. John"> <input type="text" placeholder="Eg. Doe">
         <div class="mb-3">
-            {{ formHelper.renderField(form.cardnumber) }}
+            <div>
+            {{ formHelper.renderField(form.fname) }}
+            </div>
+            <div>
+            {{ formHelper.renderField(form.sname) }}
+            </div>
         </div>
-        <div class="mb-3">
-            {{ formHelper.renderField(form.cvv) }}
-        </div>
-        <div class="mb-3">
-            {{ formHelper.renderField(form.expiry) }}
-        </div>
-        <h4>Shipping Address: </h4>
-        <select name="area" style="width: 178px">
-            <option value="" placeholder="Choose" required>Choose</option>
-            <option value="Home">Home</option>
-            <option value="Office">Office</option>
-            <option value="Parent's Home">Parent's Home</option>
-            <option value="Grandparent's Home">Grandparent's Home</option>
-        </select>
-        <br>
-        <br>
-        <input height="30" type="text" size="40" placeholder="Enter Address">
-        <h4>Voucher: </h4>
-        <input type="text" placeholder="Eg. NEWUSER">
-        <br>
-        <br>
-        <form method="post">
+            <div class="mb-3">
+                {{ formHelper.renderField(form.Cardnumber) }}
+            </div>
+            <div class="mb-3">
+                {{ formHelper.renderField(form.cvv) }}
+            </div>
+            <div class="mb-3">
+                {{ formHelper.renderField(form.expiry) }}
+            </div>
+            <div class="mb-3">
+                {{ formHelper.renderField(form.shipping) }}
+                {{ formHelper.renderField(form.address) }}
+            </div>
+            <div class="mb-3">
+                {{ formHelper.renderField(form.voucher) }}
+            </div>
             {{ formHelper.renderField(form.submit) }}
-        </form>
+    </form>
     </div>
 {% endblock %}

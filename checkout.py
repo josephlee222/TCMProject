@@ -1,8 +1,11 @@
+import shelve
+
 import data as data
 import stripe
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, url_for
 from pyexpat.errors import messages
 
+import payment
 from forms import CheckoutForm
 from functions import loginAccess
 
@@ -21,13 +24,19 @@ def calculate_order_amount(items):
 @loginAccess
 def payment():
     if request.method == 'POST':
-        form = CheckoutForm(request.POST)
-        if form.is_valid():
+        form = CheckoutForm(request.form)
+        if request.method == "POST" and form.validate():
+            payment_dict = {}
+            db = shelve.open('payment.db', 'c')
+            try:
+                payment_dict = db['Payment']
+            except:
+                print("Error in retrieving Payment from user.db.")
             try:
                 customer = stripe.Charge.create(
-                    amount=calculate_order_amount(data['items']),
+                    # amount=calculate_order_amount(data['items']),
                     currency='sgd',
-                    card=form.cleaned_data['stripe_id'],
+                    # card=form.cleaned_data['stripe_id'],
                 )
             except (stripe.error.CardError):
                 messages.error(request, "Your card was declined!")
@@ -37,9 +46,37 @@ def payment():
                 return redirect("")
             else:
                 messages.error(request, "Unable to take payment")
-        else:
-            messages.error(request, "We were unable to take a payment with that card!")
     else:
         form = CheckoutForm()
 
     return render_template("payment/checkout.html", form=form)
+
+def create_payment():
+    create_payment_form = CheckoutForm(request.form)
+    if request.method == 'POST' and create_payment_form.validate():
+        payment_dict = {}
+        db = shelve.open('payment.db', 'c')
+        try:
+            payment_dict = db['Payment']
+        except:
+            print("Error in retrieving Payment from user.db.")
+
+        detail = payment.payment(create_payment_form.fname.data, create_payment_form.sname.data,
+                                 create_payment_form.Cardnumber.data, create_payment_form.cvv.data,
+                                 create_payment_form.expiry.data,
+                                 create_payment_form.shipping.data, create_payment_form.voucher.data)
+        payment_dict[detail.get_user_id()] = detail
+        db['Users'] = payment_dict
+
+        payment_dict = db['Payment']
+        detail = payment_dict[detail.get_user_id()]
+        print(detail.get_first_name(), detail.get_last_name(), "was stored in user.db successfully with user_id ==",
+              detail.get_user_id())
+        db.close()
+
+        return redirect(url_for('home'))
+    return render_template('payment/checkout.html', form=create_payment_form)
+
+
+
+# @checkout.route('/pay', methods=['GET', 'POST'])

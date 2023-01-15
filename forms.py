@@ -437,6 +437,14 @@ class editCouponForm(Form):
 
 
 class CheckoutForm(Form):
+    fname = StringField("First name:", [
+        validators.Length(3, 64, message="First Name must be between 3 to 64 characters"),
+
+    ])
+    sname = StringField("Second name:", [
+        validators.Length(3, 64, message="Last Name must be between 3 to 64 characters"),
+
+    ])
     Cardnumber = StringField("Card Number:", [
         validators.Length(16, message="Card number must be 16 digits"),
         validators.DataRequired(message="Card number is required for purchase")
@@ -445,9 +453,19 @@ class CheckoutForm(Form):
         validators.Length(3, message="CVV must be 3 digits"),
         validators.DataRequired(message="CVV is required for purchase")
     ])
-    expiry = StringField("Expiry Date:", [
-        validators.Length(2, 3, message="Expiry date must in numerals"),
+    expiry = StringField("Expiry Date", [
+        validators.Length(6, message="Expiry date must in numerals"),
         validators.DataRequired(message="Card Expiry Date is required for purchase")
+    ])
+    shipping = StringField("Shipping address:", [
+        validators.Length(3, 64, message="Please enter address to send items to"),
+        validators.DataRequired(message="Address is needed to deliver the items")
+    ])
+    address = RadioField("Address", choices=[("H", "Home"), ("O", "Office"), ("P", "Parent's Home"), ("G", "Grandparent's Home")], default='H',
+        validators=[
+        validators.DataRequired("Address is required")
+    ])
+    voucher = StringField("Voucher:", [
     ])
 
     submit = SubmitField("Pay")
