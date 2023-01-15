@@ -15,7 +15,7 @@ def viewProfile():
         user = users[session["user"]["email"]]
         appointmentArray = []
         for id, appointment in appointments.items():
-            if appointment.getUserEmail() == session["user"]["email"]:
+            if appointment.getUserEmail() == session["user"]["email"] and appointment.getDate() > datetime.now().date():
                 appointmentArray.append(appointment)
 
-        return render_template("profile/viewProfile.html", user=user, appointments=appointmentArray)
+    return render_template("profile/viewProfile.html", user=user, appointments=appointmentArray)
