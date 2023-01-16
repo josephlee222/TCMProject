@@ -20,13 +20,14 @@ def addBlog():
         title = form.title.data
         content = form.content.data
 
-        blog = blog(title, content)
+        b = Blog(title, content)
 
-        with shelve.open("blog", writeback=True) as blog:
-            blog[str(blog.getId())] = blog
+        with shelve.open("Blog", writeback=True) as db:
+
+            db[str(b.getId())] = b
 
         flash("Successfully created blog article.", category="success")
-        return redirect(url_for("adminBlog.createNewArticle"))
+        return redirect(url_for("adminBlog.addBlog"))
     else:
         flashFormErrors("Unable to create the blog article", form.errors)
 
@@ -34,5 +35,8 @@ def addBlog():
     user = User("Test User 01","1111","test@gmail.com","ADMIN")
     return render_template("admin/blog/blogcreation.html", form=form, user=user)
 
-
-
+@adminBlog.route("/admin/blog/view")
+@adminAccess
+def viewAllBlogs()
+# TODO: add new forms.py funct to view blogs
+# TODO: create new html file to view the blogs
