@@ -28,7 +28,7 @@
         <div class="col-lg-9">
             <div class="d-flex align-items-center mb-4">
                 <h2 class="h4 flex-grow-1 m-0">Profile Information</h2>
-                <a href="#"><button class="btn custom-btn">Edit Profile</button></a>
+                <a href="{{ url_for("profile.editProfile") }}"><button class="btn custom-btn">Edit Profile</button></a>
             </div>
             <div class="row mb-4">
                 <div class="col-md-4">
@@ -55,7 +55,7 @@
                             <span class="fw-bold ms-3 me-1">Time:</span>{{ appointments[0].getTime().strftime("%I:%M %p") }} - {{ appointments[0].getEndTime().strftime("%I:%M %p") }}
                         </div>
                         <div class="d-flex">
-                            <a href="#" class="me-1"><button class="btn custom-btn">Add to Calendar</button></a>
+                            <a href="{{ url_for("profile.exportCalendar", id=appointments[0].getId()) }}" class="me-1"><button class="btn custom-btn">Add to Calendar</button></a>
                             <a href="#"><button class="btn btn-danger">Cancel Appointment</button></a>
                         </div>
                     </div>

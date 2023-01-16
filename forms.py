@@ -92,6 +92,26 @@ class editUserForm(Form):
             raise ValidationError("Invalid birthday, date cannot be in the future")
 
 
+class editProfileForm(Form):
+    name = StringField("Account Name", [
+        validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Name is required")
+    ])
+    birthday = DateField("Birthday", [
+        validators.Optional()
+    ])
+    phone = StringField("Phone Number", [
+        validators.Optional(),
+        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+    ])
+
+    submit = SubmitField("Update Profile")
+
+    def validate_birthday(form, birthday):
+        if form.birthday.data > datetime.now().date():
+            raise ValidationError("Invalid birthday, date cannot be in the future")
+
+
 class changeUserPasswordForm(Form):
     password = PasswordField("Password", [
         validators.Length(8, 64, message="New password must be between 8 to 64 characters"),
