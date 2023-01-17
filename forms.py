@@ -432,9 +432,10 @@ class editCouponForm(Form):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
 
-# Blog Creation Form
+# ADMIN BLOG FORMS
 class createArticleForm(Form):
     title = StringField("Blog Title Input", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
         validators.DataRequired(message = "Blog Title is required.")
     ])
     content = StringField("Content Input", [
@@ -451,3 +452,19 @@ class uploadPreviewImage(Form):
     ])
 
     submit = SubmitField("Insert Image")
+
+class searchBlogForm(Form):
+    name = StringField("Search by name", [
+        validators.Length(3, 64, message="Blog name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Blog name is required to search")
+    ])
+
+class editBlogForm(Form):
+    title = StringField("Blog Title Input", [
+        validators.DataRequired(message="Blog Title is required.")
+    ])
+    content = StringField("Content Input", [
+        validators.DataRequired(message="Content is required.")
+    ])
+    submit = SubmitField("Edit Blog")
+#how to update a previously existing blog using this function?

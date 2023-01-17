@@ -10,7 +10,7 @@ from classes.User import User
 
 adminBlog = Blueprint("adminBlog", __name__)
 
-@adminBlog.route("/admin/blog", methods=['GET', 'POST'])
+@adminBlog.route("/admin/blog/createblog", methods=['GET', 'POST'])
 @adminAccess
 def addBlog():
     form = createArticleForm(request.form)
@@ -35,8 +35,8 @@ def addBlog():
     user = User("Test User 01","1111","test@gmail.com","ADMIN")
     return render_template("admin/blog/blogcreation.html", form=form, user=user)
 
-@adminBlog.route("/admin/blog/view")
-@adminAccess
-def viewAllBlogs()
+# @adminBlog.route("/admin/blog/view")
+# @adminAccess
+# def viewAllBlogs():
 # TODO: add new forms.py funct to view blogs
 # TODO: create new html file to view the blogs
