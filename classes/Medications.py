@@ -6,12 +6,12 @@ from datetime import datetime, timedelta
 class Medication:
     def __init__(self, name, description, duration_of_medication, no_of_pills, frequency_of_pills, notes):
 
-        with shelve.open("tracker_count", writeback=True) as tracker_count:
-            if "tracking_id" not in tracker_count:
+        with shelve.open("counter", writeback=True) as counter:
+            if "medications" not in counter:
                 id = 1
             else:
-                id = tracker_count["tracking_id"] + 1
-            tracker_count["tracking_id"] = id
+                id = counter["medications"] + 1
+            counter["medications"] = id
 
         try:
             self.id = id

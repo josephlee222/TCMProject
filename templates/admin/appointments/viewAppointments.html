@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Appointments{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">event</span>
+        <div>
+            <h1>My Appointments</h1>
+            <h6 class="m-0">View and manage your upcoming appointments</h6>
+        </div>
+    </div>
+    <a href="{{ url_for("adminAppointments.addAppointment") }}">
+        <button class="btn custom-btn mb-3">Create New Appointment</button>
+    </a>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <div id="calendar" style="max-height: 750px">
+                <!-- Calendar renders here -->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Appointment?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Treatment? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    var appointments = {{ appointmentsDict|tojson }}
+</script>
+<script src="{{ url_for('static', filename='js/viewAppointments.js') }}"></script>
+{% endblock %}

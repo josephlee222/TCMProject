@@ -2,7 +2,7 @@ from datetime import datetime
 import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, DateTimeLocalField
 from functions import allowedFile
 
 
@@ -86,6 +86,26 @@ class editUserForm(Form):
         validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     submit = SubmitField("Edit User")
+
+    def validate_birthday(form, birthday):
+        if form.birthday.data > datetime.now().date():
+            raise ValidationError("Invalid birthday, date cannot be in the future")
+
+
+class editProfileForm(Form):
+    name = StringField("Account Name", [
+        validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Name is required")
+    ])
+    birthday = DateField("Birthday", [
+        validators.Optional()
+    ])
+    phone = StringField("Phone Number", [
+        validators.Optional(),
+        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+    ])
+
+    submit = SubmitField("Update Profile")
 
     def validate_birthday(form, birthday):
         if form.birthday.data > datetime.now().date():
@@ -431,3 +451,116 @@ class editCouponForm(Form):
     def validate_endDate(form, endDate):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
+
+
+class searchAppointmentsForm(Form):
+    name = StringField("Search by appointment name", [
+        validators.Length(3, 128, message="Appointment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Appointment name is required to search")
+    ])
+
+
+class createAppointmentForm(Form):
+    name = StringField("Appointment Name", [
+        validators.Length(3, 128, message="Appointment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Appointment name is required")
+    ])
+    userEmail = EmailField("User E-mail Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail Address is required")
+    ], render_kw={
+        "autocomplete": "off"
+    })
+    date = DateField("Appointment Date", [
+        validators.DataRequired("Appointment date is required")
+    ])
+    time = TimeField("Start Time", [
+        validators.DataRequired("Appointment start time is required")
+    ])
+    endTime = TimeField("End Time", [
+        validators.DataRequired("Appointment end time is required")
+    ])
+    notes = TextAreaField("Additional Notes", [
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Add Appointment")
+
+    def validate_userEmail(form, userEmail):
+        with shelve.open("users") as users:
+            if form.userEmail.data not in users.keys():
+                raise ValidationError("User with associated e-mail does not exist")
+
+    def validate_date(form, date):
+        if form.date.data < datetime.now().date():
+            raise ValidationError("Appointment date cannot be in the past")
+
+    def validate_time(form, time):
+        with shelve.open("data", writeback=True) as data:
+            if form.time.data < data["opening"] or form.time.data > data["closing"]:
+                raise ValidationError("Appointment start time cannot be set outside of operating hours.")
+
+            if form.time.data >= form.endTime.data:
+                raise ValidationError("Appointment start time cannot exceed end time.")
+
+    def validate_endTime(form, endTime):
+        with shelve.open("data", writeback=True) as data:
+            if form.time.data < data["opening"] or form.time.data > data["closing"]:
+                raise ValidationError("Appointment end time cannot be set outside of operating hours.")
+
+
+# PRODUCT FORMS
+
+class searchProductForm(Form):
+    name = StringField("Search by name", [
+        validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Name is required to search")
+    ])
+
+class addProductForm(Form):
+    name = StringField("Product Name", [
+        validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
+        validators.DataRequired(message="Product name is required")
+    ])
+    price = DecimalField("Product Price",[
+        validators.DataRequired(message="Price must be included"),
+        validators.NumberRange(0,message="Price must be above $0.")
+    ])
+    details = StringField("Product Details", [
+        validators.Length(0, 100, message="Product detail must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    benefits = TextAreaField("Product Benefits", [
+        validators.Length(0, message="Product benefits must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    description = TextAreaField("Product Description", [
+        validators.Length(0, message="Product description must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Add Product")
+
+class editProductForm(Form):
+    name = StringField("Product Name", [
+        validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
+        validators.DataRequired(message="Product name is required")
+    ])
+    price = DecimalField("Product Price",[
+        validators.DataRequired(message="Price must be included"),
+    validators.NumberRange(0, message="Price must be above $0.")
+    ])
+    details = StringField("Product Details", [
+        validators.Length(0, 100, message="Product detail must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    benefits = TextAreaField("Product Benefits", [
+        validators.Length(0, message="Product benefits must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+    description = TextAreaField("Product Description", [
+        validators.Length(0, message="Product description must be between 3 to 100 characters"),
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Edit Product")

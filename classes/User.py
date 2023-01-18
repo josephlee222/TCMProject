@@ -49,7 +49,7 @@ class User:
     def setAccountType(self, admin):
         self.accountType = admin
 
-    def setbirthday(self, birthday):
+    def setBirthday(self, birthday):
         self.birthday = birthday
 
     def setPhone(self, phone):
