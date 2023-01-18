@@ -13,7 +13,7 @@
         <span class="material-icons me-3" style="font-size: 60px">face</span>
         <div>
             <h1>My Profile</h1>
-            <h6 class="m-0">{{ user.getEmail() }}</h6>
+            <h6 class="m-0">{{ session["user"]["email"] }}</h6>
         </div>
     </div>
     <div class="row">
@@ -21,7 +21,7 @@
             <div class="list-group">
                 <a href="{{ url_for("profile.viewProfile") }}" class="list-group-item list-group-item-action active" aria-current="true">Profile</a>
                 <a href="#" class="list-group-item list-group-item-action">Medications</a>
-                <a href="#" class="list-group-item list-group-item-action">Appointments</a>
+                <a href="{{ url_for("profile.viewAppointments") }}" class="list-group-item list-group-item-action">Appointments</a>
                 <a href="#" class="list-group-item list-group-item-action">Order History</a>
             </div>
         </div>

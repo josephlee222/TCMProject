@@ -8,7 +8,7 @@ from classes.User import User
 
 profile = Blueprint("profile", __name__)
 
-@profile.route('/profile', methods=['GET', 'POST'])
+@profile.route('/profile')
 @loginAccess
 def viewProfile():
     session["previous_url"] = url_for("profile.viewProfile")
@@ -46,9 +46,78 @@ def editProfile():
         return render_template("profile/editProfile.html", form=form, user=user)
 
 
+@profile.route('/profile/appointments/')
+@loginAccess
+def viewAppointments():
+    with shelve.open("appointments") as appointments:
+        appointmentArray = []
+        for id, appointment in appointments.items():
+            if appointment.getUserEmail() == session["user"]["email"] and appointment.getDate() > datetime.now().date():
+                appointmentArray.append(appointment)
+
+    return render_template("profile/viewAppointments.html", appointments=appointmentArray)
 
 
-@profile.route('/profile/appointments/export/<id>', methods=['GET', 'POST'])
+@profile.route('/profile/appointments/delete/<id>')
+@loginAccess
+def cancelAppointment(id):
+    try:
+        with shelve.open("appointments", writeback=True) as appointments:
+            if appointments[id].getUser().getEmail() == session["user"]["email"]:
+                del appointments[id]
+
+                flash("The appointment has been cancelled", category="success")
+                return redirect(url_for("profile.viewProfile"))
+            else:
+                flash("Unable to cancel the appointment.", category="error")
+                return redirect(url_for("profile.viewProfile"), code=401)
+    except KeyError:
+        flash("Unable to cancel your appointment, appointment does not exist.", category="error")
+        return redirect(url_for("profile.viewProfile"), code=404)
+
+
+
+@profile.route('/profile/appointments/export/')
+@loginAccess
+def exportAllCalendar():
+    with shelve.open("appointments") as appointments:
+        appointmentArray = []
+        for id, appointment in appointments.items():
+            if appointment.getUserEmail() == session["user"]["email"] and appointment.getDate() > datetime.now().date():
+                appointmentArray.append(appointment)
+
+        if len(appointmentArray) != 0:
+            cal = Calendar()
+            cal.add('prodid', '-//My calendar product//example.com//')
+            cal.add('version', '2.0')
+            for appointment in appointmentArray:
+                event = Event()
+
+                event.add("summary", appointment.getName() + " with " + appointment.getDoctor().getName())
+                event.add("description", appointment.getNotes())
+                event.add("dtstart", datetime.combine(appointment.getDate(), appointment.getTime()))
+                event.add("dtend", datetime.combine(appointment.getDate(), appointment.getEndTime()))
+
+                organizer = vCalAddress("MAILTO:" + appointment.getDoctor().getEmail())
+                organizer.params['name'] = vText(appointment.getDoctor().getName())
+                organizer.params['role'] = vText('TCM Doctor')
+                event["organizer"] = organizer
+
+                attendee = vCalAddress('MAILTO:' + appointment.getUser().getEmail())
+                attendee.params['name'] = vText(appointment.getUser().getName())
+                attendee.params['role'] = vText('Patient')
+                event.add('attendee', attendee, encode=0)
+
+                cal.add_component(event)
+
+            return Response(cal.to_ical(), mimetype="text/calendar",
+                            headers={"Content-disposition": "attachment; filename=appointment.ics"})
+        else:
+            flash("Unable to export calendar, No appointments available to export with this account.", category="error")
+            return redirect(url_for("profile.viewProfile"), code=404)
+
+
+@profile.route('/profile/appointments/export/<id>')
 @loginAccess
 def exportCalendar(id):
     try:
@@ -85,5 +154,5 @@ def exportCalendar(id):
                 flash("Unable to export event, appointment is not assigned to your account", category="error")
                 return redirect(url_for("profile.viewProfile"), code=401)
     except KeyError:
-        flash("Unable to export calendar, appointment does not exist.")
+        flash("Unable to export calendar, appointment does not exist.", category="error")
         return redirect(url_for("profile.viewProfile"), code=404)

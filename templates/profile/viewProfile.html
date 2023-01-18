@@ -13,7 +13,7 @@
         <span class="material-icons me-3" style="font-size: 60px">face</span>
         <div>
             <h1>My Profile</h1>
-            <h6 class="m-0">{{ user.getEmail() }}</h6>
+            <h6 class="m-0">{{ session["user"]["email"] }}</h6>
         </div>
     </div>
     <div class="row">
@@ -21,7 +21,7 @@
             <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Profile</a>
                 <a href="#" class="list-group-item list-group-item-action">Medications</a>
-                <a href="#" class="list-group-item list-group-item-action">Appointments</a>
+                <a href="{{ url_for("profile.viewAppointments") }}" class="list-group-item list-group-item-action">Appointments</a>
                 <a href="#" class="list-group-item list-group-item-action">Order History</a>
             </div>
         </div>
@@ -44,19 +44,28 @@
             </div>
             <div class="d-flex align-items-center mb-4">
                 <h2 class="h4 flex-grow-1 m-0">Upcoming Appointment</h2>
-                <a href="#"><button class="btn custom-btn">View All</button></a>
+                <a href="{{ url_for("profile.viewAppointments") }}"><button class="btn custom-btn">View All</button></a>
             </div>
             {% if appointments|length > 0 %}
                 <div class="card white">
                     <div class="card-body">
-                        <h5 class="card-title">{{ appointments[0].getName() }} with {{ appointments[0].getDoctor().getName() }}</h5>
-                        <div class="d-flex mb-4">
-                            <span class="fw-bold me-1">Date:</span>{{ appointments[0].getDate().strftime('%d/%m/%Y') }}
-                            <span class="fw-bold ms-3 me-1">Time:</span>{{ appointments[0].getTime().strftime("%I:%M %p") }} - {{ appointments[0].getEndTime().strftime("%I:%M %p") }}
+                        <h5 class="card-title mb-3">{{ appointments[0].getName() }} with {{ appointments[0].getDoctor().getName() }}</h5>
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                {{ infoBox.infoBox("Date", appointments[0].getDate().strftime('%d/%m/%Y')) }}
+                            </div>
+                            <div class="col-12 col-md-4">
+                                {{ infoBox.infoBox("Time", appointments[0].getTime().strftime("%I:%M %p") + " - " + appointments[0].getEndTime().strftime("%I:%M %p")) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                {{ infoBox.infoBox("Notes", appointments[0].getNotes() if appointments[0].getNotes() else "No additional notes") }}
+                            </div>
                         </div>
                         <div class="d-flex">
                             <a href="{{ url_for("profile.exportCalendar", id=appointments[0].getId()) }}" class="me-1"><button class="btn custom-btn">Add to Calendar</button></a>
-                            <a href="#"><button class="btn btn-danger">Cancel Appointment</button></a>
+                            <a onclick="showDeleteModal('{{ appointments[0].getName() }}', '{{ url_for("profile.cancelAppointment", id=appointments[0].getId()) }}')"><button class="btn btn-danger">Cancel Appointment</button></a>
                         </div>
                     </div>
                 </div>
@@ -69,4 +78,24 @@
             {% endif %}
         </div>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Cancel Appointment?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Treatment? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Yes</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewProfile.js') }}"></script>
 {% endblock %}
