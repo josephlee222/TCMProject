@@ -39,7 +39,7 @@ def editUser(email):
                 user = User(name, password, email, accountType)
 
                 if birthday != "":
-                    user.setbirthday(birthday)
+                    user.setBirthday(birthday)
 
                 if phone != "":
                     user.setPhone(phone)
@@ -214,7 +214,7 @@ def addUser():
         user = User(name, password, email, accountType)
 
         if birthday != "":
-            user.setbirthday(birthday)
+            user.setBirthday(birthday)
 
         if phone != "":
             user.setPhone(phone)
