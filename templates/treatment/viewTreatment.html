@@ -2,6 +2,7 @@
 {% block title %}
     {{ treatment.getName() }}
 {% endblock %}
+{% block description %}View TCM treatment {{ treatment.getName() }} on TCM Shifu!{% endblock %}
 {% block nav %}
     {% include "includes/normalNavControls.html" %}
 {% endblock %}
@@ -77,7 +78,7 @@
                             <button class="btn custom-btn w-100">Book Now</button>
                         </a>
                         <a href="#">
-                            <button class="btn custom-btn w-100">Wishlist</button>
+                            <button class="btn custom-btn w-100">Add to Wishlist</button>
                         </a>
                     </div>
                 </div>
@@ -87,13 +88,13 @@
     <div class="row mb-3">
         <div class="col-12">
             <h3>Treatment Description</h3>
-            <p>{{ treatment.getDescription() }}</p>
+            <p>{{ treatment.getConvertedDescription()|safe }}</p>
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-12">
             <h3>Treatment Benefits</h3>
-            <p>{{ treatment.getBenefits() }}</p>
+            <p>{{ treatment.getConvertedBenefits()|safe }}</p>
         </div>
     </div>
 {% endblock %}

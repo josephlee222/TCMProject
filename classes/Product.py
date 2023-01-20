@@ -1,5 +1,6 @@
 import itertools
 import shelve
+from marko import convert
 
 
 class Product:
@@ -38,8 +39,14 @@ class Product:
     def getDescription(self):
         return self.description
 
+    def getConvertedDescription(self):
+        return convert(self.description)
+
     def getBenefits(self):
         return self.benefits
+
+    def getConvertedBenefits(self):
+        return convert(self.benefits)
 
     def getDetails(self):
         return self.details
