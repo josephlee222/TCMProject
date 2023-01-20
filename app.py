@@ -12,6 +12,7 @@ from routes.adminMedications import adminTrackers
 from routes.tracker import tracker
 from routes.adminProducts import adminProducts
 from routes.profile import profile
+from routes.treatments import treatments
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
@@ -27,6 +28,7 @@ app.register_blueprint(adminTrackers)
 app.register_blueprint(tracker)
 app.register_blueprint(adminProducts)
 app.register_blueprint(profile)
+app.register_blueprint(treatments)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')
