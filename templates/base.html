@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - {{ websiteName }}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="keywords" content="TCM, Traditional Chinese Medicine, clinic, treatments, medicine products, educational blog">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

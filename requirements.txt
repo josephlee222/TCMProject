@@ -16,3 +16,4 @@ WTForms==3.0.1
 zipp==3.11.0
 geopy~=2.3.0
 icalendar~=5.0.3
+marko~=1.2.2
