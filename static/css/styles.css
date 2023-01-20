@@ -10,7 +10,7 @@ Navbar, card, etc...: var(--primary-colour)
 
 /*--- Universal Styles ---*/
 @import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700&display=swap');
 :root {
     --primary-colour: #74A12E;
     --primary-dark-colour: #447200;
@@ -27,7 +27,7 @@ Navbar, card, etc...: var(--primary-colour)
 }
 
 * {
-    font-family: 'RocknRoll One', sans-serif;
+    font-family: 'Archivo', sans-serif;
 }
 
 body {
@@ -91,7 +91,7 @@ nav p, .card p, .card h5 {
     margin: 0;
 }
 
-.card.white *:not(.btn) {
+.card.white *:not(.btn):not(.badge) {
     color: var(--text-colour-background);
 }
 
@@ -309,6 +309,17 @@ footer hr {
 .autocomplete-active {
     background-color: DodgerBlue !important;
     color: #ffffff;
+}
+
+.carousel-item img {
+    border-radius: 4px;
+    height: 500px;
+    object-fit: cover;
+}
+
+.carousel.product-carousel{
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
 }
 
 @media screen and (max-width:767px) { .fc-toolbar.fc-header-toolbar {font-size: 50%}}
