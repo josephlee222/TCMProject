@@ -7,7 +7,7 @@ medications = Blueprint("medications", __name__)
 
 import shelve
 from icalendar import Calendar, Event, vCalAddress, vText
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, Response
 from forms import editProfileForm
 from functions import flashFormErrors, goBack, loginAccess
@@ -29,7 +29,7 @@ def viewProfile(email):
             flash("No medication currently'")
 
         for tracker in trackers:
-            date = datetime
+            date = date.today()
             list = []
             for i in range(tracker.getDuration_of_medication()):
                 list.append(tracker.getdate() + timedelta(days=int(i)))
