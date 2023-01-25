@@ -234,7 +234,8 @@ a.white:hover {
 }
 
 .main-splash {
-    background-color: var(--primary-colour);
+    background-image: url("/static/img/main_background.png");
+    background-size: cover;
     height: 500px;
 }
 
@@ -320,6 +321,10 @@ footer hr {
 .carousel.product-carousel{
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
     border-radius: 4px;
+}
+
+cart-img {
+    object-fit: contain;
 }
 
 @media screen and (max-width:767px) { .fc-toolbar.fc-header-toolbar {font-size: 50%}}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block nav %}
+    {% include "includes/normalNavControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-6">
+            <div class="card white">
+                <div class="card-body d-flex align-items-center flex-column text-center">
+                    <span class="material-icons mb-3" style="font-size: 128px">{% if success %}done{% else %}error{% endif %}</span>
+                    <h6 class="card-title">Payment {% if success %}Completed{% else %}Failed{% endif %}</h6>
+                    {% if success %}
+                        <p>A receipt will be sent to your e-mail shortly<br>Appointments can be booked in order history</p>
+                    {% else %}
+                        <p>Please retry payments again</p>
+                    {% endif %}
+                    <a href="{% if success %}#{% else %}{{ url_for("cart.viewCart") }}{% endif %}"><button class="btn custom-btn">{% if success %}Order History{% else %}Try Again{% endif %}</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

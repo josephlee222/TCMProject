@@ -74,8 +74,8 @@
                                 <small>Usual Price: ${{ "%.2f"|format(treatment.getPrice()) }}</small>
                             {% endif %}
                         </div>
-                        <a href="#" class="mb-3">
-                            <button class="btn custom-btn w-100">Book Now</button>
+                        <a href="{{ url_for("cart.addCart", id=treatment.getId(), quantity=1, type="treatments") }}" class="mb-3">
+                            <button class="btn custom-btn w-100">Add to Cart</button>
                         </a>
                         <a href="#">
                             <button class="btn custom-btn w-100">Add to Wishlist</button>

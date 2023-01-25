@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block nav %}
+    {% include "includes/normalNavControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="OHpage">
+        <div class="date">
+        <h2 class="bold" style="font-weight: bold">Order History</h2>
+    </div>
+    <div class="orders">
+        <h4 style="font-weight: bold" class="orderdate">10/07/2022</h4>
+
+        <h4 style="font-weight: bold" class="orderdate">26/06/2022</h4>
+
+    </div>
+{% endblock %}
