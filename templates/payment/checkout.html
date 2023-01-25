@@ -1,48 +1,81 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Checkout{% endblock %}
 {% block navRight %}
     {% include "includes/userControls.html" %}
 {% endblock %}
 {% block nav %}
     {% include "includes/normalNavControls.html" %}
 {% endblock %}
+{% block head %}
+    <script>
+        let c_secret = '{{ clientSecret }}'
+        let emailAddress = '{{ session["user"]["email"] }}'
+    </script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{{ url_for('static', filename='js/checkout.js') }}" defer></script>
+{% endblock %}
 {% block content %}
-    <div class="head">
-        <h2 class="bold" style="font-weight: bold">Order Summary</h2>
-        <span class=""></span> <p>{{ }}</p>
-        <h3>Total: </h3> <h3>{{ }}</h3>
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">shopping_cart</span>
+        <div>
+            <h1>Checkout</h1>
+            <h6 class="m-0">Review checkout details</h6>
+        </div>
     </div>
-    <style>
-        .vertical {
-            border-left: 6px solid black;
-            height: 200px;
-            position:absolute;
-            left: 50%;
-        }
-    </style>
-    <div class="">
-        <h2 class="bold" style="font-weight: bold">Payment Details</h2>
-        <h4>First Name: </h4> <h4>Last Name: </h4>
-        <input type="text" placeholder="Eg. John"> <input type="text" placeholder="Eg. Doe">
-        <h4>Card Number: </h4><h4 style="color:red;">*</h4>
-        <input type="text" placeholder="XXXX XXXX XXXX XXXX">
-        <h4>CVV: </h4><h4 style="color:red;">*</h4> <h4>Expiry Date: </h4><h4 style="color:red;">*</h4>
-        <input type="text" placeholder="3 Digit Security Code"> <input type="text" placeholder="mm/yyyy">
-        <h4>Shipping Address: </h4>
-        <select name="area" style="width: 178px">
-          <option value="" placeholder="Choose" required>Choose</option>
-          <option value="Home">Home</option>
-          <option value="Office">Office</option>
-          <option value="Parent's Home">Parent's Home</option>
-          <option value="Grandparent's Home">Grandparent's Home</option>
-        </select>
-        <br>
-        <br>
-        <input height="30" type="text" size="40" placeholder="Enter Address">
-        <h4>Voucher: </h4>
-        <input type="text" placeholder="Eg. NEWUSER">
-        <br>
-        <br>
-        <a href="#"><button class="reset">Reset Fields</button></a> <a href="#"><button class="payment">Pay</button></a>
-    </div>
+    <form id="payment-form">
+        <div class="row">
+            <div class="col-lg-9 order-1 order-lg-0">
+                <div class="card white mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">Payment Information</h6>
+                        <div id="payment-element">
+
+                        </div>
+                        <div id="error-message">
+                            <!-- Display error message to your customers here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card white">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">Delivery Information</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                {{ formHelper.renderField(form.delivery) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 order-0 order-lg-1 mb-3 mb-lg-0">
+                <div class="card white">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">Payment Summary</h6>
+                        <div class="d-flex">
+                            <h6 class="fw-bold flex-grow-1">Subtotal</h6>
+                            <h6>${{ "%.2f"|format(user.getCartSubtotalPrice()) }}</h6>
+                        </div>
+                        <div class="d-flex">
+                            <h6 class="fw-bold flex-grow-1">GST (8%)</h6>
+                            <h6>${{ "%.2f"|format(user.getCartGST()) }}</h6>
+                        </div>
+                        <div class="d-flex">
+                            <h6 class="fw-bold flex-grow-1">Delivery Fee (Fixed)</h6>
+                            <h6>$3.00</h6>
+                        </div>
+                        <div class="d-flex">
+                            <h6 class="fw-bold flex-grow-1">Discount</h6>
+                            <h6>-${{ "%.2f"|format(discount) }}</h6>
+                        </div>
+                        <hr>
+                        <div class="d-flex align-items-center">
+                            <h6 class="fw-bold flex-grow-1">Total</h6>
+                            <h4>${{ "%.2f"|format(user.getTotalPrice()) }}</h4>
+                        </div>
+                        <input type="submit" value="Pay with Stripe" class="w-100 btn custom-btn" id="submit">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 {% endblock %}

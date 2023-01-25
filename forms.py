@@ -3,7 +3,7 @@ import shelve
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
     SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, DateTimeLocalField
-from functions import allowedFile
+from functions import allowedFile, checkCoupon
 
 
 # Put all forms here with a comment describing the form
@@ -565,28 +565,45 @@ class editProductForm(Form):
 
     submit = SubmitField("Edit Product")
 
+class CartCouponForm(Form):
+    coupon = StringField("Coupon Code (Optional)", [
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Checkout")
+
+    def validate_coupon(form, coupon):
+        if form.coupon.data != "":
+            if not checkCoupon(coupon):
+                raise ValidationError("Invalid coupon. The coupon has probably been expired")
+
+
+
+
+
 class CheckoutForm(Form):
-    Fname: StringField("First Name:", [
-
+    firstName = StringField("First Name (On card)", [
+        validators.Length(3, 64, message="First Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="First name is required for purchase")
     ])
-    Lname: StringField("Last Name:", [
-
+    lastName = StringField("Last Name (On card)", [
+        validators.Length(1, 64, message="Last Name must be between 1 to 64 characters"),
+        validators.DataRequired(message="Last name is required for purchase")
     ])
-    Cnumber: StringField("Card Number:", [
+    cardNumber = StringField("Card Number", [
         validators.Length(16, message="Card number must be 16 digits"),
         validators.DataRequired(message="Card number is required for purchase")
     ])
-    CVV: StringField("CVV:", [
+    cvv = StringField("CVV", [
         validators.Length(3, message="CVV must be 3 digits"),
         validators.DataRequired(message="CVV is required for purchase")
     ])
-    Expiry: StringField("Expiry Date:", [
+    expiry = StringField("Expiry Date", [
         validators.Length(2,3, message="Expiry date must in numerals"),
         validators.DataRequired(message="Card Expiry Date is required for purchase")
     ])
-    Shipping: StringField("", [
+    delivery = SelectField("Delivery Address", [
 
     ])
-    Voucher: StringField("", [
 
-    ])
+    submit = SubmitField("Pay")

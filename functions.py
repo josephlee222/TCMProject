@@ -1,5 +1,5 @@
 import functools
-
+import shelve
 from flask import flash, Markup, session, redirect, url_for
 from functools import wraps
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
@@ -78,3 +78,11 @@ def adminAccess(func):
             return func(*args, **kwargs)
 
     return wrapper_func
+
+def checkCoupon(couponCode):
+    with shelve.open("coupons") as coupons:
+        for coupon in coupons.values():
+            if coupon.getCode() == couponCode and coupon.isValid():
+                return True
+
+        return False
