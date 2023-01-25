@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block nav %}
+    {% include "includes/normalNavControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="head">
+        <h2 class="bold" style="font-weight: bold">Order Summary</h2>
+        <span class=""></span> <p>{{ }}</p>
+        <h3>Total: </h3> <h3>{{ }}</h3>
+    </div>
+    <style>
+        .vertical {
+            border-left: 6px solid black;
+            height: 200px;
+            position:absolute;
+            left: 50%;
+        }
+    </style>
+    <div class="">
+        <h2 class="bold" style="font-weight: bold">Payment Details</h2>
+        <h4>First Name: </h4> <h4>Last Name: </h4>
+        <input type="text" placeholder="Eg. John"> <input type="text" placeholder="Eg. Doe">
+        <h4>Card Number: </h4><h4 style="color:red;">*</h4>
+        <input type="text" placeholder="XXXX XXXX XXXX XXXX">
+        <h4>CVV: </h4><h4 style="color:red;">*</h4> <h4>Expiry Date: </h4><h4 style="color:red;">*</h4>
+        <input type="text" placeholder="3 Digit Security Code"> <input type="text" placeholder="mm/yyyy">
+        <h4>Shipping Address: </h4>
+        <select name="area" style="width: 178px">
+          <option value="" placeholder="Choose" required>Choose</option>
+          <option value="Home">Home</option>
+          <option value="Office">Office</option>
+          <option value="Parent's Home">Parent's Home</option>
+          <option value="Grandparent's Home">Grandparent's Home</option>
+        </select>
+        <br>
+        <br>
+        <input height="30" type="text" size="40" placeholder="Enter Address">
+        <h4>Voucher: </h4>
+        <input type="text" placeholder="Eg. NEWUSER">
+        <br>
+        <br>
+        <a href="#"><button class="reset">Reset Fields</button></a> <a href="#"><button class="payment">Pay</button></a>
+    </div>
+{% endblock %}
