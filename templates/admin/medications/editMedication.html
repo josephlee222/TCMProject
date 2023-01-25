@@ -33,7 +33,7 @@
                         {{ formHelper.renderField(form.duration, value=medication.getDuration_of_medication()) }}
                     </div>
                     <div class="col-6 col-md-4">
-                        {{ formHelper.renderField(form.pills) }}
+                        {{ formHelper.renderField(form.pills, value=medication.getNo_of_pills())}}
                     </div>
                     <div class="col-6 col-md-4">
                         {{ formHelper.renderField(form.frequency_of_pills, value=medication.getFrequency_of_pills()) }}

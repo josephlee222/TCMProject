@@ -21,11 +21,12 @@ class Medication:
             self.description = str(description)
             self.duration_of_medication = int(duration_of_medication)
             self.no_of_pills = int(no_of_pills)
-            self.frequency_of_pills = str(frequency_of_pills)
+            self.frequency_of_pills = int(frequency_of_pills)
             self.notes = str(notes)
         except ValueError as e:
             print("Value error while entering medicine into Tracker class")
             flash(str(e))
+
 
     def getDate(self):
         return self.date
@@ -69,3 +70,6 @@ class Medication:
 
     def setNotes(self, notes):
         self.notes = notes
+
+
+

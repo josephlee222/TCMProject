@@ -82,6 +82,15 @@ def editTracker(email, id):
         flash("Unable to edit treatment details: treatment does not exist", category="error")
         return redirect(url_for("adminTrackers.viewAllTrackers", email=email))
 
+@adminTrackers.route("/admin/trackers/view/<email>/<id>", methods=['GET'])
+@adminAccess
+def viewTracker(email, id):
+    form = searchTracker(request.form)
+
+    with shelve.open("users") as users:
+        trackers = users[email].getMedications()[int(id)]
+
+        return render_template("admin/medications/viewspecificMedication.html", form=form, trackers=trackers, email=email)
 
 @adminTrackers.route("/admin/trackers/delete/<email>/<id>")
 @adminAccess

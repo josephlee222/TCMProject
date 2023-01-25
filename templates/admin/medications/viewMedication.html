@@ -40,9 +40,9 @@
                         <tr>
                             <td>{{ tracker.getName() }}</td>
                             <td>{{ tracker.getDate().strftime('%d/%m/%Y') }} - {{ tracker.getEnddate().strftime('%d/%m/%Y') }}</td>
-                            <td>{{ tracker.getFrequency_of_pills() }}</td>
+                            <td>{{ tracker.getNo_of_pills() }} pill(s) / {{ tracker.getFrequency_of_pills() }} time(s) per day</td>
                             <td class="text-nowrap">
-                                <a href="#"><button class="btn custom-btn">View Details</button></a>
+                                <a href="{{ url_for("adminTrackers.viewTracker", email=email, id=loop.index - 1) }}"><button class="btn custom-btn">View Details</button></a>
                                 <a href="{{ url_for("adminTrackers.editTracker", email=email, id=loop.index - 1) }}"><button class="btn custom-btn">Edit</button></a>
                                 <a onclick="showDeleteModal('{{ tracker.getName() }}', '{{ url_for("adminTrackers.deleteTracker", email=email, id=loop.index - 1) }}')"><button class="btn btn-danger">Delete</button></a>
                             </td>

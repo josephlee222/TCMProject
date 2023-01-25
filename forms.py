@@ -318,9 +318,9 @@ class createMedicationForm(Form):
                                 (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('Dosage for medication',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('1 times a day', '1 times a day'),
-                                              ('2 times a day', '2 times a day'),
-                                              ('3 times a day', '3 times a day')])
+                                     choices=[(1, '1 times a day'),
+                                              (2, '2 times a day'),
+                                              (3, '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
@@ -349,9 +349,9 @@ class editMedicationForm(Form):
                                  (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('Dosage for medication',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('1 times a day', '1 times a day'),
-                                              ('2 times a day', '2 times a day'),
-                                              ('3 times a day', '3 times a day')])
+                                     choices=[(1, '1 times a day'),
+                                              (2, '2 times a day'),
+                                              (3, '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
@@ -564,3 +564,8 @@ class editProductForm(Form):
     ])
 
     submit = SubmitField("Edit Product")
+
+class medicationForm(Form):
+    morning = BooleanField("Morning")
+    afternoon = BooleanField("Afternoon")
+    night = BooleanField("Night")

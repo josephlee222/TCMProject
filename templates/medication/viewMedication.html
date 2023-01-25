@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}
+    My Medication
+{% endblock %}
+{% block nav %}
+    {% include "includes/normalNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">face</span>
+        <div>
+            <h1>My Profile</h1>
+            <h6 class="m-0">{{ session["user"]["email"] }}</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 mb-3 mb-lg-0">
+            <div class="list-group">
+                <a href="{{ url_for("profile.viewProfile") }}" class="list-group-item list-group-item-action" aria-current="true">Medication</a>
+                <a href="#" class="list-group-item list-group-item-action">Medications</a>
+                <a href="#" class="list-group-item list-group-item-action active">Appointments</a>
+                <a href="#" class="list-group-item list-group-item-action">Order History</a>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="d-flex align-items-center mb-4">
+                <h2 class="h4 flex-grow-1 m-0">My Medication</h2>
+            </div>
+
+            <div id="Show_current_date">
+
+            </div>
+
+            {% if morning|length > 0 %}
+            <button type="button" class="collapsible">Morning</button>
+            {% for tracker in morning %}
+            <table class="table table-striped w-100">
+                <tbody>
+                <tr>
+                    <td>{{ tracker.getName() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tracker.getNo_of_pills() }} pill(s)</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+            { % endif %}
+            </table>
+
+            {% if afternoon|length > 0 %}
+            <button type="button" class="collapsible">Afternoon</button>
+            {% for tracker in afternoon %}
+            <table class="table table-striped w-100">
+                <tbody>
+                <tr>
+                    <td>{{ tracker.getName() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tracker.getNo_of_pills() }} pill(s)</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+            { % endif %}
+            </table>
+
+            {% if night|length > 0 %}
+            <button type="button" class="collapsible">Night</button>
+            {% for tracker in night %}
+            <table class="table table-striped w-100">
+                <tbody>
+                <tr>
+                    <td>{{ tracker.getName() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tracker.getNo_of_pills() }} pill(s)</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+            { % endif %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewProfile.js') }}"></script>
+{% endblock %}
