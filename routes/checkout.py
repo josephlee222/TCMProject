@@ -40,6 +40,13 @@ def viewCheckout(coupon=None):
     price = (user.getTotalPrice()-discountAmt)
     session["checkoutPrice"] = price
 
+    choices = []
+    for x, address in enumerate(user.getAddress()):
+
+        choices.append(((x, address.getLocation() + " (" + address.getName() + ")")))
+
+    form.delivery.choices = choices
+
     try:
         # Create a PaymentIntent with the order amount and currency
         intent = stripe.PaymentIntent.create(

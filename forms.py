@@ -579,32 +579,8 @@ class CartCouponForm(Form):
                 raise ValidationError("Invalid coupon. The coupon has probably been expired")
 
 
-
-
-
 class CheckoutForm(Form):
-    firstName = StringField("First Name (On card)", [
-        validators.Length(3, 64, message="First Name must be between 3 to 64 characters"),
-        validators.DataRequired(message="First name is required for purchase")
-    ])
-    lastName = StringField("Last Name (On card)", [
-        validators.Length(1, 64, message="Last Name must be between 1 to 64 characters"),
-        validators.DataRequired(message="Last name is required for purchase")
-    ])
-    cardNumber = StringField("Card Number", [
-        validators.Length(16, message="Card number must be 16 digits"),
-        validators.DataRequired(message="Card number is required for purchase")
-    ])
-    cvv = StringField("CVV", [
-        validators.Length(3, message="CVV must be 3 digits"),
-        validators.DataRequired(message="CVV is required for purchase")
-    ])
-    expiry = StringField("Expiry Date", [
-        validators.Length(2,3, message="Expiry date must in numerals"),
-        validators.DataRequired(message="Card Expiry Date is required for purchase")
-    ])
+    # Form is only there to be filled with data, javascript handles checkout
     delivery = SelectField("Delivery Address", [
-
+        validators.DataRequired()
     ])
-
-    submit = SubmitField("Pay")

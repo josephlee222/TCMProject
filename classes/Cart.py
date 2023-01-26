@@ -35,7 +35,10 @@ class Cart:
         with shelve.open(self.type) as items:
             item = items[self.itemId]
 
-            return item.getPrice() * float(self.quantity)
+            if item.getOnSale():
+                return item.getSalePrice() * float(self.quantity)
+            else:
+                return item.getPrice() * float(self.quantity)
 
     def setQuantity(self, quantity):
         self.quantity = quantity

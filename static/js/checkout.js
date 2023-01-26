@@ -67,11 +67,11 @@ async function handleSubmit(e) {
 function showMessage(messageText) {
     const messageContainer = document.querySelector("#error-message");
 
-    messageContainer.classList.remove("hidden");
+    messageContainer.classList.remove("d-none");
     messageContainer.textContent = messageText;
 
     setTimeout(function () {
-        messageContainer.classList.add("hidden");
+        messageContainer.classList.add("d-none");
         messageText.textContent = "";
     }, 4000);
 }
