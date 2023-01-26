@@ -3,14 +3,26 @@
 const stripe = Stripe('pk_test_51MUAERKZ8ITmwoDIcpcujDz4LbtTTESUeC1O1Lw6RvVIQWIbF0yD0yrtlcEJNQXwgN7RcWHExDxSMjcbDWGw1Pit0011EnxEx9');
 
 document.querySelector("#payment-form").addEventListener("submit", handleSubmit);
+const appearance = {
+  theme: 'stripe',
 
+  variables: {
+    colorPrimary: '#5b2ea1',
+    colorBackground: '#ffffff',
+    colorText: '#30313d',
+    colorDanger: '#df1b41',
+    fontFamily: 'Archivo, Ideal Sans, system-ui, sans-serif',
+    spacingUnit: '4px',
+    borderRadius: '4px',
+    // See all possible variables below
+  }
+};
 const options = {
     fonts: [{
-        family: 'Archivo',
-        src: 'url(https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700&display=swap)',
-        weight: '500',
+        cssSrc: 'https://fonts.googleapis.com/css2?family=Archivo&display=swap'
     }],
     clientSecret: c_secret,
+    appearance: appearance,
     // Fully customizable with appearance API.
 };
 
