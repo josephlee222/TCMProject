@@ -1,10 +1,11 @@
 import shelve
-from icalendar import Calendar, Event, vCalAddress, vText
 from datetime import datetime
+
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, Response
+from icalendar import Calendar, Event, vCalAddress, vText
+
 from forms import editProfileForm
-from functions import flashFormErrors, goBack, loginAccess
-from classes.User import User
+from functions import flashFormErrors, loginAccess
 
 profile = Blueprint("profile", __name__)
 
@@ -156,3 +157,16 @@ def exportCalendar(id):
     except KeyError:
         flash("Unable to export calendar, appointment does not exist.", category="error")
         return redirect(url_for("profile.viewProfile"), code=404)
+
+
+@profile.route('/profile/orderHistory')
+@loginAccess
+def viewOrderHistory():
+    with shelve.open("orders") as orders:
+        order = []
+
+        for item in orders.values():
+            if item.getUserId() == session["user"]["email"]:
+                order.append(item)
+
+    print("Under Construction")

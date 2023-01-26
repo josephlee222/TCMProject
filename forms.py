@@ -1,9 +1,10 @@
-from datetime import datetime
 import shelve
+from datetime import datetime
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, DateTimeLocalField
-from functions import allowedFile, checkCoupon
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
+
+from functions import checkCoupon
 
 
 # Put all forms here with a comment describing the form

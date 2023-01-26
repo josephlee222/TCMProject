@@ -1,12 +1,13 @@
 import os
-import shutil
 import shelve
-from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from werkzeug.utils import secure_filename
-from functions import flashFormErrors, goBack, adminAccess, allowedFile
-from forms import searchTreatmentsForm, createTreatmentForm, editTreatmentForm, uploadImageForm
-from classes.Treatment import Treatment
+import shutil
 
+from flask import flash, Blueprint, render_template, request, redirect, url_for
+from werkzeug.utils import secure_filename
+
+from classes.Treatment import Treatment
+from forms import searchTreatmentsForm, createTreatmentForm, editTreatmentForm, uploadImageForm
+from functions import flashFormErrors, adminAccess
 
 adminTreatments = Blueprint("adminTreatments", __name__)
 

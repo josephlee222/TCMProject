@@ -4,6 +4,7 @@ class Cart:
     def __init__(self, itemId, quantity, type):
         self.itemId = itemId
         self.quantity = quantity
+        self.consume = False
         if type != "treatments" or type != "products":
             self.type = type
         else:
@@ -22,6 +23,12 @@ class Cart:
 
     def getType(self):
         return self.type
+
+    def isConsumed(self):
+        return self.consume
+
+    def consumeCart(self):
+        self.consume = True
 
     def getPrice(self):
         #This one calculates the total price of one item with multiple quantities (price * quantity)

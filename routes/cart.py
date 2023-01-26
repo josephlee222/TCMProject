@@ -3,8 +3,8 @@ import shelve
 from flask import flash, Blueprint, session, redirect, url_for, render_template, request
 
 from classes.Cart import Cart
-from functions import loginAccess, flashFormErrors
 from forms import CartCouponForm
+from functions import loginAccess, flashFormErrors
 
 cart = Blueprint("cart", __name__)
 
@@ -28,7 +28,6 @@ def viewCart():
         user = users[session["user"]["email"]]
         cart = users[session["user"]["email"]].getCart()
 
-    print(cart)
     return render_template("cart/viewCart.html", cart=cart, user=user, form=form)
 
 

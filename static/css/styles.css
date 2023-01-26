@@ -327,4 +327,8 @@ cart-img {
     object-fit: contain;
 }
 
+.bg-custom {
+    background-color: var(--secondary-colour);
+}
+
 @media screen and (max-width:767px) { .fc-toolbar.fc-header-toolbar {font-size: 50%}}
