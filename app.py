@@ -11,11 +11,11 @@ from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
 from routes.auth import auth
 from routes.cart import cart
+from routes.checkout import checkout
 from routes.profile import profile
 from routes.test import test
 from routes.tracker import tracker
 from routes.treatments import treatments
-from routes.checkout import checkout
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
@@ -44,7 +44,14 @@ def home():
 # Give website context
 @app.context_processor
 def websiteContextInit():
+    cart = 0
+    if "user" in session:
+        with shelve.open("users") as users:
+            user = users[session["user"]["email"]]
+            cart = len(user.getCart())
+
     return {
+        "cartAmount": cart,
         "websiteName": "TCM Shifu",
         "now": datetime.now().date(),
     }

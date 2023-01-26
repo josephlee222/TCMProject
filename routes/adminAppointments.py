@@ -1,9 +1,11 @@
 import shelve
 from datetime import time, datetime
+
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from functions import flashFormErrors, goBack, adminAccess
-from forms import openingHoursForm, createAppointmentForm, searchAppointmentsForm
+
 from classes.Appointment import Appointment
+from forms import openingHoursForm, createAppointmentForm, searchAppointmentsForm
+from functions import flashFormErrors, adminAccess
 
 adminAppointments = Blueprint("adminAppointments", __name__)
 

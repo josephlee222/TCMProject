@@ -1,9 +1,12 @@
 import shelve
+
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from functions import flashFormErrors, goBack, adminAccess
-from classes.User import User
+
 from classes.Address import Address
-from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addAddressForm, editAddressForm, deleteUserForm
+from classes.User import User
+from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addAddressForm, editAddressForm, \
+    deleteUserForm
+from functions import flashFormErrors, adminAccess
 
 adminUsers = Blueprint("adminUsers", __name__)
 

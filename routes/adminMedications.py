@@ -1,10 +1,10 @@
 import shelve
-import shutil
 
-from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from functions import flashFormErrors, goBack, adminAccess
-from forms import createMedicationForm, editMedicationForm, searchTracker
+from flask import flash, Blueprint, render_template, request, redirect, url_for
+
 from classes.Medications import Medication
+from forms import createMedicationForm, editMedicationForm, searchTracker
+from functions import flashFormErrors, adminAccess
 
 adminTrackers = Blueprint("adminTrackers", __name__)
 

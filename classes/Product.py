@@ -1,5 +1,5 @@
-import itertools
 import shelve
+
 from marko import convert
 
 

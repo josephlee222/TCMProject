@@ -1,9 +1,6 @@
 import shelve
-from datetime import datetime
-from flask import flash, Blueprint, render_template, request, session, redirect, url_for, Response
-from forms import editProfileForm
-from functions import flashFormErrors, goBack, loginAccess
-from classes.User import User
+
+from flask import flash, Blueprint, render_template, redirect, url_for
 
 treatments = Blueprint("treatments", __name__)
 

@@ -44,11 +44,10 @@ class User:
     def getMedications(self):
         return self.medications
 
-    def getCart(self):
-        if not hasattr(self, "cart"):
-            # Updater code for old accounts
-            self.cart = []
+    def clearCart(self):
+        self.cart = []
 
+    def getCart(self):
         return self.cart
 
     def getCartGST(self):

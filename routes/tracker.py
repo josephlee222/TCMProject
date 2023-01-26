@@ -1,4 +1,5 @@
-from flask import flash, Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint
+
 from functions import loginAccess
 
 tracker = Blueprint("medications", __name__)

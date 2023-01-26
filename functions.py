@@ -1,7 +1,8 @@
-import functools
 import shelve
-from flask import flash, Markup, session, redirect, url_for
 from functools import wraps
+
+from flask import flash, Markup, session, redirect, url_for
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 
 def flashFormErrors(title ,errors):
