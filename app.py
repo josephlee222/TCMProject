@@ -49,6 +49,7 @@ def websiteContextInit():
         with shelve.open("users", flag="r") as users:
             user = users[session["user"]["email"]]
             cart = len(user.getCart())
+            users.close()
 
     return {
         "cartAmount": cart,
