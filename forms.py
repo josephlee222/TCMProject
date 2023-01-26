@@ -574,7 +574,7 @@ class CartCouponForm(Form):
 
     def validate_coupon(form, coupon):
         if form.coupon.data != "":
-            if not checkCoupon(coupon):
+            if not checkCoupon(form.coupon.data):
                 raise ValidationError("Invalid coupon. The coupon has probably been expired")
 
 
