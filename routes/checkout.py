@@ -9,10 +9,10 @@ from classes.User import User
 checkout = Blueprint("checkout", __name__)
 stripe.api_key = 'sk_test_51MUAERKZ8ITmwoDIYlwF7AOADSdFApOig86RkKjiROILyx7WJ4JyhrsYMlQso3DhMroiwjnnriJ9iq3G914PnVzY009oPpTjGN'
 
-@checkout.route('/checkout', defaults={'coupon': None})
+@checkout.route('/checkout')
 @checkout.route('/checkout/<coupon>')
 @loginAccess
-def viewCheckout(coupon):
+def viewCheckout(coupon=None):
     form = CheckoutForm(request.form)
     discount = 0
 
@@ -22,18 +22,22 @@ def viewCheckout(coupon):
             return redirect(url_for("cart.viewCart"))
 
         with shelve.open("coupons") as coupons:
-            for coupon in coupons.values():
-                if coupon.getCode() == coupon:
-                    discount = coupon.getDiscount()
+            for item in coupons.values():
+                if item.getCode() == coupon:
+                    print("here")
+                    discount = item.getDiscount()
                     break
 
     with shelve.open("users") as users:
         user = users[session["user"]["email"]]
 
+    discountAmt = user.getTotalPrice()*(discount/100)
+    price = (user.getTotalPrice()-discountAmt)
+
     try:
         # Create a PaymentIntent with the order amount and currency
         intent = stripe.PaymentIntent.create(
-            amount=int((user.getTotalPrice()-discount)*100),
+            amount=int(price*100),
             currency='sgd',
             automatic_payment_methods={
                 'enabled': True,
@@ -42,13 +46,14 @@ def viewCheckout(coupon):
     except Exception as e:
         return jsonify(error=str(e)), 403
 
-    return render_template("/payment/checkout.html", form=form, user=user, discount=discount, clientSecret=intent['client_secret'])
+    return render_template("/payment/checkout.html", form=form, user=user, discount=discountAmt, price=price, clientSecret=intent['client_secret'])
 
 
 @checkout.route('/checkout/confirm/<deliveryId>')
 @loginAccess
 def confirmCheckout(deliveryId):
     if not request.args.get("payment_intent"):
+        flash("Return to the previous tab to complete payment.")
         return redirect(url_for("home"))
 
     try:
