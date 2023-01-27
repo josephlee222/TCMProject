@@ -18,7 +18,7 @@
                     {% else %}
                         <p>Please retry payments again</p>
                     {% endif %}
-                    <a href="{% if success %}#{% else %}{{ url_for("cart.viewCart") }}{% endif %}"><button class="btn custom-btn">{% if success %}Order History{% else %}Try Again{% endif %}</button></a>
+                    <a href="{% if success %}{{ url_for("profile.viewOrderHistory") }}{% else %}{{ url_for("cart.viewCart") }}{% endif %}"><button class="btn custom-btn">{% if success %}Order History{% else %}Try Again{% endif %}</button></a>
                 </div>
             </div>
         </div>

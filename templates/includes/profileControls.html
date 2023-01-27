@@ -1,0 +1,10 @@
+{% macro profileControls(active) %}
+    <div class="col-lg-3 mb-3 mb-lg-0">
+        <div class="list-group">
+            <a href="{{ url_for("profile.viewProfile") }}" {% if active == 1 %}class="list-group-item list-group-item-action active"  aria-current="true" {% else %} class="list-group-item list-group-item-action"{% endif %}>Profile</a>
+            <a href="#" {% if active == 2 %}class="list-group-item list-group-item-action active"  aria-current="true" {% else %} class="list-group-item list-group-item-action"{% endif %}>Medications</a>
+            <a href="{{ url_for("profile.viewAppointments") }}" {% if active == 3 %}class="list-group-item list-group-item-action active"  aria-current="true" {% else %} class="list-group-item list-group-item-action"{% endif %}>Appointments</a>
+            <a href="{{ url_for("profile.viewOrderHistory") }}" {% if active == 4 %}class="list-group-item list-group-item-action active"  aria-current="true" {% else %} class="list-group-item list-group-item-action"{% endif %}>Order History</a>
+        </div>
+    </div>
+{% endmacro %}

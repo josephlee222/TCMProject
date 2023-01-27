@@ -50,10 +50,15 @@ class User:
     def getCart(self):
         return self.cart
 
+    def updateCart(self):
+        for item in self.cart:
+            item.updateStoredItem()
+
     def getCartGST(self):
         return round(self.getCartSubtotalPrice() * 0.08, 2)
 
     def getCartSubtotalPrice(self):
+        self.updateCart()
         price = 0
         for item in self.cart:
             price += item.getPrice()
