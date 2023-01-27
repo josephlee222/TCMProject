@@ -27,6 +27,16 @@ def allowedFile(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+def normalAccess(func):
+    @wraps(func)
+    def wrapper_func(*args, **kwargs):
+        if "user" in session:
+            session["cartAmount"] = checkCart()
+            return func(*args, **kwargs)
+
+    return wrapper_func
+
 # Decorator func to ensure that the page is only visited by NOT login users (login, register pages)
 def unloginAccess(func):
     @wraps(func)
@@ -46,6 +56,7 @@ def loginAccess(func):
             flash("You need to login to access the page.")
             return redirect(url_for("auth.login"))
         else:
+            session["cartAmount"] = checkCart()
             return func(*args, **kwargs)
 
     return wrapper_func
@@ -60,6 +71,7 @@ def deliveryAccess(func):
             flash("Not allowed! Authorised users only.", category="error")
             return goBack()
         else:
+            session["cartAmount"] = checkCart()
             return func(*args, **kwargs)
 
     return wrapper_func
@@ -87,3 +99,10 @@ def checkCoupon(couponCode):
                 return True
 
         return False
+
+
+def checkCart():
+    if "user" in session:
+        with shelve.open("users", flag="r") as users:
+            user = users[session["user"]["email"]]
+            return len(user.getCart())

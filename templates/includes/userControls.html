@@ -2,12 +2,12 @@
     <div class="navbar-nav me-1">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ session["user"]["name"] }} {% if cartAmount > 0 %}<span class="ms-1 badge bg-custom">{{ cartAmount }}</span>{% endif %}
+                {{ session["user"]["name"] }} {% if session["cartAmount"] > 0 %}<span class="ms-1 badge bg-custom">{{ session["cartAmount"] }}</span>{% endif %}
             </a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("profile.viewProfile") }}"><span class="material-icons me-1">person</span>My Profile</a></li>
                 <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("cart.viewCart") }}"><span class="material-icons me-1">shopping_cart</span>
-                    Cart {% if cartAmount > 0 %}<span class="ms-1 badge bg-custom">{{ cartAmount }}</span>{% endif %}
+                    Cart {% if session["cartAmount"] > 0 %}<span class="ms-1 badge bg-custom">{{ session["cartAmount"] }}</span>{% endif %}
                 </a></li>
                 <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">medication</span>Medications</a></li>
                 <hr class="dropdown-divider">

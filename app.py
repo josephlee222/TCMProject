@@ -2,6 +2,7 @@ import shelve
 from datetime import time, datetime
 
 from flask import Flask, render_template, session, url_for
+from functions import normalAccess
 
 from routes.adminAppointments import adminAppointments
 from routes.adminCoupons import adminCoupons
@@ -37,6 +38,7 @@ app.register_blueprint(checkout)
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
 @app.route('/')
+@normalAccess
 def home():
     session["previous_url"] = url_for("home")
     return render_template("home.html")
@@ -44,12 +46,6 @@ def home():
 # Give website context
 @app.context_processor
 def websiteContextInit():
-    cart = 0
-    if "user" in session:
-        with shelve.open("users", flag="r") as users:
-            user = users[session["user"]["email"]]
-            cart = len(user.getCart())
-            users.close()
 
     return {
         "cartAmount": cart,
