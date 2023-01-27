@@ -38,14 +38,14 @@ var url = location.protocol + '//' + location.host
 async function handleSubmit(e) {
     e.preventDefault();
     let submit = document.getElementById("submit")
-    let address = document.getElementById("address")
+    let address = document.getElementById("delivery")
     submit.disabled = true
     submit.value = "Please Wait..."
     const {error} = await stripe.confirmPayment({
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: url + "/checkout/confirm/0",
+            return_url: url + "/checkout/confirm/" + address.value,
             receipt_email: emailAddress,
         },
     });
