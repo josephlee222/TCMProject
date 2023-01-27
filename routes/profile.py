@@ -169,4 +169,6 @@ def viewOrderHistory():
             if item.getUserId() == session["user"]["email"]:
                 order.append(item)
 
-    print("Under Construction")
+    order.reverse()
+
+    return render_template("profile/viewOrderHistory.html", orders=order)

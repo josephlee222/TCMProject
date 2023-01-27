@@ -17,14 +17,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-3 mb-3 mb-lg-0">
-            <div class="list-group">
-                <a href="{{ url_for("profile.viewProfile") }}" class="list-group-item list-group-item-action active" aria-current="true">Profile</a>
-                <a href="#" class="list-group-item list-group-item-action">Medications</a>
-                <a href="{{ url_for("profile.viewAppointments") }}" class="list-group-item list-group-item-action">Appointments</a>
-                <a href="#" class="list-group-item list-group-item-action">Order History</a>
-            </div>
-        </div>
+        {{ profileControls.profileControls(1) }}
         <div class="col-lg-9">
             <form method="post">
                 <div class="d-flex align-items-center mb-4">
