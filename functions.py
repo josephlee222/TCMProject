@@ -33,7 +33,8 @@ def normalAccess(func):
     def wrapper_func(*args, **kwargs):
         if "user" in session:
             session["cartAmount"] = checkCart()
-            return func(*args, **kwargs)
+
+        return func(*args, **kwargs)
 
     return wrapper_func
 
