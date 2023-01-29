@@ -50,7 +50,7 @@ class Order:
         elif self.status == 3:
             return "Delivering"
         elif self.status == 4:
-            return "Received"
+            return "Delivered"
         elif self.status == 5:
             return "Cancelled"
         else:

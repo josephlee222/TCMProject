@@ -46,7 +46,7 @@
                                     {{ infoBox.infoBox("Delivery Address", order.getAddress().getLocation() if order.getAddress() else "Please set an address for delivery!", type="warning" if not order.getAddress() else None) }}
                                 </div>
                             </div>
-                            <a href="#" class="me-1">
+                            <a href="{{ url_for("profile.viewOrderHistoryDetails", id=order.getId()) }}" class="me-1">
                                 <button class="btn custom-btn">Order Details</button>
                             </a>
                         </div>

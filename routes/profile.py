@@ -159,7 +159,7 @@ def exportCalendar(id):
         return redirect(url_for("profile.viewProfile"), code=404)
 
 
-@profile.route('/profile/orderHistory')
+@profile.route('/profile/orders')
 @loginAccess
 def viewOrderHistory():
     with shelve.open("orders") as orders:
@@ -172,3 +172,33 @@ def viewOrderHistory():
     order.reverse()
 
     return render_template("profile/viewOrderHistory.html", orders=order)
+
+
+@profile.route('/profile/orders/<id>')
+@loginAccess
+def viewOrderHistoryDetails(id):
+    try:
+        with shelve.open("orders") as orders:
+            order = orders[id]
+
+        if order.getUserId() != session["user"]["email"]:
+            flash("Unable to view your order, the order is not associated with your account", category="error")
+            return redirect(url_for("profile.viewOrderHistory"), code=404)
+
+        if order.getStatus() == 1:
+            statusDescription = "Your item has been received by the clinic and its being prepared."
+        elif order.getStatus() == 2:
+            statusDescription = "Your order has been prepared and its awaiting delivery."
+        elif order.getStatus() == 3:
+            statusDescription = "Your order has been collected by our delivery partner and its being delivered."
+        elif order.getStatus() == 4:
+            statusDescription = "Your order has been delivered to the specified address. For enquires, contact the clinic directly."
+        elif order.getStatus() == 5:
+            statusDescription = "Your order has been cancelled and will not be delivered. Contact the clinic for refunds."
+        else:
+            statusDescription = "Unknown delivery status. Please contact the clinic for details."
+
+        return render_template("profile/viewOrderHistoryDetails.html", order=order, statusDescription=statusDescription)
+    except KeyError:
+        flash("Unable to view your order, it does not exist", category="error")
+        return redirect(url_for("profile.viewOrderHistory"), code=404)
