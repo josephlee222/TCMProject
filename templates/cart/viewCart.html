@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-md-8 col-10">
                                     <h6 class="card-title">{{ item.getItem().getName() }}</h6>
-                                    <p>Quantity: {{ item.getQuantity() }}</p>
+                                    <p>Quantity - {{ item.getQuantity() }}</p>
                                 </div>
                                 <div class="col-2 d-flex justify-content-end">
                                     <h5>${{ "%.2f"|format(item.getPrice()) }}</h5>
