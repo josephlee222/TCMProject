@@ -1,0 +1,9 @@
+{% macro infoBox(title, info, type=None) %}
+    <div class="mb-3">
+        <div class="d-flex align-items-center mb-1 infobox">
+            <h6 class="fw-bold m-0 {% if type == "warning" %}text-warning{% endif %}">{{ title }}</h6>
+            {% if type == "warning" %}<span class="material-icons ms-1 text-warning" style="font-size: 18px">warning</span>{% endif %}
+        </div>
+        {{ info }}
+    </div>
+{% endmacro %}

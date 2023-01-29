@@ -9,17 +9,20 @@
 {% block fluidContent %}
     <div class="row">
         <div class="col-12 d-flex align-items-center justify-content-center main-splash">
-            <div class="text-center">
-                <h1>{{ websiteName }}</h1>
-                <h2 class="h5">TCM Shop, Appointments, Education</h2>
-                <div class="mt-4">
-                    {% if session["user"] %}
-                        <a href="#"><button class="btn custom-btn">My Account</button></a>
-                    {% else %}
-                        <a href="{{ url_for("auth.login") }}"><button class="btn custom-btn">Login Now</button></a>
-                    {% endif %}
-                    <a href="#features"><button class="btn custom-btn">Our Services</button></a>
+            <div class="text-center card splash">
+                <div class="card-body">
+                    <h1>{{ websiteName }}</h1>
+                    <h2 class="h5">TCM Shop, Appointments, Education</h2>
+                    <div class="mt-4">
+                        {% if session["user"] %}
+                            <a href="#"><button class="btn custom-btn">My Account</button></a>
+                        {% else %}
+                            <a href="{{ url_for("auth.login") }}"><button class="btn custom-btn">Login Now</button></a>
+                        {% endif %}
+                        <a href="#features"><button class="btn custom-btn">Our Services</button></a>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -42,7 +45,7 @@
             <span class="material-icons feature-icon p-3 mb-3">shopping_cart</span>
             <h5>TCM Online Shop</h5>
             <p>Shop for TCH herbs or medicine on TCM Shifu</p>
-            <a href="#"><button class="btn custom-btn">Visit Shop</button></a>
+            <a href="./products/viewProduct.html"><button class="btn custom-btn">Visit Shop</button></a>
         </div>
         <div class="col-lg-4 text-center mb-4 mb-lg-0">
             <span class="material-icons feature-icon p-3 mb-3">event</span>

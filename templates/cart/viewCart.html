@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}
+    View Cart
+{% endblock %}
+{% block nav %}
+    {% include "includes/normalNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">shopping_cart</span>
+        <div>
+            <h1>Cart</h1>
+            <h6 class="m-0">View and manage your shopping cart</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-9 order-1 order-lg-0">
+            {% if cart|length > 0 %}
+                {% for item in cart %}
+                    <div class="card white mb-3">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-2 mb-3 mb-md-0">
+                                    <img class="cart-img w-100" src="/{{ item.getItem().getImages()[0] }}">
+                                </div>
+                                <div class="col-md-8 col-10">
+                                    <h6 class="card-title">{{ item.getItem().getName() }}</h6>
+                                    <p>Quantity - {{ item.getQuantity() }}</p>
+                                </div>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <h5>${{ "%.2f"|format(item.getPrice()) }}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 d-flex">
+                                    {% if item.getType() != "treatments" %}
+                                        <a href="#" class="me-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                           data-bs-title="Increase Quantity">
+                                            <button class="btn custom-btn material-icons">add</button>
+                                        </a>
+                                        <a href="#" class="me-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                           data-bs-title="Decrease Quantity">
+                                            <button class="btn custom-btn material-icons">remove</button>
+                                        </a>
+                                    {% endif %}
+                                    <a onclick="showDeleteModal('{{ item.getItem().getName() }}', '{{ url_for("cart.deleteCartItem", id=loop.index - 1) }}')" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                       data-bs-title="Delete Item">
+                                        <button class="btn btn-danger material-icons">delete</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="card white">
+                    <div class="card-body d-flex justify-content-center">
+                        No items in your cart.
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+        <div class="col-lg-3 order-0 order-lg-1 mb-3 mb-lg-0">
+            <div class="card white">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Payment Summary</h6>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Subtotal</h6>
+                        <h6>${{ "%.2f"|format(user.getCartSubtotalPrice()) }}</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">GST (8%)</h6>
+                        <h6>${{ "%.2f"|format(user.getCartGST()) }}</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Delivery Fee (Fixed)</h6>
+                        <h6>$3.00</h6>
+                    </div>
+                    <hr>
+                    <div class="d-flex align-items-center">
+                        <h6 class="fw-bold flex-grow-1">Total</h6>
+                        <h4>${{ "%.2f"|format(user.getTotalPrice()) }}</h4>
+                    </div>
+                    <form method="post">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.coupon) }}
+                        </div>
+
+                        {{ formHelper.renderField(form.submit, style="width: 100%") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Cart Item?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Treatment? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewCart.js') }}"></script>
+{% endblock %}

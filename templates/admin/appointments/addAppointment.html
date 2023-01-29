@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}
+    Add Appointment
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_calendar</span>
+        <div>
+            <h1>Create Appointment</h1>
+            <h6 class="m-0">Create a new Appointment</h6>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="h4">Appointment Information</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.name) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.date) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 w-100 autocomplete">
+                    {{ formHelper.renderField(form.userEmail) }}
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.time) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.endTime) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.notes) }}
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {{ formHelper.renderField(form.submit) }}
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var users = {{ users|tojson }}
+        autocomplete(document.getElementById("userEmail"), users)
+    </script>
+{% endblock %}

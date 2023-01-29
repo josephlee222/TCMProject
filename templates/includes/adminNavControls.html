@@ -17,8 +17,8 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">inventory_2</span>View All Products</a></li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">library_add</span>Create New Product</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminProducts.viewAllProducts") }}"><span class="material-icons me-1">inventory_2</span>View All Products</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminProducts.addProduct") }}"><span class="material-icons me-1">library_add</span>Create New Product</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -36,13 +36,8 @@
             Appointments
         </a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">event</span>View All Appointments</a></li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">edit_calendar</span>Create New Appointment</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">notifications</span>View Medicine Trackers</a></li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">notification_add</span>Create New Tracker</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminAppointments.viewAllAppointments") }}"><span class="material-icons me-1">event</span>View All Appointments</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminAppointments.addAppointment") }}"><span class="material-icons me-1">edit_calendar</span>Create New Appointment</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>

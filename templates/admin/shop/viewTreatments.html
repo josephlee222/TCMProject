@@ -48,7 +48,7 @@
                             <td>${{ treatments[treatment]["salePrice"] }}</td>
                             <td>{{ treatments[treatment]["onSale"] }}</td>
                             <td class="text-nowrap">
-                                <a href="#"><button class="btn custom-btn">View Details</button></a>
+                                <a href="{{ url_for("treatments.viewTreatment", id=treatments[treatment]["id"]) }}"><button class="btn custom-btn">Store Page</button></a>
                                 <a href="{{ url_for("adminTreatments.editTreatment", id=treatments[treatment]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
                                 <a onclick="showDeleteModal('{{ treatments[treatment]["name"] }}', '{{ url_for("adminTreatments.deleteTreatment", id=treatments[treatment]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
                             </td>
