@@ -2,7 +2,7 @@ import shelve
 from datetime import datetime
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, FileField
 
 from functions import checkCoupon
 
@@ -11,7 +11,7 @@ from functions import checkCoupon
 
 # ADMIN USERS FORMS
 
-# Sample form for testpage
+# Sample form for test page
 class testForm(Form):
     test = StringField("Testing Field", [
         # Validators in here, write error messages in the "message" parameter and use flashFormErrors() when
@@ -588,35 +588,28 @@ class CheckoutForm(Form):
 class createArticleForm(Form):
     title = StringField("Blog Title Input", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
-        validators.DataRequired(message = "Blog Title is required.")
+        validators.DataRequired(message="Blog title is required.")
     ])
-    content = StringField("Content Input", [
-        validators.DataRequired(message = "Content is required.")
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
     ])
+    articleImage = FileField("Article Images", [])
 
     submit = SubmitField("Create Article")
-    # need to create "clear all" function
-    # images =
-class uploadPreviewImage(Form):
-    articleimage = MultipleFileField("Article Images",[
-        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
-        # validators.DataRequired(message="Article Images are required"
-    ])
-
-    submit = SubmitField("Insert Image")
 
 class searchBlogForm(Form):
-    name = StringField("Search by name", [
-        validators.Length(3, 64, message="Blog name must be between 3 to 64 characters"),
-        validators.DataRequired(message="Blog name is required to search")
+    name = StringField("Search by title", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters"),
+        validators.DataRequired(message="Blog title is required to search")
     ])
 
 class editBlogForm(Form):
     title = StringField("Blog Title Input", [
-        validators.DataRequired(message="Blog Title is required.")
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
+        validators.DataRequired(message="Blog title is required.")
     ])
-    content = StringField("Content Input", [
-        validators.DataRequired(message="Content is required.")
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
     ])
     submit = SubmitField("Edit Blog")
 #how to update a previously existing blog using this function?

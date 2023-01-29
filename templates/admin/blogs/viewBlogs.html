@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}All Blog Articles{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">groups</span>
+        <div>
+            <h1>View Blog Articles</h1>
+            <h6 class="m-0">Manage website blog articles</h6>
+        </div>
+    </div>
+    <a href="{{ url_for("adminBlog.addBlog") }}"><button class="btn custom-btn mb-3">Create Article</button></a>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                    <th>Title</th>
+                    <th>Created By</th>
+                    <th>Created On</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    {% if blogs|length > 0 %}
+                        {% for blog in blogs %}
+                            <tr>
+                                <td>{{ blogs[blog]["title"] }}</td>
+                                <td>{{ blogs[blog]["updatedBy"] if blogs[blog]["updatedBy"] else blogs[blog]["createdBy"] }}</td>
+                                <td>{{ blogs[blog]["datetime"].strftime("%d/%m/%Y, %I:%M %p") }}</td>
+                                <td class="text-nowrap">
+                                    <a href="#"><button class="btn custom-btn">View Article</button></a>
+                                    <a href="#"><button class="btn custom-btn">Edit</button></a>
+                                    <a onclick="showDeleteModal('{{ blogs[blog]["title"] }}', '{{ url_for("adminBlog.deleteBlog", id=blogs[blog]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No blog articles added yet.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Blog Article?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Treatment? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/viewBlogs.js') }}"></script>
+{% endblock %}

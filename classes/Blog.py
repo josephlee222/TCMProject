@@ -1,24 +1,51 @@
+from time import time
+from datetime import datetime
+from marko import convert
+
+
 class Blog:
-    count_id=0 #date and time identifier
-    def __init__(self, title, content):
-            Blog.count_id+=1
-            self.__adminno = Blog.count_id
-            self.__title = str(title)
-            self.__content = str(content)
+    def __init__(self, createdBy, title, content, coverImage=[]):
+        self.id = self.id = int(time() * 1000)
+        self.createdBy = createdBy
+        self.updatedBy = None
+        self.datetime = datetime.now()
+        self.title = str(title)
+        self.content = str(content)
+        self.coverImage = coverImage
 
-        # except ValueError:
-        #     print("Value error while creating article")
-
-    def setTitle(self, title):
-        self.__title = self
-    def setContent(self, content):
-        self.__content = content
-
-    def get_title_id(self):
-        return self.__title
-
-    def get_content_id(self):
-        return self.__content
 
     def getId(self):
-        return self.__adminno
+        return self.id
+
+    def getCreatedBy(self):
+        return self.createdBy
+
+    def getUpdatedBy(self):
+        return self.updatedBy
+
+    def getTitle(self):
+        return self.title
+
+    def getContent(self):
+        return self.content
+
+    def getConvertedContent(self):
+        return convert(self.content)
+
+    def getCoverImage(self):
+        return self.coverImage
+
+    def setCreatedBy(self, createdBy):
+        return self.createdBy
+
+    def getUpdatedBy(self, updatedBy):
+        return self.updatedBy
+
+    def setTitle(self, title):
+        self.title = title
+
+    def setContent(self, content):
+        self.content = content
+
+    def setCoverImage(self, coverImage):
+        self.coverImage = coverImage

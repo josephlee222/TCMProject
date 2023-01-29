@@ -96,9 +96,12 @@ def deleteTreatment(id):
     try:
         with shelve.open("treatments", writeback=True) as treatments:
             del treatments[id]
-            shutil.rmtree("static/uploads/products/" + id)
-
-            flash("Successfully deleted treatment", category="success")
+            try:
+                shutil.rmtree("static/uploads/products/" + id)
+            except FileNotFoundError:
+                flash("Blog article has been deleted, however, there is an error when deleting the image files", category="warning")
+            else:
+                flash("Successfully deleted treatment", category="success")
     except KeyError:
         flash("Unable to delete treatment: treatment does not exist", category="error")
 
