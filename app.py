@@ -10,6 +10,7 @@ from routes.adminMedications import adminTrackers
 from routes.adminProducts import adminProducts
 from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
+from routes.adminBlog import adminBlog
 from routes.auth import auth
 from routes.cart import cart
 from routes.checkout import checkout
