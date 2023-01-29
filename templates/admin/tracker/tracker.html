@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}All Users{% endblock %}
+{% block title %}Medicine Tracker{% endblock %}
 {% block nav %}
     {% include "includes/adminNavControls.html" %}
 {% endblock %}
@@ -15,7 +15,7 @@
         </div>
     </div>
     <form method="post">
-        <div class="row mb-4">
+        <div class="row mb-3">
             <div class="col-lg-9 mb-3 mb-lg-0">
                 {{ form.name(class_="form-control", placeholder="Search by Name...") }}
             </div>
@@ -24,7 +24,6 @@
             </div>
         </div>
     </form>
-    <a href="{{ url_for("adminUsers.addUser") }}"><button class="btn custom-btn mb-3">Create New User</button></a>
     <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">

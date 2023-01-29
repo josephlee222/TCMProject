@@ -2,7 +2,7 @@ import shelve
 from datetime import datetime
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, FileField
 
 from functions import checkCoupon
 
@@ -11,7 +11,7 @@ from functions import checkCoupon
 
 # ADMIN USERS FORMS
 
-# Sample form for testpage
+# Sample form for test page
 class testForm(Form):
     test = StringField("Testing Field", [
         # Validators in here, write error messages in the "message" parameter and use flashFormErrors() when
@@ -584,3 +584,32 @@ class CheckoutForm(Form):
     delivery = SelectField("Delivery Address", [
         validators.DataRequired()
     ])
+# ADMIN BLOG FORMS
+class createArticleForm(Form):
+    title = StringField("Blog Title Input", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
+        validators.DataRequired(message="Blog title is required.")
+    ])
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
+    ])
+    articleImage = FileField("Article Images", [])
+
+    submit = SubmitField("Create Article")
+
+class searchBlogForm(Form):
+    name = StringField("Search by title", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters"),
+        validators.DataRequired(message="Blog title is required to search")
+    ])
+
+class editBlogForm(Form):
+    title = StringField("Blog Title Input", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
+        validators.DataRequired(message="Blog title is required.")
+    ])
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
+    ])
+    submit = SubmitField("Edit Blog")
+#how to update a previously existing blog using this function?

@@ -4,18 +4,27 @@ const stripe = Stripe('pk_test_51MUAERKZ8ITmwoDIcpcujDz4LbtTTESUeC1O1Lw6RvVIQWIb
 
 document.querySelector("#payment-form").addEventListener("submit", handleSubmit);
 const appearance = {
-  theme: 'stripe',
+    theme: 'stripe',
 
-  variables: {
-    colorPrimary: '#5b2ea1',
-    colorBackground: '#ffffff',
-    colorText: '#30313d',
-    colorDanger: '#df1b41',
-    fontFamily: 'Archivo, Ideal Sans, system-ui, sans-serif',
-    spacingUnit: '4px',
-    borderRadius: '4px',
-    // See all possible variables below
-  }
+    variables: {
+        colorPrimary: '#5b2ea1',
+        colorBackground: '#ffffff',
+        colorText: '#30313d',
+        colorDanger: '#df1b41',
+        fontFamily: 'Archivo, Ideal Sans, system-ui, sans-serif',
+        spacingUnit: '4px',
+        borderRadius: '4px',
+    },
+
+    rules: {
+        '.Tab': {
+            boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.25)',
+        },
+        '.Tab:hover': {
+            transitionDuration: '0.25s',
+            boxShadow: '0px 2px 1px 0px rgba(0, 0, 0, 0.15)',
+        },
+    }
 };
 const options = {
     fonts: [{

@@ -10,6 +10,7 @@ from routes.adminMedications import adminTrackers
 from routes.adminProducts import adminProducts
 from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
+from routes.adminBlog import adminBlog
 from routes.auth import auth
 from routes.cart import cart
 from routes.checkout import checkout
@@ -30,6 +31,7 @@ app.register_blueprint(adminAppointments)
 app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
 app.register_blueprint(tracker)
+app.register_blueprint(adminBlog)
 app.register_blueprint(adminProducts)
 app.register_blueprint(profile)
 app.register_blueprint(treatments)

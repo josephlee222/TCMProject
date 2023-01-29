@@ -2,9 +2,9 @@ from flask import Blueprint
 
 from functions import loginAccess
 
-tracker = Blueprint("medications", __name__)
+tracker = Blueprint("tracker", __name__)
 
-# User side medications
+# User side tracker
 
 @tracker.route("/trackers")
 @loginAccess

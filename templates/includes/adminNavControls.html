@@ -49,8 +49,8 @@
             Blog
         </a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">feed</span>View All Articles</a></li>
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">post_add</span>Create New Article</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminBlog.viewAllBlogs") }}"><span class="material-icons me-1">feed</span>View All Articles</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminBlog.addBlog") }}"><span class="material-icons me-1">post_add</span>Create New Article</a></li>
         </ul>
     </li>
     <li class="nav-item">
