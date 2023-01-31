@@ -1,9 +1,12 @@
 import shelve
+
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from functions import flashFormErrors, goBack, adminAccess
-from classes.User import User
+
 from classes.Address import Address
-from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addAddressForm, editAddressForm, deleteUserForm
+from classes.User import User
+from forms import editUserForm, searchUsersForm, changeUserPasswordForm, addUserForm, addAddressForm, editAddressForm, \
+    deleteUserForm
+from functions import flashFormErrors, adminAccess
 
 adminUsers = Blueprint("adminUsers", __name__)
 
@@ -34,8 +37,6 @@ def editUser(email):
                 accountType = user.getAccountType()
                 birthday = form.birthday.data
                 phone = form.phone.data
-                addresses = user.getAddress()
-                medications = user.getMedications()
                 user = User(name, password, email, accountType)
 
                 if birthday != "":
@@ -43,9 +44,6 @@ def editUser(email):
 
                 if phone != "":
                     user.setPhone(phone)
-
-                user.setAddresses(addresses)
-                user.setMedications(medications)
 
                 users[email] = user
 

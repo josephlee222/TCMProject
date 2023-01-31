@@ -1,12 +1,13 @@
 import os
-import shutil
 import shelve
-from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from werkzeug.utils import secure_filename
-from functions import flashFormErrors, goBack, adminAccess, allowedFile
-from forms import searchTreatmentsForm, createTreatmentForm, editTreatmentForm, uploadImageForm
-from classes.Treatment import Treatment
+import shutil
 
+from flask import flash, Blueprint, render_template, request, redirect, url_for
+from werkzeug.utils import secure_filename
+
+from classes.Treatment import Treatment
+from forms import searchTreatmentsForm, createTreatmentForm, editTreatmentForm, uploadImageForm
+from functions import flashFormErrors, adminAccess
 
 adminTreatments = Blueprint("adminTreatments", __name__)
 
@@ -95,9 +96,12 @@ def deleteTreatment(id):
     try:
         with shelve.open("treatments", writeback=True) as treatments:
             del treatments[id]
-            shutil.rmtree("static/uploads/products/" + id)
-
-            flash("Successfully deleted treatment", category="success")
+            try:
+                shutil.rmtree("static/uploads/products/" + id)
+            except FileNotFoundError:
+                flash("Blog article has been deleted, however, there is an error when deleting the image files", category="warning")
+            else:
+                flash("Successfully deleted treatment", category="success")
     except KeyError:
         flash("Unable to delete treatment: treatment does not exist", category="error")
 

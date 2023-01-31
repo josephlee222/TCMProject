@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Edit Treatment
+    Edit Medication
 {% endblock %}
 {% block nav %}
     {% include "includes/adminNavControls.html" %}
@@ -22,11 +22,9 @@
                 <h2 class="h4">Medication Information</h2>
                 <div class="mb-3">
                     {{ formHelper.renderField(form.name, value=medication.getName())}}
-                    <div class="form-text">Markdown supported</div>
                 </div>
                 <div class="mb-3">
                     {{ formHelper.renderField(form.description, value=medication.getDescription())}}
-                    <div class="form-text">Markdown supported</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-6 col-md-4">
@@ -41,7 +39,6 @@
                 </div>
                 <div class="mb-3">
                     {{ formHelper.renderField(form.additional_notes, value=medication.getNotes()) }}
-                    <div class="form-text">Markdown supported</div>
                 </div>
             </div>
         </div>

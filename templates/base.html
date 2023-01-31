@@ -1,16 +1,20 @@
 {% import "includes/formHelper.html" as formHelper %}
 {% import "includes/infoBox.html" as infoBox %}
+{% import "includes/profileControls.html" as profileControls %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - {{ websiteName }}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="keywords" content="TCM, Traditional Chinese Medicine, clinic, treatments, medicine products, educational blog">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    {% block head %}{% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-dark navbar-expand-lg sticky-top">
@@ -45,7 +49,7 @@
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-info alert-dismissible fade show">
-                    {{ message }}
+                    {{ message|safe }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
@@ -55,7 +59,7 @@
         {% if warnings %}
             {% for warning in warnings %}
                 <div class="alert alert-warning alert-dismissible fade show">
-                    {{ warning }}
+                    {{ warning|safe }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
@@ -65,7 +69,7 @@
         {% if errors %}
             {% for error in errors %}
                 <div class="alert alert-danger alert-dismissible fade show">
-                    {{ error }}
+                    {{ error|safe }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
@@ -75,7 +79,7 @@
         {% if successes %}
             {% for success in successes %}
                 <div class="alert alert-success alert-dismissible fade show">
-                    {{ success }}
+                    {{ success|safe }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
@@ -96,7 +100,6 @@
 
     </div>
 </footer>
-{% block extras %}{% endblock %}
 </body>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6/index.global.min.js"></script>

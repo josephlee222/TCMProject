@@ -41,7 +41,7 @@
                         <td>{{ users[user]["name"] }}</td>
                         <td>{{ users[user]["accountType"] }}</td>
                         <td class="text-nowrap">
-                            <a href="{{ url_for("adminTrackers.viewAllTrackers", email=users[user]["email"]) }}"><button class="btn custom-btn">View Prescriptions</button></a>
+                            <a href="{{ url_for("adminTrackers.viewAllTrackers", email=users[user]["email"]) }}"><button class="btn custom-btn">View Medications</button></a>
                             <a href="{{ url_for("adminUsers.editUser", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>
                             <a href="{{ url_for("adminUsers.deleteUser", email=users[user]["email"]) }}"><button class="btn btn-danger">Delete</button></a>
                         </td>

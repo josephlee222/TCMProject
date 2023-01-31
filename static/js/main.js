@@ -2,37 +2,30 @@
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-//Zoom Functions (DOES NOT WORK PROPERLY ON FIREFOX)
-document.body.style.zoom = localStorage.getItem("zoom") ? localStorage.getItem("zoom") : 1.0
-document.body.style["-moz-transform"] = localStorage.getItem("zoom") ? "scale(" + localStorage.getItem("zoom") + ")" : "scale(1.0)"
-document.body.style["-moz-transform-origin"] = "0 0"
+//Zoom Functions (Now works properly on firefox)
+document.body.style.fontSize = localStorage.getItem("zoom") ? localStorage.getItem("zoom") + "%" : "100%"
 
 function increaseZoom() {
     if (localStorage.getItem("zoom")) {
-        localStorage.setItem("zoom", parseFloat(localStorage.getItem("zoom")) + 0.05)
+        localStorage.setItem("zoom", parseFloat(localStorage.getItem("zoom")) + 5)
     } else {
-        localStorage.setItem("zoom", 1.05)
+        localStorage.setItem("zoom", 105)
     }
-    document.body.style.zoom = localStorage.getItem("zoom")
-    document.body.style["-moz-transform"] = "scale(" + localStorage.getItem("zoom") + ")"
-    document.body.style["-moz-transform-origin"] = "0 0"
+    document.body.style.fontSize = localStorage.getItem("zoom") + "%"
 }
 
 function decreaseZoom() {
     if (localStorage.getItem("zoom")) {
-        localStorage.setItem("zoom", parseFloat(localStorage.getItem("zoom")) - 0.05)
+        localStorage.setItem("zoom", parseFloat(localStorage.getItem("zoom")) - 5)
     } else {
-        localStorage.setItem("zoom", 0.95)
+        localStorage.setItem("zoom", 95)
     }
-    document.body.style.zoom = localStorage.getItem("zoom")
-    document.body.style["-moz-transform"] = "scale(" + localStorage.getItem("zoom") + ")"
-    document.body.style["-moz-transform-origin"] = "0 0"
+    document.body.style.fontSize = localStorage.getItem("zoom") + "%"
 }
 
 function resetZoom() {
-    localStorage.setItem("zoom", 1.0)
-    document.body.style.zoom = localStorage.getItem("zoom")
-    document.body.style["-moz-transform"] = "scale(1)"
+    localStorage.setItem("zoom", 100)
+    document.body.style.fontSize = localStorage.getItem("zoom") + "%"
 }
 
 // PLEASE DONT ASK ME ABOUT THIS, I COPIED FROM W3SCHOOLS (For autocomplete)

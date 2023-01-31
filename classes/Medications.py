@@ -1,6 +1,7 @@
 import shelve
-from flask import flash
 from datetime import datetime, timedelta
+
+from flask import flash
 
 
 class Medication:

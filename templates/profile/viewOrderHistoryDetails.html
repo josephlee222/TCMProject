@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Order Details{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block nav %}
+    {% include "includes/normalNavControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">face</span>
+        <div>
+            <h1>Order Details</h1>
+            <h6 class="m-0">Order #{{ order.getId() }}</h6>
+        </div>
+    </div>
+    <a href="{{ url_for("profile.viewOrderHistory") }}" style="display: contents">
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back</button>
+    </a>
+    <div class="row">
+        <div class="col-lg-9 order-1 order-lg-0">
+            <div class="card mb-3 white">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Delivery Information</h6>
+                    {{ infoBox.infoBox("Delivery Address", order.getAddress().getLocation() if order.getAddress() else "Please set an address!", type="warning" if not order.getAddress() else None) }}
+                    <hr>
+                    <h6 class="card-title mb-3">Delivery Status</h6>
+                    <div class="row">
+                        <div class="col-lg-6 mb-3 mb-lg-0">
+                            <div class="d-flex align-items-center mb-1 {% if order.getStatus() > 1 %}text-success{% elif order.getStatus() < 1 %}text-secondary{% endif %}">
+                                <span class="material-icons status-icon me-2 {% if order.getStatus() > 1 %}text-success{% elif order.getStatus() < 1 %}text-secondary{% endif %}">{% if order.getStatus() > 1 %}check{% elif order.getStatus() == 1 %}pending{% else %}remove{% endif %}</span>
+                                Clinic Preparing Order
+                            </div>
+                            <div class="d-flex align-items-center mb-1 {% if order.getStatus() > 2 %}text-success{% elif order.getStatus() < 2 %}text-secondary{% endif %}">
+                                <span class="material-icons status-icon me-2 {% if order.getStatus() > 2 %}text-success{% elif order.getStatus() < 2 %}text-secondary{% endif %}">{% if order.getStatus() > 2 %}check{% elif order.getStatus() == 2 %}pending{% else %}remove{% endif %}</span>
+                                Waiting for Delivery
+                            </div>
+                            <div class="d-flex align-items-center mb-1 {% if order.getStatus() > 3 %}text-success{% elif order.getStatus() < 3 %}text-secondary{% endif %}">
+                                <span class="material-icons status-icon me-2 {% if order.getStatus() > 3 %}text-success{% elif order.getStatus() < 3 %}text-secondary{% endif %}">{% if order.getStatus() > 3 %}check{% elif order.getStatus() == 3 %}pending{% else %}remove{% endif %}</span>
+                                Delivery in Progress
+                            </div>
+                            <div class="d-flex align-items-center mb-1 {% if order.getStatus() == 4 %}text-success{% elif order.getStatus() < 4 %}text-secondary{% endif %}">
+                                <span class="material-icons status-icon me-2 {% if order.getStatus() == 4 %}text-success{% elif order.getStatus() < 4 %}text-secondary{% endif %}">{% if order.getStatus() == 4 %}check{% else %}remove{% endif %}</span>
+                                Delivery Completed
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            {{ infoBox.infoBox("Status Description", statusDescription) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card white">
+                <div class="card-body">
+                    <h6 class="card-title">Order Items</h6>
+                    {% for item in order.getCart() %}
+                        <div class="card white mt-3">
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-2 mb-3 mb-md-0">
+                                        <img class="cart-img w-100" src="/{{ item.getStoredItem().getImages()[0] }}">
+                                    </div>
+                                    <div class="col-md-8 col-10">
+                                        <h6 class="card-title">{{ item.getStoredItem().getName() }}</h6>
+                                        <p>Quantity - {{ item.getQuantity() }}</p>
+                                    </div>
+                                    <div class="col-2 d-flex justify-content-end">
+                                        <h5>${{ "%.2f"|format(item.getStoredPrice()) }}</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 d-flex">
+                                        {% if item.getType() == "treatments" %}
+                                            <a href="#" class="me-1">
+                                                <button class="btn custom-btn">Book Appointment</button>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 order-0 order-lg-1 mb-3 mb-lg-0">
+            <div class="card white">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Payment Summary</h6>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Subtotal</h6>
+                        <h6>${{ "%.2f"|format(order.getCartSubtotalPrice()) }}</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">GST (8%)</h6>
+                        <h6>${{ "%.2f"|format(order.getCartGST()) }}</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Delivery Fee (Fixed)</h6>
+                        <h6>$3.00</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Coupon</h6>
+                        <h6>-${{ "%.2f"|format(order.getDiscount()) }}</h6>
+                    </div>
+                    <hr>
+                    <div class="d-flex align-items-center">
+                        <h6 class="fw-bold flex-grow-1">Total</h6>
+                        <h4>${{ "%.2f"|format(order.getTotalPrice()) }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

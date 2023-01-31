@@ -1,5 +1,8 @@
 from flask import flash
 
+from classes.Address import Address
+from classes.Cart import Cart
+
 
 class User:
     def __init__(self, name, password, email, accountType, birthday=None, phone=None):
@@ -15,6 +18,7 @@ class User:
         self.phone = phone
         self.address = []
         self.medications = []
+        self.cart = []
 
     def getName(self):
         return self.name
@@ -40,6 +44,31 @@ class User:
     def getMedications(self):
         return self.medications
 
+    def clearCart(self):
+        self.cart = []
+
+    def getCart(self):
+        return self.cart
+
+    def updateCart(self):
+        for item in self.cart:
+            item.updateStoredItem()
+
+    def getCartGST(self):
+        return round(self.getCartSubtotalPrice() * 0.08, 2)
+
+    def getCartSubtotalPrice(self):
+        self.updateCart()
+        price = 0
+        for item in self.cart:
+            price += item.getPrice()
+
+        return round(price, 2)
+
+    def getTotalPrice(self):
+        # +3 for delivery fee
+        return round(self.getCartSubtotalPrice() + self.getCartGST() + 3, 2)
+
     def setPassword(self, password):
         self.password = password
 
@@ -57,10 +86,16 @@ class User:
 
     # ONLY PASS IN ADDRESS CLASSES HERE, NO TEXT
     def setAddress(self, address):
-        if self.address is None:
-            self.address = [address]
-        else:
+        if isinstance(address, Address):
             self.address.append(address)
+        else:
+            raise ValueError("Only Address class values are accepted in setAddress")
+
+    def addCartItem(self, cartItem):
+        if isinstance(cartItem, Cart):
+            self.cart.append(cartItem)
+        else:
+            raise ValueError("Only Cart class values are accepted in setCartItem")
 
     def setMedication(self, medication):
         if self.medications is None:
@@ -87,7 +122,7 @@ class User:
             self.address.pop(int(id))
         except IndexError:
             flash("Unable to edit address, address does not exist.", category="error")
-            raise IndexError
+            return False
 
     def deleteMedication(self, id):
         self.medications.pop(int(id))

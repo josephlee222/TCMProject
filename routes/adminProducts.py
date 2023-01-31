@@ -1,9 +1,10 @@
 import shelve
-from datetime import time
-from flask import flash, Blueprint, render_template, request, session, redirect, url_for
-from functions import flashFormErrors, goBack, adminAccess
-from forms import addProductForm, editProductForm, searchProductForm
+
+from flask import flash, Blueprint, render_template, request, redirect, url_for
+
 from classes.Product import Product
+from forms import addProductForm, editProductForm, searchProductForm
+from functions import flashFormErrors, adminAccess
 
 adminProducts = Blueprint("adminProducts", __name__)
 

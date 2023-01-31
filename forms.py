@@ -1,16 +1,17 @@
-from datetime import datetime
 import shelve
+from datetime import datetime
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, DateTimeLocalField
-from functions import allowedFile
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, FileField
+
+from functions import checkCoupon
 
 
 # Put all forms here with a comment describing the form
 
 # ADMIN USERS FORMS
 
-# Sample form for testpage
+# Sample form for test page
 class testForm(Form):
     test = StringField("Testing Field", [
         # Validators in here, write error messages in the "message" parameter and use flashFormErrors() when
@@ -305,18 +306,18 @@ class createMedicationForm(Form):
         validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
         validators.DataRequired(message="Description of medication is required")
     ])
-    duration = SelectField("Duration of the medication",
+    duration = SelectField("Duration",
                            [validators.DataRequired(message="Duration of the medication is required")],
                            choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
                                     (5, '5 days'), (6, '6 days'), (7, 'One week'),
                                     (14, 'Two weeks')])
-    pills = SelectField('Number of pills per dosage',
+    pills = SelectField('Dosage',
                         [validators.DataRequired(message="Pills per dosage of the medication is required")],
                         choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
                                 (3, '3 Tablet(s)'),
                                 (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
                                 (6, '6 Tablet(s)')])
-    frequency_of_pills = SelectField('Dosage for medication',
+    frequency_of_pills = SelectField('No. of times',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[(1, '1 times a day'),
                                               (2, '2 times a day'),
@@ -336,18 +337,18 @@ class editMedicationForm(Form):
         validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
         validators.DataRequired(message="Description of medication is required")
     ])
-    duration = SelectField("Duration of the medication",
+    duration = SelectField("Duration",
                            [validators.DataRequired(message="Duration of the medication is required")],
                            choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
                                     (5, '5 days'), (6, '6 days'), (7, 'One week'),
                                     (14, 'Two weeks')])
-    pills = SelectField('Number of pills per dosage',
+    pills = SelectField('Dosage',
                         [validators.DataRequired(message="Pills per dosage of the medication is required")],
                         choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
                                  (3, '3 Tablet(s)'),
                                  (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
                                  (6, '6 Tablet(s)')])
-    frequency_of_pills = SelectField('Dosage for medication',
+    frequency_of_pills = SelectField('No. of times',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[(1, '1 times a day'),
                                               (2, '2 times a day'),
@@ -564,6 +565,55 @@ class editProductForm(Form):
     ])
 
     submit = SubmitField("Edit Product")
+
+class CartCouponForm(Form):
+    coupon = StringField("Coupon Code (Optional)", [
+        validators.Optional()
+    ])
+
+    submit = SubmitField("Checkout")
+
+    def validate_coupon(form, coupon):
+        if form.coupon.data != "":
+            if not checkCoupon(form.coupon.data):
+                raise ValidationError("Invalid coupon. The coupon has probably been expired")
+
+
+class CheckoutForm(Form):
+    # Form is only there to be filled with data, javascript handles checkout
+    delivery = SelectField("Delivery Address", [
+        validators.DataRequired()
+    ])
+# ADMIN BLOG FORMS
+class createArticleForm(Form):
+    title = StringField("Blog Title Input", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
+        validators.DataRequired(message="Blog title is required.")
+    ])
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
+    ])
+    articleImage = FileField("Article Images", [])
+
+    submit = SubmitField("Create Article")
+
+class searchBlogForm(Form):
+    name = StringField("Search by title", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters"),
+        validators.DataRequired(message="Blog title is required to search")
+    ])
+
+class editBlogForm(Form):
+    title = StringField("Blog Title Input", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
+        validators.DataRequired(message="Blog title is required.")
+    ])
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
+    ])
+    submit = SubmitField("Edit Blog")
+#how to update a previously existing blog using this function?
+
 
 class medicationForm(Form):
     morning = BooleanField("Morning")
