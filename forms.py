@@ -586,7 +586,7 @@ class CheckoutForm(Form):
     ])
 # ADMIN BLOG FORMS
 class createArticleForm(Form):
-    title = StringField("Blog Title Input", [
+    title = StringField("Title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
         validators.DataRequired(message="Blog title is required.")
     ])

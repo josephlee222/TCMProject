@@ -7,7 +7,7 @@ from functions import normalAccess
 from routes.adminAppointments import adminAppointments
 from routes.adminCoupons import adminCoupons
 from routes.adminMedications import adminTrackers
-#from routes.medications import medications
+from routes.medications import medications
 from routes.adminProducts import adminProducts
 from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
@@ -17,7 +17,6 @@ from routes.cart import cart
 from routes.checkout import checkout
 from routes.profile import profile
 from routes.test import test
-from routes.tracker import tracker
 from routes.treatments import treatments
 
 app = Flask(__name__)
@@ -31,7 +30,7 @@ app.register_blueprint(adminTreatments)
 app.register_blueprint(adminAppointments)
 app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
-#app.register_blueprint(medications)
+app.register_blueprint(medications)
 app.register_blueprint(adminBlog)
 app.register_blueprint(adminProducts)
 app.register_blueprint(profile)
