@@ -21,7 +21,7 @@ def viewMedications():
         trackers = users[session["user"]["email"]].getMedications()
         print(trackers)
         if len(trackers) == 0:
-            flash("No medication currently")
+            flash("You are currently not on any medication")
 
         for tracker in trackers:
             today = date.today()
