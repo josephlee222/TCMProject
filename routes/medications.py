@@ -55,7 +55,7 @@ def yesterdayMedications():
         trackers = users[session["user"]["email"]].getMedications()
         print(trackers)
         if len(trackers) == 0:
-            flash("No medication currently")
+            flash("No medication has been prescribed to you currently")
 
         for tracker in trackers:
             today = date.today() - timedelta(days=int(1))
