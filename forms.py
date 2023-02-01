@@ -319,9 +319,9 @@ class createMedicationForm(Form):
                                 (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('No. of times',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('one times a day', '1 times a day'),
-                                              ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day')])
+                                     choices=[(1, '1 times a day'),
+                                              (2, '2 times a day'),
+                                              (3, '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
@@ -350,9 +350,9 @@ class editMedicationForm(Form):
                                  (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('No. of times',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('one times a day', '1 times a day'),
-                                              ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day')])
+                                     choices=[(1, '1 times a day'),
+                                              (2, '2 times a day'),
+                                              (3, '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
@@ -586,7 +586,7 @@ class CheckoutForm(Form):
     ])
 # ADMIN BLOG FORMS
 class createArticleForm(Form):
-    title = StringField("Blog Title Input", [
+    title = StringField("Title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
         validators.DataRequired(message="Blog title is required.")
     ])
@@ -613,3 +613,9 @@ class editBlogForm(Form):
     ])
     submit = SubmitField("Edit Blog")
 #how to update a previously existing blog using this function?
+
+
+class medicationForm(Form):
+    morning = BooleanField("Morning")
+    afternoon = BooleanField("Afternoon")
+    night = BooleanField("Night")

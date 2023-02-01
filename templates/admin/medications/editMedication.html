@@ -21,24 +21,24 @@
             <div class="col-lg-6">
                 <h2 class="h4">Medication Information</h2>
                 <div class="mb-3">
-                    {{ formHelper.renderField(form.name, value=medication.getName())}}
+                    {{ formHelper.renderField(form.name)}}
                 </div>
                 <div class="mb-3">
-                    {{ formHelper.renderField(form.description, value=medication.getDescription())}}
+                    {{ formHelper.renderField(form.description)}}
                 </div>
                 <div class="row mb-3">
                     <div class="col-6 col-md-4">
-                        {{ formHelper.renderField(form.duration, value=medication.getDuration_of_medication()) }}
+                        {{ formHelper.renderField(form.duration) }}
                     </div>
                     <div class="col-6 col-md-4">
-                        {{ formHelper.renderField(form.pills) }}
+                        {{ formHelper.renderField(form.pills)}}
                     </div>
                     <div class="col-6 col-md-4">
-                        {{ formHelper.renderField(form.frequency_of_pills, value=medication.getFrequency_of_pills()) }}
+                        {{ formHelper.renderField(form.frequency_of_pills) }}
                     </div>
                 </div>
                 <div class="mb-3">
-                    {{ formHelper.renderField(form.additional_notes, value=medication.getNotes()) }}
+                    {{ formHelper.renderField(form.additional_notes) }}
                 </div>
             </div>
         </div>

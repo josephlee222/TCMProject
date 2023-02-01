@@ -62,7 +62,8 @@ def editTracker(email, id):
                 medication.setName(form.name.data)
                 medication.setDescription(form.description.data)
                 medication.setDuration_of_medication(form.duration.data)
-                medication.setFrequency_of_pills(form.pills.data)
+                medication.setFrequency_of_pills(form.frequency_of_pills.data)
+                medication.setNo_of_pills(form.pills.data)
                 medication.setNotes(form.additional_notes.data)
 
                 flash("Successfully edited medication.", category="success")
@@ -70,7 +71,7 @@ def editTracker(email, id):
             else:
                 flashFormErrors("Unable to edit the treatment", form.errors)
 
-            form.name.date = medication.getName()
+            form.name.data = medication.getName()
             form.description.data = medication.getDescription()
             form.duration.data = medication.getDuration_of_medication()
             form.pills.data = medication.getNo_of_pills()
@@ -82,6 +83,15 @@ def editTracker(email, id):
         flash("Unable to edit treatment details: treatment does not exist", category="error")
         return redirect(url_for("adminTrackers.viewAllTrackers", email=email))
 
+@adminTrackers.route("/admin/trackers/view/<email>/<id>", methods=['GET'])
+@adminAccess
+def viewTracker(email, id):
+    form = searchTracker(request.form)
+
+    with shelve.open("users") as users:
+        trackers = users[email].getMedications()[int(id)]
+
+        return render_template("admin/medications/viewspecificMedication.html", form=form, trackers=trackers, email=email, id=id)
 
 @adminTrackers.route("/admin/trackers/delete/<email>/<id>")
 @adminAccess

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Medications{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">medication</span>
+        <div>
+            <h1>View Medications</h1>
+            <h6 class="m-0">{{ email }}</h6>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2 class="h4">Medication Information</h2>
+            <div class="col-md-4">
+                <p>Medication Name<br>{{ trackers.getName() }}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Description of Medication<br>{{ trackers.getDescription() }}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Duration of Medication<br>{{ trackers.getDate().strftime('%d/%m/%Y') }} - {{ trackers.getEnddate().strftime('%d/%m/%Y') }}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Dosage<br>{{ trackers.getNo_of_pills() }} pill(s) / {{ trackers.getFrequency_of_pills() }} time(s) per day</p>
+            </div>
+            <div class="col-md-4">
+                <p>Notes<br>{{ trackers.getNotes() }}</p>
+            </div>
+        </div>
+        <a href="{{ url_for("adminTrackers.editTracker", email=email, id=id) }}"><button class="btn custom-btn">Edit </button></a>
+        <a href="{{ url_for("adminTrackers.viewAllTrackers", email=email) }}"><button class="btn custom-btn mb-3">Back to View All Medication</button></a>
+    </div>
+{% endblock %}
+{% block extras %}
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewMedications.js') }}"></script>
+{% endblock %}
