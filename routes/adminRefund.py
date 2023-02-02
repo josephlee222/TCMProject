@@ -75,7 +75,7 @@ def editRefund(id):
 
         return render_template("admin/refund/editRefunds.html", refunds=refunds, form=form)
     except KeyError:
-        flash("Unable to edit product details: product does not exist", category="error")
+        flash("Unable to edit refund request: product does not exist", category="error")
     return redirect(url_for("adminRefund.viewAllRefunds"))
 @adminRefund.route("/admin/refund/delete/<id>", methods=['GET', 'POST'])
 @adminAccess
