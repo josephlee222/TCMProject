@@ -10,7 +10,20 @@ adminRefund = Blueprint("adminRefund", __name__)
 
 # Admin side products
 
-@adminRefund.route("/admin/refund/add", methods=['GET', 'POST'])
+@adminRefund.route("/admin/refunds", methods=['GET', 'POST'])
+@adminAccess
+def viewAllRefunds():
+    # Bring up form functions for webpage
+    form = searchRefundForm(request.form)
+    # Load products onto webpage
+    with shelve.open("refunds") as refunds:
+        if len(refunds.keys()) == 0:
+            flash("No refund request found.")
+        #Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
+        return render_template("admin/refunds/viewRefunds.html", form=form, refunds=refunds)
+
+
+@adminRefund.route("/admin/refunds/add", methods=['GET', 'POST'])
 @adminAccess
 def addRefund():
     form = addRefundForm(request.form)
@@ -29,23 +42,9 @@ def addRefund():
 
         flash("Refund successfully created")
         return redirect(url_for("adminRefund.viewAllRefunds"))
-    return render_template("admin/refund/addRefunds.html", form=form)
+    return render_template("admin/refunds/addRefunds.html", form=form)
 
-
-@adminRefund.route("/admin/refund", methods=['GET', 'POST'])
-@adminAccess
-def viewAllRefunds():
-    # Bring up form functions for webpage
-    form = searchRefundForm(request.form)
-    # Load products onto webpage
-    with shelve.open("refunds") as refunds:
-        if len(refunds.keys()) == 0:
-            flash("No refund request found.")
-        #Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
-        return render_template("admin/refund/viewRefunds.html", form=form, refunds=refunds)
-
-
-@adminRefund.route("/admin/refund/edit/<id>", methods=['GET', 'POST'])
+@adminRefund.route("/admin/refunds/edit/<id>", methods=['GET', 'POST'])
 @adminAccess
 def editRefund(id):
     form = editRefundForm(request.form)
@@ -73,7 +72,7 @@ def editRefund(id):
         form.product.data = refund.getproduct()
         form.reason.data = refund.getreason()
 
-        return render_template("admin/refund/editRefunds.html", refunds=refunds, form=form)
+        return render_template("admin/refunds/editRefunds.html", refunds=refunds, form=form)
     except KeyError:
         flash("Unable to edit refund request: product does not exist", category="error")
     return redirect(url_for("adminRefund.viewAllRefunds"))
