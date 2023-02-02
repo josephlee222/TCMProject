@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}
+    Edit Refund
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
+        <div>
+            <h1>Edit Refund Request</h1>
+            <h6 class="m-0">{{ refund.getName() }}</h6>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <ul class="nav nav-tabs overflow flex-nowrap">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Refund Information</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="h4">Product Information</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.fname) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ formHelper.renderField(form.lname) }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.email) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.product) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.reason) }}
+                </div>>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {{ formHelper.renderField(form.submit) }}
+            </div>
+        </div>
+    </form>
+{% endblock %}
