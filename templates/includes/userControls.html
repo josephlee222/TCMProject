@@ -2,32 +2,47 @@
     <div class="navbar-nav me-1">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ session["user"]["name"] }} {% if session["cartAmount"] > 0 %}<span class="ms-1 badge bg-custom">{{ session["cartAmount"] }}</span>{% endif %}
+                {{ session["user"]["name"] }} {% if session["cartAmount"] > 0 %}
+                <span class="ms-1 badge bg-custom">{{ session["cartAmount"] }}</span>{% endif %}
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("profile.viewProfile") }}"><span class="material-icons me-1">person</span>My Profile</a></li>
-                <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("cart.viewCart") }}"><span class="material-icons me-1">shopping_cart</span>
-                    Cart {% if session["cartAmount"] > 0 %}<span class="ms-1 badge bg-custom">{{ session["cartAmount"] }}</span>{% endif %}
+                <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("profile.viewProfile") }}"><span
+                        class="material-icons me-1">person</span>My Profile</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("cart.viewCart") }}"><span
+                        class="material-icons me-1">shopping_cart</span>
+                    Cart {% if session["cartAmount"] > 0 %}
+                        <span class="ms-1 badge bg-custom">{{ session["cartAmount"] }}</span>{% endif %}
                 </a></li>
-                <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">medication</span>Medications</a></li>
+                <li><a class="dropdown-item d-flex align-items-center"
+                       href="{{ url_for("medications.viewMedications") }}"><span
+                        class="material-icons me-1">medication</span>Medications</a></li>
                 <hr class="dropdown-divider">
-                <li><a class="dropdown-item d-flex align-items-center" onclick="increaseZoom()" style="cursor: pointer"><span class="material-icons me-1">add</span>Zoom In</a></li>
-                <li><a class="dropdown-item d-flex align-items-center" onclick="decreaseZoom()" style="cursor: pointer"><span class="material-icons me-1">remove</span>Zoom Out</a></li>
-                <li><a class="dropdown-item d-flex align-items-center" onclick="resetZoom()" style="cursor: pointer"><span class="material-icons me-1">undo</span>Reset Zoom</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" onclick="increaseZoom()" style="cursor: pointer"><span
+                        class="material-icons me-1">add</span>Zoom In</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" onclick="decreaseZoom()" style="cursor: pointer"><span
+                        class="material-icons me-1">remove</span>Zoom Out</a></li>
+                <li><a class="dropdown-item d-flex align-items-center" onclick="resetZoom()"
+                       style="cursor: pointer"><span class="material-icons me-1">undo</span>Reset Zoom</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
                 {% if session["user"]["accountType"] == "admin" %}
-                    <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Admin Panel</a></li>
+                    <li><a class="dropdown-item d-flex align-items-center"
+                           href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Admin
+                        Panel</a></li>
                 {% endif %}
                 {% if session["user"]["accountType"] == "delivery" %}
-                    <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Delivery Panel</a></li>
+                    <li><a class="dropdown-item d-flex align-items-center"
+                           href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Delivery
+                        Panel</a></li>
                 {% endif %}
-                <li><a class="dropdown-item text-danger d-flex align-items-center" href="/logout"><span class="material-icons me-1">logout</span>Logout</a></li>
+                <li><a class="dropdown-item text-danger d-flex align-items-center" href="/logout"><span
+                        class="material-icons me-1">logout</span>Logout</a></li>
             </ul>
         </li>
+        {% else %}
     </div>
-{% else %}
+
     {% include "includes/accessibilityDropdown.html" %}
     <a href="/login">
         <button class="btn custom-btn mt-2 mt-lg-0">Login/Register</button>
