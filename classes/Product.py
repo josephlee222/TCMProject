@@ -4,7 +4,7 @@ from marko import convert
 
 
 class Product:
-    def __init__(self, name, description, benefits, price, details="", salePrice=0, onSale=0, images=[]):
+    def __init__(self, name, description, benefits, price, salePrice=0, onSale=0, images=[]):
         # Init class with safe measures
         with shelve.open("counter", writeback=True) as counter:
             if "shop" not in counter:
@@ -21,7 +21,6 @@ class Product:
             self.name = str(name)
             self.description = str(description)
             self.benefits = str(benefits)
-            self.details = str(details)
             self.price = float(price)
             self.salePrice = float(salePrice)
             self.onSale = bool(onSale)
@@ -48,9 +47,6 @@ class Product:
     def getConvertedBenefits(self):
         return convert(self.benefits)
 
-    def getDetails(self):
-        return self.details
-
     def getPrice(self):
         return self.price
 
@@ -71,9 +67,6 @@ class Product:
 
     def setBenefits(self, benefits):
         self.benefits = benefits
-
-    def setDetails(self, details):
-        self.details = details
 
     def setPrice(self, price):
         self.price = float(price)

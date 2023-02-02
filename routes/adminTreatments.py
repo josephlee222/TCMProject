@@ -50,12 +50,13 @@ def addTreatment():
         with shelve.open("treatments") as treatments:
             treatments[str(treatment.getId())] = treatment
 
-        flash("Successfully created treatment.", category="success")
+        flash("Successfully created treatment", category="success")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
     else:
         flashFormErrors("Unable to create the treatment", form.errors)
 
     return render_template("admin/shop/addTreatment.html", form=form)
+
 
 @adminTreatments.route("/admin/treatments/edit/<id>", methods=['GET', 'POST'])
 @adminAccess
@@ -107,7 +108,7 @@ def deleteTreatment(id):
 
     return redirect(url_for("adminTreatments.viewAllTreatments"))
 
-@adminTreatments.route("/admin/treatments/edit/images/<id>", methods=['GET', 'POST'])
+@adminTreatments.route("/admin/treatments/edit/<id>/images", methods=['GET', 'POST'])
 @adminAccess
 def editTreatmentImages(id):
     form = uploadImageForm(request.form)
@@ -137,7 +138,7 @@ def editTreatmentImages(id):
         flash("Unable to edit treatment images: treatment does not exist", category="error")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
 
-@adminTreatments.route("/admin/treatments/edit/images/<id>/delete/<imageId>")
+@adminTreatments.route("/admin/treatments/edit/<id>/images/delete/<imageId>")
 @adminAccess
 def deleteTreatmentImage(id, imageId):
     try:
@@ -157,7 +158,7 @@ def deleteTreatmentImage(id, imageId):
         flash("Unable to delete treatment image: treatment does not exist", category="error")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
 
-@adminTreatments.route("/admin/treatments/edit/images/<id>/right/<imageId>")
+@adminTreatments.route("/admin/treatments/edit/<id>/images/right/<imageId>")
 @adminAccess
 def moveTreatmentImageRight(id: int, imageId: int):
     try:
@@ -174,7 +175,7 @@ def moveTreatmentImageRight(id: int, imageId: int):
         flash("Unable to edit treatment image: treatment does not exist", category="error")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
 
-@adminTreatments.route("/admin/treatments/edit/images/<id>/left/<imageId>")
+@adminTreatments.route("/admin/treatments/edit/<id>/images/left/<imageId>")
 @adminAccess
 def moveTreatmentImageLeft(id: int, imageId: int):
     try:
