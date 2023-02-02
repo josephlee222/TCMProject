@@ -69,7 +69,7 @@
 {% endblock %}
 {% block scripts %}
     <script>
-        var descriptionMd = new EasyMDE({ element: document.getElementById("description"), maxHeight: "150px", });
-        var benefitsMd = new EasyMDE({ element: document.getElementById("benefits"), maxHeight: "150px", });
+        var descriptionMd = new EasyMDE({ element: document.getElementById("description"), maxHeight: "150px", forceSync:true, });
+        var benefitsMd = new EasyMDE({ element: document.getElementById("benefits"), maxHeight: "150px", forceSync:true, });
     </script>
 {% endblock %}

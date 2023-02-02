@@ -30,8 +30,9 @@
             <table class="table table-striped w-100">
                 <thead>
                     <th>Product Name</th>
+                    <th>Normal Price</th>
+                    <th>Sale Price</th>
                     <th>On Sale?</th>
-                    <th>Price</th>
                     <th>Actions</th>
                 </thead>
                 <tbody>
@@ -39,8 +40,9 @@
                     {% for product in products %}
                         <tr>
                             <td>{{ products[product]["name"] }}</td>
+                            <td>${{ products[product]["price"] }}</td>
+                            <td>${{ products[product]["salePrice"] }}</td>
                             <td>{{ products[product]["onSale"] }}</td>
-                            <td>{{ products[product]["price"] }}</td>
                             <td class="text-nowrap">
                                 <a href="#"><button class="btn custom-btn">View Product</button></a>
                                 <a href="{{ url_for("adminProducts.editProduct", id=products[product]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
