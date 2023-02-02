@@ -613,3 +613,48 @@ class editBlogForm(Form):
     ])
     submit = SubmitField("Edit Blog")
 #how to update a previously existing blog using this function?
+
+class addRefundForm(Form):
+    fname = StringField('First Name', [
+        validators.DataRequired(message='Please input your first name.')
+    ])
+    lname = StringField('Last Name', [
+        validators.DataRequired(message='Please input your last name.')
+    ])
+    email = EmailField('Email Address', [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message='E-mail is required to continue with refund')
+    ])
+    product = StringField('Product name', [
+        validators.DataRequired(message='Product name is required to continue with refund')
+    ])
+    reason = TextAreaField('Reason for refund', [
+        validators.DataRequired(message='Reason is required to continue with refund')
+    ])
+    submit = SubmitField("Submit")
+
+class searchRefundForm(Form):
+    name = StringField("Search by name", [
+        validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Name is required to search")
+    ])
+
+class editRefundForm(Form):
+    fname = StringField('First Name', [
+        validators.DataRequired(message='Please input your first name.')
+    ])
+    lname = StringField('Last Name', [
+        validators.DataRequired(message='Please input your last name.')
+    ])
+    email = EmailField('Email Address', [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message='E-mail is required to continue with refund')
+    ])
+    product = StringField('Product name', [
+        validators.DataRequired(message='Product name is required to continue with refund')
+    ])
+    reason = TextAreaField('Reason for refund', [
+        validators.DataRequired(message='Reason is required to continue with refund'),
+        validators.optional()
+    ])
+    submit = SubmitField("Edit Refund")

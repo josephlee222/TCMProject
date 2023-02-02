@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}All Users{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">groups</span>
+        <div>
+            <h1>View Refunds</h1>
+            <h6 class="m-0">View all refund requests</h6>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row mb-4">
+            <div class="col-lg-9 mb-3 mb-lg-0">
+                {{ form.name(class_="form-control", placeholder="Search by Name...") }}
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn custom-btn w-100" value="Search">
+            </div>
+        </div>
+    </form>
+    <a href="{{ url_for("adminProducts.addRefund") }}"><button class="btn custom-btn mb-3">Create New Refund</button></a>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>E-mail</th>
+                    <th>Product</th>
+                    <th>Reason</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                {% if refunds|length > 0 %}
+                    {% for refund in refunds %}
+                        <tr>
+                            <td>{{ refunds[refund]["fname"] }}</td>
+                            <td>{{ refunds[refund]["lname"] }}</td>
+                            <td>{{ refunds[refund]["email"] }}</td>
+                            <td>{{ refunds[refund]["product"] }}</td>
+                            <td>{{ refunds[refund]["reason"] }}</td>
+                            <td class="text-nowrap">
+                                <a href="{{ url_for("adminRefund.viewAllRefund", email=users[user]["email"]) }}"><button class="btn custom-btn">View Refund</button></a>
+                                <a href="{{ url_for("adminRefund.editRefund", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>
+                                <a href="{{ url_for("adminRefund.deleteRefund", email=users[user]["email"]) }}"><button class="btn btn-danger">Delete</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No refunds added yet.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewProducts.js') }}"></script>
+{% endblock %}
