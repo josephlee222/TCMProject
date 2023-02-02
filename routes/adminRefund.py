@@ -54,7 +54,7 @@ def editRefund(id):
             refund = refunds[id]
 
             if request.method == "POST" and form.validate():
-                print("Edit product here")
+                print("Edit refund request here")
                 refund.setfname(form.fname.data)
                 refund.setlname(form.lname.data)
                 refund.setemail(form.email.data)
@@ -73,7 +73,7 @@ def editRefund(id):
         form.product.data = refund.getproduct()
         form.reason.data = refund.getreason()
 
-        return render_template("admin/refund/editRefunds.html", product=product, form=form)
+        return render_template("admin/refund/editRefunds.html", refunds=refunds, form=form)
     except KeyError:
         flash("Unable to edit product details: product does not exist", category="error")
     return redirect(url_for("adminRefund.viewAllRefunds"))
