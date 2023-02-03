@@ -46,8 +46,8 @@
                             <td>{{ refunds[refund]["product"] }}</td>
                             <td>{{ refunds[refund]["reason"] }}</td>
                             <td class="text-nowrap">
-                                <a href="{{ url_for("adminRefund.viewAllRefund", email=users[user]["email"]) }}"><button class="btn custom-btn">View Refund</button></a>
-                                <a href="{{ url_for("adminRefund.editRefund", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>
+                                <a href="{{ url_for("adminRefund.viewAllRefunds", email=users[user]["email"]) }}"><button class="btn custom-btn">View Refund</button></a>
+                                <a href="{{ url_for("adminRefund.editRefunds", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>
                                 <a href="{{ url_for("adminRefund.deleteRefund", email=users[user]["email"]) }}"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>

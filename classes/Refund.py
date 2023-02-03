@@ -1,10 +1,15 @@
 class Refund:
     def __init__(self, fname, lname, email, product, reason):
+        self.__id = id(str)
         self.__fname = fname
         self.__lname = lname
         self.__email = email
         self.__product = product
         self.__reason = reason
+
+
+    def getid(self):
+        return self.__id
 
     def getfname(self):
         return self.__fname
@@ -20,6 +25,9 @@ class Refund:
 
     def getreason(self):
         return self.__reason
+
+    def setid(self, id):
+        self.__id = id
 
     def setfname(self, fname):
         self.__fname = fname

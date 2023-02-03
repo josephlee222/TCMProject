@@ -8,6 +8,7 @@ from functions import flashFormErrors, adminAccess
 
 adminRefund = Blueprint("adminRefund", __name__)
 
+
 # Admin side products
 
 @adminRefund.route("/admin/refunds", methods=['GET', 'POST'])
@@ -19,7 +20,7 @@ def viewAllRefunds():
     with shelve.open("refunds") as refunds:
         if len(refunds.keys()) == 0:
             flash("No refund request found.")
-        #Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
+        # Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
         return render_template("admin/refunds/viewRefunds.html", form=form, refunds=refunds)
 
 
@@ -27,14 +28,14 @@ def viewAllRefunds():
 @adminAccess
 def addRefund():
     form = addRefundForm(request.form)
-    #Check whether user is submitting data and whether form is valid
+    # Check whether user is submitting data and whether form is valid
     if request.method == "POST" and form.validate():
         fname = form.fname.data
         lname = form.lname.data
         email = form.email.data
         product = form.product.data
         reason = form.reason.data
-        #Take data from form and combine into a single object representing the product
+        # Take data from form and combine into a single object representing the product
         refund = Refund(fname, lname, email, product, reason)
 
         with shelve.open("refunds", writeback=True) as refunds:
@@ -43,6 +44,7 @@ def addRefund():
         flash("Refund successfully created")
         return redirect(url_for("adminRefund.viewAllRefunds"))
     return render_template("admin/refunds/addRefunds.html", form=form)
+
 
 @adminRefund.route("/admin/refunds/edit/<id>", methods=['GET', 'POST'])
 @adminAccess
@@ -76,6 +78,8 @@ def editRefund(id):
     except KeyError:
         flash("Unable to edit refund request: product does not exist", category="error")
     return redirect(url_for("adminRefund.viewAllRefunds"))
+
+
 @adminRefund.route("/admin/refund/delete/<id>", methods=['GET', 'POST'])
 @adminAccess
 def deleteRefund(id):
@@ -87,5 +91,3 @@ def deleteRefund(id):
     except KeyError:
         flash("Request either does not exist on database or has a key mismatch.")
     return redirect(url_for("adminRefund.viewAllRefunds"))
-
-
