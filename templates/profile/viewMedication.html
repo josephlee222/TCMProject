@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}
+    My Medications
+{% endblock %}
+{% block nav %}
+    {% include "includes/normalNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">face</span>
+        <div>
+            <h1>My Profile</h1>
+            <h6 class="m-0">{{ session["user"]["email"] }}</h6>
+        </div>
+    </div>
+    <div class="row">
+        {{ profileControls.profileControls(2) }}
+        <div class="col-lg-9">
+            <div class="d-flex align-items-center mb-4">
+                <h2 class="h4 flex-grow-1 m-0">My Medications</h2>
+            </div>
+
+            <div id="Show_current_date" class="d-flex align-items-center w-100 mb-4">
+                <a href="{{ url_for("medications.yesterdayMedications") }}" style="display: contents">
+                    <button class="btn custom-btn d-flex"><span class="material-icons me-1">chevron_left</span>Yesterday
+                    </button>
+                </a>
+                <p class="mx-3 mb-0 fw-bold flex-grow-1 text-center">{{ now.strftime('%d/%m/%Y') }}</p>
+                <a href="{{ url_for("medications.tommorrowMedications") }}" style="display: contents">
+                    <button class="btn custom-btn d-flex">Tomorrow<span class="material-icons ms-1">chevron_right</span>
+                    </button>
+                </a>
+            </div>
+
+            <div class="accordion" id="medication-acc">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="morning-acc-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#morning-acc" aria-expanded="true" aria-controls="morning">
+                            Morning
+                        </button>
+                    </h2>
+                    <div id="morning-acc" class="accordion-collapse collapse show" aria-labelledby="morning-acc-header"
+                         data-bs-parent="#medication-acc">
+                        <div class="accordion-body">
+                            {% if morning|length > 0 %}
+                                {% for medication in morning %}
+                                    <div class="card white">
+                                        <div class="card-body pb-0">
+                                            <h6 class="card-title">
+                                                {{ medication.getName() }}
+                                            </h6>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    {{ infoBox.infoBox("Dosage", medication.getNo_of_pills()|string + " pill(s)") }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    {{ infoBox.infoBox("Take till", medication.getEnddate().strftime('%d/%m/%Y')) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="card white">
+                                    <div class="card-body d-flex align-items-center justify-content-center">
+                                        No medications in the morning
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="afternoon-acc-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#afternoon-acc" aria-expanded="false" aria-controls="afternoon">
+                            Afternoon
+                        </button>
+                    </h2>
+                    <div id="afternoon-acc" class="accordion-collapse collapse" aria-labelledby="afternoon-acc-header"
+                         data-bs-parent="#medication-acc">
+                        <div class="accordion-body">
+                            {% if afternoon|length > 0 %}
+                                {% for medication in afternoon %}
+                                    <div class="card white">
+                                        <div class="card-body pb-0">
+                                            <h6 class="card-title">
+                                                {{ medication.getName() }}
+                                            </h6>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    {{ infoBox.infoBox("Dosage", medication.getNo_of_pills()|string + " pill(s)") }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    {{ infoBox.infoBox("Take till", medication.getEnddate().strftime('%d/%m/%Y')) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="card white">
+                                    <div class="card-body d-flex align-items-center justify-content-center">
+                                        No medications in the afternoon
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="night-acc-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#night-acc" aria-expanded="false" aria-controls="night">
+                            Night
+                        </button>
+                    </h2>
+                    <div id="night-acc" class="accordion-collapse collapse" aria-labelledby="night-acc-header"
+                         data-bs-parent="#medication-acc">
+                        <div class="accordion-body">
+                            {% if night|length > 0 %}
+                                {% for medication in night %}
+                                    <div class="card white">
+                                        <div class="card-body pb-0">
+                                            <h6 class="card-title">
+                                                {{ medication.getName() }}
+                                            </h6>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    {{ infoBox.infoBox("Dosage", medication.getNo_of_pills()|string + " pill(s)") }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    {{ infoBox.infoBox("Take till", medication.getEnddate().strftime('%d/%m/%Y')) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="card white">
+                                    <div class="card-body d-flex align-items-center justify-content-center">
+                                        No medications at night
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

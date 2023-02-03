@@ -252,6 +252,10 @@ class createTreatmentForm(Form):
     def validate_images(form, images):
         print(form.images.data)
 
+    def validate_salePrice(form, salePrice):
+        if form.salePrice.data >= form.price.data:
+            raise ValidationError("Sale price cannot exceed normal price")
+
 
 class editTreatmentForm(Form):
     name = StringField("Treatment Name", [
@@ -280,9 +284,13 @@ class editTreatmentForm(Form):
 
     submit = SubmitField("Edit Treatment")
 
+    def validate_salePrice(form, salePrice):
+        if form.salePrice.data >= form.price.data:
+            raise ValidationError("Sale price cannot exceed normal price")
+
 
 class uploadImageForm(Form):
-    images = MultipleFileField("Treatment Images", [
+    images = MultipleFileField("Product Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
         # validators.DataRequired(message="Treatment Images are required")
     ])
@@ -319,9 +327,9 @@ class createMedicationForm(Form):
                                 (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('No. of times',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('one times a day', '1 times a day'),
-                                              ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day')])
+                                     choices=[(1, '1 times a day'),
+                                              (2, '2 times a day'),
+                                              (3, '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
@@ -350,9 +358,9 @@ class editMedicationForm(Form):
                                  (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('No. of times',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[('one times a day', '1 times a day'),
-                                              ('two times a day', '2 times a day'),
-                                              ('three times a day', '3 times a day')])
+                                     choices=[(1, '1 times a day'),
+                                              (2, '2 times a day'),
+                                              (3, '3 times a day')])
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
@@ -520,51 +528,64 @@ class searchProductForm(Form):
 
 class addProductForm(Form):
     name = StringField("Product Name", [
-        validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
-        validators.DataRequired(message="Product name is required")
+        validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Treatment name is required")
     ])
-    price = DecimalField("Product Price",[
-        validators.DataRequired(message="Price must be included"),
-        validators.NumberRange(0,message="Price must be above $0.")
+    price = DecimalField("Product Price ($)", [
+        validators.DataRequired(message="Product price is required")
     ])
-    details = StringField("Product Details", [
-        validators.Length(0, 100, message="Product detail must be between 3 to 100 characters"),
-        validators.Optional()
+    salePrice = DecimalField("Sale Price ($)", [
+        validators.DataRequired(message="Sale price is required")
     ])
-    benefits = TextAreaField("Product Benefits", [
-        validators.Length(0, message="Product benefits must be between 3 to 100 characters"),
-        validators.Optional()
+    onSale = BooleanField("On Sale?", [
+        validators.optional()
     ])
     description = TextAreaField("Product Description", [
-        validators.Length(0, message="Product description must be between 3 to 100 characters"),
-        validators.Optional()
+        validators.DataRequired(message="Treatment description is required")
+    ])
+    benefits = TextAreaField("Product Benefits", [
+        validators.DataRequired(message="Treatment benefits is required")
+    ])
+    images = MultipleFileField("Product Images", [
+        # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
+        # validators.DataRequired(message="Treatment Images are required")
     ])
 
+    def validate_salePrice(form, salePrice):
+        if form.salePrice.data >= form.price.data:
+            raise ValidationError("Sale price cannot exceed normal price")
+
     submit = SubmitField("Add Product")
+
+    def validate_images(form, images):
+        print(form.images.data)
 
 class editProductForm(Form):
     name = StringField("Product Name", [
         validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
         validators.DataRequired(message="Product name is required")
     ])
-    price = DecimalField("Product Price",[
-        validators.DataRequired(message="Price must be included"),
-    validators.NumberRange(0, message="Price must be above $0.")
-    ])
-    details = StringField("Product Details", [
-        validators.Length(0, 100, message="Product detail must be between 3 to 100 characters"),
-        validators.Optional()
-    ])
-    benefits = TextAreaField("Product Benefits", [
-        validators.Length(0, message="Product benefits must be between 3 to 100 characters"),
-        validators.Optional()
+    price = DecimalField("Product Price ($)", [
+        validators.DataRequired(message="Treatment price is required")
     ])
     description = TextAreaField("Product Description", [
-        validators.Length(0, message="Product description must be between 3 to 100 characters"),
-        validators.Optional()
+        validators.DataRequired(message="Treatment description is required")
+    ])
+    benefits = TextAreaField("Product Benefits", [
+        validators.DataRequired(message="Treatment benefits is required")
+    ])
+    salePrice = DecimalField("Sale Price ($)", [
+        validators.DataRequired(message="Sale price is required")
+    ])
+    onSale = BooleanField("On Sale?", [
+        validators.optional()
     ])
 
     submit = SubmitField("Edit Product")
+
+    def validate_salePrice(form, salePrice):
+        if form.salePrice.data >= form.price.data:
+            raise ValidationError("Sale price cannot exceed normal price")
 
 class CartCouponForm(Form):
     coupon = StringField("Coupon Code (Optional)", [
@@ -586,14 +607,14 @@ class CheckoutForm(Form):
     ])
 # ADMIN BLOG FORMS
 class createArticleForm(Form):
-    title = StringField("Blog Title Input", [
+    title = StringField("Title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
         validators.DataRequired(message="Blog title is required.")
     ])
     content = TextAreaField("Article Content", [
         validators.DataRequired(message="Article content is required.")
     ])
-    articleImage = FileField("Article Images", [])
+    articleImage = FileField("Article Cover Image", [])
 
     submit = SubmitField("Create Article")
 
@@ -604,14 +625,16 @@ class searchBlogForm(Form):
     ])
 
 class editBlogForm(Form):
-    title = StringField("Blog Title Input", [
+    title = StringField("Title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
         validators.DataRequired(message="Blog title is required.")
     ])
     content = TextAreaField("Article Content", [
         validators.DataRequired(message="Article content is required.")
     ])
-    submit = SubmitField("Edit Blog")
+    articleImage = FileField("Article Cover Image", [])
+
+    submit = SubmitField("Edit Article")
 #how to update a previously existing blog using this function?
 
 class addRefundForm(Form):
@@ -658,3 +681,9 @@ class editRefundForm(Form):
         validators.optional()
     ])
     submit = SubmitField("Edit Refund")
+
+
+class medicationForm(Form):
+    morning = BooleanField("Morning")
+    afternoon = BooleanField("Afternoon")
+    night = BooleanField("Night")

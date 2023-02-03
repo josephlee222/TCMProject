@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}
+    Edit Product
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
+        <div>
+            <h1>Edit Product</h1>
+            <h6 class="m-0">Edit Product Images - {{ product.getName() }}</h6>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <ul class="nav nav-tabs overflow flex-nowrap">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for("adminProducts.editProduct", id=product.getId()) }}">Product Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Manage Images</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h2 class="h4">Edit Existing Images</h2>
+            <h3 class="h6">First image appears on product card</h3>
+            <div class="mb-3">
+                <div class="row">
+                    {% for image in product.getImages() %}
+                    <div class="col-6 col-md-4 col-lg-6 col-xl-4">
+                        <div class="card white mb-3">
+                            <img src="/{{ image }}" class="card-img-top preview-img">
+                            <div class="card-body">
+                                <a href="{{ url_for("adminProducts.deleteProductImage", id=product.getId(), imageId=loop.index - 1) }}"><button class="btn btn-danger material-icons">delete</button></a>
+                                {% if loop.index - 1 != 0 %}
+                                <a href="{{ url_for("adminProducts.moveProductImageLeft", id=product.getId(), imageId=loop.index - 1) }}"><button class="btn custom-btn material-icons">chevron_left</button></a>
+                                {% endif %}
+                                {% if loop.index != product.getImages()|length %}
+                                <a href="{{ url_for("adminProducts.moveProductImageRight", id=product.getId(), imageId=loop.index - 1) }}"><button class="btn custom-btn material-icons">chevron_right</button></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form method="post" enctype="multipart/form-data">
+                <h2 class="h4">Add Images</h2>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.images) }}
+                    <div class="form-text">Only JPG, PNG and WEBP images supported</div>
+                </div>
+                {{ formHelper.renderField(form.submit) }}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

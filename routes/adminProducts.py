@@ -1,12 +1,15 @@
+import os
 import shelve
 
 from flask import flash, Blueprint, render_template, request, redirect, url_for
+from werkzeug.utils import secure_filename
 
 from classes.Product import Product
-from forms import addProductForm, editProductForm, searchProductForm
+from forms import addProductForm, editProductForm, searchProductForm, uploadImageForm
 from functions import flashFormErrors, adminAccess
 
 adminProducts = Blueprint("adminProducts", __name__)
+
 
 # Admin side products
 
@@ -14,20 +17,33 @@ adminProducts = Blueprint("adminProducts", __name__)
 @adminAccess
 def addProduct():
     form = addProductForm(request.form)
-    #Check whether user is submitting data and whether form is valid
+    # Check whether user is submitting data and whether form is valid
     if request.method == "POST" and form.validate():
         name = form.name.data
         description = form.description.data
         benefits = form.benefits.data
         price = form.price.data
-        details = form.details.data
-        #Take data from form and combine into a single object representing the product
-        product = Product(name, description, benefits, price, details)
+        salePrice = form.salePrice.data
+        onSale = form.onSale.data
+
+        # Take data from form and combine into a single object representing the product
+        product = Product(name, description, benefits, price, salePrice, onSale)
+
+        # Get images and upload
+        images = request.files.getlist("images")
+        bPath = "static/uploads/products/" + str(product.getId())
+        os.makedirs(bPath)
+
+        for image in images:
+            sPath = secure_filename(image.filename)
+            path = os.path.join(bPath, sPath)
+            image.save(path)
+            product.appendImage(path)
 
         with shelve.open("products", writeback=True) as products:
             products[str(product.getId())] = product
 
-        flash("Product successfully created")
+        flash("Successfully created product")
         return redirect(url_for("adminProducts.viewAllProducts"))
     return render_template("admin/products/addProduct.html", form=form)
 
@@ -40,8 +56,8 @@ def viewAllProducts():
     # Load products onto webpage
     with shelve.open("products") as products:
         if len(products.keys()) == 0:
-            flash("No products found.")
-        #Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
+            flash("No products found. Create one by clicking 'Create New Product'.")
+        # Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
         return render_template("admin/products/viewProducts.html", form=form, products=products)
 
 
@@ -58,10 +74,9 @@ def editProduct(id):
                 product.setName(form.name.data)
                 product.setDescription(form.description.data)
                 product.setBenefits(form.benefits.data)
-                product.setDetails(form.details.data)
                 product.setPrice(form.price.data)
-                #product.setSalePrice(form.salePrice.data)
-                #product.setOnSale(form.onSale.data)
+                product.setSalePrice(form.salePrice.data)
+                product.setOnSale(form.onSale.data)
 
                 flash("Successfully edited product.", category="success")
                 return redirect(url_for("adminProducts.viewAllProducts"))
@@ -73,12 +88,15 @@ def editProduct(id):
         form.price.data = product.getPrice()
         form.description.data = product.getDescription()
         form.benefits.data = product.getBenefits()
-        form.details.data = product.getDetails()
+        form.salePrice.data = product.getSalePrice()
+        form.onSale.data = product.getOnSale()
 
         return render_template("admin/products/editProduct.html", product=product, form=form)
     except KeyError:
         flash("Unable to edit product details: product does not exist", category="error")
     return redirect(url_for("adminProducts.viewAllProducts"))
+
+
 @adminProducts.route("/admin/products/delete/<id>", methods=['GET', 'POST'])
 @adminAccess
 def deleteProduct(id):
@@ -92,3 +110,89 @@ def deleteProduct(id):
     return redirect(url_for("adminProducts.viewAllProducts"))
 
 
+@adminProducts.route("/admin/products/edit/<id>/images", methods=['GET', 'POST'])
+@adminAccess
+def editProductImages(id):
+    form = uploadImageForm(request.form)
+    try:
+        with shelve.open("products", writeback=True) as products:
+            product = products[id]
+            if request.method == "POST" and form.validate():
+                images = request.files.getlist("images")
+                bPath = "static/uploads/products/" + str(product.getId())
+                print(images)
+
+                for image in images:
+                    if image.filename != "":
+                        sPath = secure_filename(image.filename)
+                        path = os.path.join(bPath, sPath)
+                        image.save(path)
+                        product.appendImage(path)
+                    else:
+                        flash("There are no images to upload.", category="warning")
+
+                flash("Successfully uploaded product images.", category="success")
+            else:
+                flashFormErrors("Unable to edit the treatment images", form.errors)
+
+            return render_template("admin/products/editProductImages.html", product=product, form=form)
+    except KeyError:
+        flash("Unable to edit product images: product does not exist", category="error")
+        return redirect(url_for("adminProducts.viewAllProducts"))
+
+
+@adminProducts.route("/admin/products/edit/<id>/images/delete/<imageId>")
+@adminAccess
+def deleteProductImage(id, imageId):
+    try:
+        with shelve.open("products", writeback=True) as products:
+            product = products[id]
+            if len(product.getImages()) > 1:
+                imgPath = product.getImages()[int(imageId)]
+                product.deleteImage(imageId)
+                os.remove(imgPath)
+                flash("Image successfully deleted", category="success")
+            else:
+                flash("Unable to delete the last image. Product should has at least one image", category="error")
+
+            return redirect(url_for("adminProducts.editProductImages", id=product.getId()))
+
+    except KeyError:
+        flash("Unable to delete product image: product does not exist", category="error")
+        return redirect(url_for("adminProducts.viewAllProducts"))
+
+
+@adminProducts.route("/admin/products/edit/<id>/images/right/<imageId>")
+@adminAccess
+def moveProductImageRight(id: int, imageId: int):
+    try:
+        with shelve.open("products", writeback=True) as products:
+            product = products[id]
+            productImgs = product.getImages()
+            imageId = int(imageId)
+            if len(productImgs) != imageId + 1:
+                productImgs[imageId], productImgs[imageId + 1] = productImgs[imageId + 1], productImgs[imageId]
+
+            return redirect(url_for("adminProducts.editProductImages", id=product.getId()))
+
+    except KeyError:
+        flash("Unable to edit product image: product does not exist", category="error")
+        return redirect(url_for("adminProducts.viewAllProducts"))
+
+
+@adminProducts.route("/admin/products/edit/<id>/images/left/<imageId>")
+@adminAccess
+def moveProductImageLeft(id: int, imageId: int):
+    try:
+        with shelve.open("products", writeback=True) as products:
+            product = products[id]
+            productImgs = product.getImages()
+            imageId = int(imageId)
+            if imageId != 0:
+                productImgs[imageId - 1], productImgs[imageId] = productImgs[imageId], productImgs[imageId - 1]
+
+            return redirect(url_for("adminProducts.editProductImages", id=product.getId()))
+
+    except KeyError:
+        flash("Unable to edit product image: product does not exist", category="error")
+        return redirect(url_for("adminProducts.viewAllProducts"))
