@@ -4,7 +4,8 @@ from datetime import datetime
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, Response
 from icalendar import Calendar, Event, vCalAddress, vText
 
-from forms import editProfileForm
+from classes.Address import Address
+from forms import editProfileForm, addAddressForm
 from functions import flashFormErrors, loginAccess
 
 profile = Blueprint("profile", __name__)
@@ -183,7 +184,7 @@ def viewOrderHistoryDetails(id):
 
         if order.getUserId() != session["user"]["email"]:
             flash("Unable to view your order, the order is not associated with your account", category="error")
-            return redirect(url_for("profile.viewOrderHistory"), code=404)
+            return redirect(url_for("profile.viewOrderHistory"))
 
         if order.getStatus() == 1:
             statusDescription = "Your item has been received by the clinic and its being prepared."
@@ -202,3 +203,56 @@ def viewOrderHistoryDetails(id):
     except KeyError:
         flash("Unable to view your order, it does not exist", category="error")
         return redirect(url_for("profile.viewOrderHistory"), code=404)
+
+
+@profile.route('/profile/address')
+@loginAccess
+def viewAddresses():
+    try:
+        with shelve.open("users") as users:
+            addresses = users[session["user"]["email"]].getAddress()
+
+        return render_template("profile/viewAddresses.html", addresses=addresses)
+    except KeyError:
+        flash("Unable to get your delivery addresses", category="error")
+        return redirect(url_for("profile.viewProfile"))
+
+
+@profile.route('/profile/address/add', methods=['GET', 'POST'])
+@loginAccess
+def addAddress():
+    form = addAddressForm(request.form)
+
+    if request.method == "POST" and form.validate():
+        print("Add Address Here")
+        try:
+            with shelve.open("users", writeback=True) as users:
+                user = users[session["user"]["email"]]
+
+                address = Address(form.name.data, form.location.data)
+                if address.getLatitude() is not None or address.getLongitude() is not None:
+                    user.setAddress(address)
+                    flash("Your new address has been added to your account", category="success")
+                    return redirect(url_for("profile.viewAddresses"))
+                else:
+                    flash("Unable to add address because our location provider could not find your address.", category="error")
+        except Exception as e:
+            flash("Unable to add delivery address", category="error")
+
+    return render_template("profile/addAddress.html", form=form)
+
+
+@profile.route('/profile/address/delete/<id>', methods=['GET', 'POST'])
+@loginAccess
+def deleteAddress(id):
+    try:
+        with shelve.open("users", writeback=True) as users:
+            user = users[session["user"]["email"]]
+            if user.deleteAddress(id):
+                flash("Your saved address has been deleted", category="success")
+            else:
+                flash("Unable to delete delivery address: Delivery address does not exist", category="error")
+    except KeyError:
+        flash("Unable to delete delivery address: Account or delivery address does not exist", category="error")
+
+    return redirect(url_for("profile.viewAddresses"))

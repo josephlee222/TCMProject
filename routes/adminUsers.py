@@ -164,8 +164,10 @@ def deleteAddress(email, id):
     try:
         with shelve.open("users", writeback=True) as users:
             user = users[email]
-            addresses = user.deleteAddress(id)
-            flash("Address has been successfully deleted", category="success")
+            if user.deleteAddress(id):
+                flash("Your saved address has been deleted", category="success")
+            else:
+                flash("Unable to delete delivery address: Delivery address does not exist", category="error")
     except KeyError:
         flash("Unable to delete delivery address: Account or delivery address does not exist", category="error")
 
@@ -180,12 +182,14 @@ def addAddress(email):
         with shelve.open("users", writeback=True) as users:
             user = users[email]
             if request.method == "POST" and form.validate():
-                print("Add address")
                 address = Address(form.name.data, form.location.data)
 
-                user.setAddress(address)
-                flash("Address has been successfully added", category="success")
-                return redirect(url_for("adminUsers.viewAddresses", email=email))
+                if address.getLatitude() is not None or address.getLongitude() is not None:
+                    user.setAddress(address)
+                    flash("Your new address has been added to your account", category="success")
+                    return redirect(url_for("adminUsers.viewAddresses", email=email))
+                else:
+                    flash("Unable to add address because our location provider could not find your address.", category="error")
             else:
                 flashFormErrors("Unable to add address", form.errors)
 
