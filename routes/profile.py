@@ -5,7 +5,7 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from icalendar import Calendar, Event, vCalAddress, vText
 
 from classes.Address import Address
-from forms import editProfileForm, addAddressForm
+from forms import editProfileForm, addAddressForm, editAddressForm
 from functions import flashFormErrors, loginAccess
 
 profile = Blueprint("profile", __name__)
@@ -230,7 +230,7 @@ def addAddress():
                 user = users[session["user"]["email"]]
 
                 address = Address(form.name.data, form.location.data)
-                if address.getLatitude() is not None or address.getLongitude() is not None:
+                if address.getLatitude() is not None and address.getLongitude() is not None:
                     user.setAddress(address)
                     flash("Your new address has been added to your account", category="success")
                     return redirect(url_for("profile.viewAddresses"))
@@ -256,3 +256,40 @@ def deleteAddress(id):
         flash("Unable to delete delivery address: Account or delivery address does not exist", category="error")
 
     return redirect(url_for("profile.viewAddresses"))
+
+
+@profile.route('/profile/address/edit/<id>', methods=['GET', 'POST'])
+@loginAccess
+def editAddress(id):
+    form = editAddressForm(request.form)
+    try:
+        with shelve.open("users", writeback=True) as users:
+            user = users[session["user"]["email"]]
+
+            if request.method == "POST" and form.validate():
+                address = Address(form.name.data, form.location.data)
+                if address.getLatitude() is not None and address.getLongitude() is not None:
+                    user.editAddress(int(id), address)
+                    flash("Address has been successfully edited", category="success")
+                    return redirect(url_for("profile.viewAddresses"))
+                else:
+                    flash("Unable to edit your address because our location provider could not find your address.", category="error")
+            else:
+                flashFormErrors("Unable to edit address", form.errors)
+
+            if user.getAddress() is not None:
+                try:
+                    address = user.getAddress()[int(id)]
+                    form.name.data = address.getName()
+                    form.location.data = address.getLocation()
+                    return render_template("profile/editAddress.html", form=form)
+                except IndexError:
+                    flash("Cannot edit address. Specified address ID does not exist.", category="error")
+                    return redirect(url_for("profile.viewAddresses"))
+            else:
+                flash("Cannot edit address. No address has been added yet", category="error")
+                return redirect(url_for("profile.viewAddresses"))
+
+    except KeyError:
+        flash("Unable to delete delivery address: Account or delivery address does not exist", category="error")
+        return redirect(url_for("profile.viewAddresses"))

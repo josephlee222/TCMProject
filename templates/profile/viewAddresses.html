@@ -33,7 +33,7 @@
                             {{ infoBox.infoBox("Location", address.getLocation()) }}
                             <div class="d-flex">
                                 <a target="_blank" href="https://maps.google.com/?q={{ address.getLatitude() }},{{ address.getLongitude() }}"><button class="btn custom-btn me-1">View on Maps</button></a>
-                                <a href="#"><button class="btn custom-btn me-1">Edit</button></a>
+                                <a href="{{ url_for("profile.editAddress", id=loop.index - 1) }}"><button class="btn custom-btn me-1">Edit</button></a>
                                 <a onclick="showDeleteModal('{{ address.getName() }}', '{{ url_for("profile.deleteAddress", id=loop.index - 1) }}')"><button class="btn btn-danger">Delete</button></a>
                             </div>
                         </div>

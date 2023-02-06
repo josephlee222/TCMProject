@@ -24,12 +24,12 @@
             </div>
 
             <div id="Show_current_date" class="d-flex align-items-center w-100 mb-4">
-                <a href="{{ url_for("medications.yesterdayMedications") }}" style="display: contents">
+                <a href="{{ url_for("medications.viewMedications", day=day - 1) }}" style="display: contents">
                     <button class="btn custom-btn d-flex"><span class="material-icons me-1">chevron_left</span>Yesterday
                     </button>
                 </a>
-                <p class="mx-3 mb-0 fw-bold flex-grow-1 text-center">{{ now.strftime('%d/%m/%Y') }}</p>
-                <a href="{{ url_for("medications.tommorrowMedications") }}" style="display: contents">
+                <p class="mx-3 mb-0 fw-bold flex-grow-1 text-center">{{ date.strftime('%d/%m/%Y') }}</p>
+                <a href="{{ url_for("medications.viewMedications", day=day + 1) }}" style="display: contents">
                     <button class="btn custom-btn d-flex">Tomorrow<span class="material-icons ms-1">chevron_right</span>
                     </button>
                 </a>
@@ -45,10 +45,10 @@
                     </h2>
                     <div id="morning-acc" class="accordion-collapse collapse show" aria-labelledby="morning-acc-header"
                          data-bs-parent="#medication-acc">
-                        <div class="accordion-body">
+                        <div class="accordion-body pb-0">
                             {% if morning|length > 0 %}
                                 {% for medication in morning %}
-                                    <div class="card white">
+                                    <div class="card white mb-3">
                                         <div class="card-body pb-0">
                                             <h6 class="card-title">
                                                 {{ medication.getName() }}
@@ -65,7 +65,7 @@
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <div class="card white">
+                                <div class="card white mb-3">
                                     <div class="card-body d-flex align-items-center justify-content-center">
                                         No medications in the morning
                                     </div>
@@ -83,10 +83,10 @@
                     </h2>
                     <div id="afternoon-acc" class="accordion-collapse collapse" aria-labelledby="afternoon-acc-header"
                          data-bs-parent="#medication-acc">
-                        <div class="accordion-body">
+                        <div class="accordion-body pb-0">
                             {% if afternoon|length > 0 %}
                                 {% for medication in afternoon %}
-                                    <div class="card white">
+                                    <div class="card white mb-3">
                                         <div class="card-body pb-0">
                                             <h6 class="card-title">
                                                 {{ medication.getName() }}
@@ -103,7 +103,7 @@
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <div class="card white">
+                                <div class="card white mb-3">
                                     <div class="card-body d-flex align-items-center justify-content-center">
                                         No medications in the afternoon
                                     </div>
@@ -121,10 +121,10 @@
                     </h2>
                     <div id="night-acc" class="accordion-collapse collapse" aria-labelledby="night-acc-header"
                          data-bs-parent="#medication-acc">
-                        <div class="accordion-body">
+                        <div class="accordion-body pb-0">
                             {% if night|length > 0 %}
                                 {% for medication in night %}
-                                    <div class="card white">
+                                    <div class="card white mb-3">
                                         <div class="card-body pb-0">
                                             <h6 class="card-title">
                                                 {{ medication.getName() }}
@@ -141,7 +141,7 @@
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <div class="card white">
+                                <div class="card white mb-3">
                                     <div class="card-body d-flex align-items-center justify-content-center">
                                         No medications at night
                                     </div>

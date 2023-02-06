@@ -136,10 +136,12 @@ def editAddress(email, id):
             if request.method == "POST" and form.validate():
                 print("Edit Address")
                 address = Address(form.name.data, form.location.data)
-                user.editAddress(int(id), address)
-
-                flash("Address has been successfully edited", category="success")
-                return redirect(url_for("adminUsers.viewAddresses", email=email))
+                if address.getLatitude() is not None and address.getLongitude() is not None:
+                    user.editAddress(int(id), address)
+                    flash("Address has been successfully edited", category="success")
+                    return redirect(url_for("adminUsers.viewAddresses", email=email))
+                else:
+                    flash("Unable to edit address because our location provider could not find your address.", category="error")
             else:
                 flashFormErrors("Unable to edit address", form.errors)
                 if user.getAddress() is not None:
@@ -184,7 +186,7 @@ def addAddress(email):
             if request.method == "POST" and form.validate():
                 address = Address(form.name.data, form.location.data)
 
-                if address.getLatitude() is not None or address.getLongitude() is not None:
+                if address.getLatitude() is not None and address.getLongitude() is not None:
                     user.setAddress(address)
                     flash("Your new address has been added to your account", category="success")
                     return redirect(url_for("adminUsers.viewAddresses", email=email))
