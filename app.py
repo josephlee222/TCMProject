@@ -2,6 +2,8 @@ import shelve
 from datetime import time, datetime
 
 from flask import Flask, render_template, session, url_for
+
+from classes.User import User
 from functions import normalAccess
 
 from routes.adminAppointments import adminAppointments
@@ -63,6 +65,14 @@ def initialization():
             print("No opening hours detected. Setting default 9am - 9pm opening hours.")
             data["opening"] = time(9, 0, 0)
             data["closing"] = time(21, 0, 0)
+
+    with shelve.open("users", writeback=True) as users:
+        if "admin@admin.com" not in users:
+            print("Default admin user not detected. Creating one...")
+            user = User("Admin", "Adminpassword", "admin@admin.com", "admin")
+            users["admin@admin.com"] = user
+            print("Default Admin E-mail: admin@admin.com")
+            print("Default Admin Password: Adminpassword")
 
 initialization()
 

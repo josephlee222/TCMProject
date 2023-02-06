@@ -5,8 +5,9 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from icalendar import Calendar, Event, vCalAddress, vText
 
 from classes.Address import Address
-from forms import editProfileForm, addAddressForm, editAddressForm
-from functions import flashFormErrors, loginAccess
+from classes.Appointment import Appointment
+from forms import editProfileForm, addAddressForm, editAddressForm, bookAppointmentForm
+from functions import flashFormErrors, loginAccess, convertHoursToTime
 
 profile = Blueprint("profile", __name__)
 
@@ -201,8 +202,69 @@ def viewOrderHistoryDetails(id):
 
         return render_template("profile/viewOrderHistoryDetails.html", order=order, statusDescription=statusDescription)
     except KeyError:
-        flash("Unable to view your order, it does not exist", category="error")
-        return redirect(url_for("profile.viewOrderHistory"), code=404)
+        flash("Unable to view your order, order does not exist", category="error")
+        return redirect(url_for("profile.viewOrderHistory"))
+
+
+@profile.route('/profile/orders/<id>/book/<itemId>', methods=['GET', 'POST'])
+@loginAccess
+def bookAppointment(id, itemId):
+    form = bookAppointmentForm(request.form)
+    try:
+        with shelve.open("orders") as orders:
+            order = orders[id]
+            item = order.getCart()[int(itemId)]
+
+        if order.getUserId() != session["user"]["email"]:
+            flash("Unable to view your order, the order is not associated with your account", category="error")
+            return redirect(url_for("profile.viewOrderHistory"))
+
+        if item.getType() != "treatments":
+            flash("Unable to make a appointment with this item as it is not a treatment.")
+            return redirect(url_for("profile.viewOrderHistoryDetails", id=id))
+        elif item.isConsumed():
+            flash("Unable to make a appointment as this treatment has already been used.")
+            return redirect(url_for("profile.viewOrderHistoryDetails", id=id))
+
+        with shelve.open("users") as users:
+            # Get a list of doctors via for loop, I know this is not the best method and will have a performance impact if the userbase gets larger
+            # It's a solution I can think of at the moment with the current method of storing users
+            doctorList = []
+            for user in users.values():
+                if user.getAccountType() == "admin":
+                    doctorList.append((user.getEmail(), user.getName()))
+
+            form.doctor.choices = doctorList
+
+        if request.method == "POST" and form.validate():
+            print("Under construction")
+            name = item.getStoredItem().getName()
+            userEmail = session["user"]["email"]
+            doctorEmail = form.doctor.data
+            date = form.date.data
+            startTime = form.startTime.data
+            endTime = datetime.combine(date.today(), startTime) + convertHoursToTime(item.getStoredItem().getDuration())
+
+            appointment = Appointment(name, userEmail, doctorEmail, date, startTime, endTime.time(), "Booked automatically via website")
+            with shelve.open("appointments") as appointments:
+                appointments[str(appointment.getId())] = appointment
+
+            with shelve.open("orders", writeback=True) as orders:
+                order = orders[id]
+                item = order.getCart()[int(itemId)]
+                item.consumeCart()
+
+            flash("Appointment has been successfully booked, see you there!", category="success")
+            return redirect(url_for("profile.viewOrderHistoryDetails", id=id))
+        else:
+            flashFormErrors("Unable to book an appointment", form.errors)
+
+
+
+        return render_template("profile/bookAppointment.html", order=order, item=item, form=form)
+    except KeyError:
+        flash("Unable to view your order, order does not exist", category="error")
+        return redirect(url_for("profile.viewOrderHistory"))
 
 
 @profile.route('/profile/address')

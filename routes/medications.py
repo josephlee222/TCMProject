@@ -15,6 +15,7 @@ from functions import loginAccess
 @loginAccess
 def viewMedications(day=0):
     day = int(day)
+    today = date.today() + timedelta(days=int(day))
     with shelve.open("users") as users:
         morning = []
         afternoon = []
@@ -25,7 +26,6 @@ def viewMedications(day=0):
             flash("You are currently not on any medication")
 
         for tracker in trackers:
-            today = date.today() + timedelta(days=int(day))
             list = []
             for i in range(int(tracker.getDuration_of_medication())):
                 list.append(tracker.getDate() + timedelta(days=int(i)))

@@ -15,7 +15,7 @@
         </div>
     </div>
     <a href="{{ url_for("profile.viewOrderHistory") }}" style="display: contents">
-        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back</button>
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back to orders</button>
     </a>
     <div class="row">
         <div class="col-lg-9 order-1 order-lg-0">
@@ -70,9 +70,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 d-flex">
-                                        {% if item.getType() == "treatments" %}
-                                            <a href="#" class="me-1">
+                                        {% if item.getType() == "treatments" and not item.isConsumed() %}
+                                            <a href="{{ url_for("profile.bookAppointment", id=order.getId(), itemId=loop.index - 1) }}" class="me-1">
                                                 <button class="btn custom-btn">Book Appointment</button>
+                                            </a>
+                                        {% else %}
+                                            <a href="#" class="me-1">
+                                                <button class="btn custom-btn" disabled>Book Appointment</button>
                                             </a>
                                         {% endif %}
                                     </div>

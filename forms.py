@@ -2,7 +2,8 @@ import shelve
 from datetime import datetime
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, FileField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, \
+    FileField
 
 from functions import checkCoupon
 
@@ -84,7 +85,8 @@ class editUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     submit = SubmitField("Edit User")
 
@@ -103,7 +105,8 @@ class editProfileForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
 
     submit = SubmitField("Update Profile")
@@ -153,7 +156,8 @@ class addUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     accountType = RadioField("Account Type", choices=[
         ("customer", "Customer Account"),
@@ -322,9 +326,9 @@ class createMedicationForm(Form):
     pills = SelectField('Dosage',
                         [validators.DataRequired(message="Pills per dosage of the medication is required")],
                         choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
-                                (3, '3 Tablet(s)'),
-                                (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
-                                (6, '6 Tablet(s)')])
+                                 (3, '3 Tablet(s)'),
+                                 (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                 (6, '6 Tablet(s)')])
     frequency_of_pills = SelectField('No. of times',
                                      [validators.DataRequired(message="Dosage of the medication is required")],
                                      choices=[(1, '1 times a day'),
@@ -367,7 +371,6 @@ class editMedicationForm(Form):
     submit = SubmitField("Edit Medicine")
 
 
-
 class openingHoursForm(Form):
     opening = TimeField("Opening Hour", [
         validators.DataRequired(message="Opening Hours are required")
@@ -386,12 +389,14 @@ class openingHoursForm(Form):
 
     submit = SubmitField("Edit Hours")
 
+
 # Coupon forms
 class searchCouponsForm(Form):
     name = StringField("Search by coupon name", [
         validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
         validators.DataRequired(message="Coupon name is required to search")
     ])
+
 
 class createCouponForm(Form):
     name = StringField("Coupon Name", [
@@ -427,6 +432,7 @@ class createCouponForm(Form):
     def validate_endDate(form, endDate):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
+
 
 class editCouponForm(Form):
     name = StringField("Coupon Name", [
@@ -526,6 +532,7 @@ class searchProductForm(Form):
         validators.DataRequired(message="Name is required to search")
     ])
 
+
 class addProductForm(Form):
     name = StringField("Product Name", [
         validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
@@ -560,6 +567,7 @@ class addProductForm(Form):
     def validate_images(form, images):
         print(form.images.data)
 
+
 class editProductForm(Form):
     name = StringField("Product Name", [
         validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
@@ -587,6 +595,7 @@ class editProductForm(Form):
         if form.salePrice.data >= form.price.data:
             raise ValidationError("Sale price cannot exceed normal price")
 
+
 class CartCouponForm(Form):
     coupon = StringField("Coupon Code (Optional)", [
         validators.Optional()
@@ -605,6 +614,8 @@ class CheckoutForm(Form):
     delivery = SelectField("Delivery Address", [
         validators.DataRequired()
     ])
+
+
 # ADMIN BLOG FORMS
 class createArticleForm(Form):
     title = StringField("Title", [
@@ -618,11 +629,13 @@ class createArticleForm(Form):
 
     submit = SubmitField("Create Article")
 
+
 class searchBlogForm(Form):
     name = StringField("Search by title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters"),
         validators.DataRequired(message="Blog title is required to search")
     ])
+
 
 class editBlogForm(Form):
     title = StringField("Title", [
@@ -635,10 +648,35 @@ class editBlogForm(Form):
     articleImage = FileField("Article Cover Image", [])
 
     submit = SubmitField("Edit Article")
-#how to update a previously existing blog using this function?
+
+
+# how to update a previously existing blog using this function?
 
 
 class medicationForm(Form):
     morning = BooleanField("Morning")
     afternoon = BooleanField("Afternoon")
     night = BooleanField("Night")
+
+
+class bookAppointmentForm(Form):
+    date = DateField("Appointment Date", [
+        validators.DataRequired(message="Appointment date is required")
+    ])
+    startTime = TimeField("Appointment Time", [
+        validators.DataRequired(message="Appointment time is required")
+    ])
+    doctor = SelectField("Consulting Doctor", [
+        validators.DataRequired(message="Consultation doctor is required")
+    ])
+
+    submit = SubmitField("Book")
+
+    def validate_date(form, date):
+        if form.date.data <= datetime.now().date():
+            raise ValidationError("Appointment date cannot be in the past and can only be made from tomorrow onwards")
+
+    def validate_startTime(form, startTime):
+        with shelve.open("data") as data:
+            if data["opening"] > form.startTime.data >= data["closing"]:
+                raise ValidationError("Appointment start time cannot exceed operating hours")
