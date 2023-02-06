@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Coupon Details{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">discount</span>
+        <div>
+            <h1>Coupon Details</h1>
+            <h6 class="m-0">{{ coupon.getName() }}</h6>
+        </div>
+    </div>
+    <a href="{{ url_for("adminCoupons.viewAllCoupons") }}" style="display: contents">
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back to list</button>
+    </a>
+    <div class="row">
+        <div class="col">
+            <h2 class="h4">Coupon Information</h2>
+            {{ infoBox.infoBox("Coupon Name", coupon.getName()) }}
+            {{ infoBox.infoBox("Coupon Code", coupon.getCode()) }}
+            {{ infoBox.infoBox("Valid?", coupon.isValid()) }}
+            {{ infoBox.infoBox("Description", coupon.getDescription()) }}
+            {{ infoBox.infoBox("Duration", coupon.getStartDate().strftime('%d/%m/%Y') + " - " + coupon.getEndDate().strftime('%d/%m/%Y')) }}
+        </div>
+        <a href="{{ url_for("adminCoupons.editCoupon", id=id) }}"><button class="btn custom-btn">Edit</button></a>
+    </div>
+{% endblock %}
+{% block extras %}
+{% endblock %}
