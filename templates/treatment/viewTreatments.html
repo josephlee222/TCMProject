@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}
+    Our Treatments
+{% endblock %}
+{% block description %}View our full treatment catalogue on TCM Shifu{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls(3) }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">medical_services</span>
+        <div>
+            <h1>Our Treatments</h1>
+            <h6 class="m-0">Book treatments and consultations on TCM Shifu</h6>
+        </div>
+    </div>
+    <div class="row">
+        <p>Our clinic let you book your consultations and treatments via TCM Shifu! Purchase treatments and book anytime at ease.</p>
+        <hr>
+    </div>
+    <h5>Just Added</h5>
+    <div class="row">
+        <div class="col-6 col-lg-4">
+            <div class="card white mb-3">
+                <img src="https://images.newscientist.com/wp-content/uploads/2019/06/18153152/medicineshutterstock_1421041688.jpg"
+                     class="card-img">
+                <div class="card-body">
+                    <h5 class="card-title">Sample Treatment Title</h5>
+                    <h6>$0.00</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

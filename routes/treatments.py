@@ -15,3 +15,9 @@ def viewTreatment(id):
     except KeyError:
         flash("Sorry! The treatment you are trying to find has been deleted or moved.", category="error")
         return redirect(url_for("home"), code=404)
+
+
+@treatments.route('/treatments')
+@normalAccess
+def viewTreatments():
+    return render_template("treatment/viewTreatments.html")

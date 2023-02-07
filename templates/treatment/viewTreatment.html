@@ -4,7 +4,7 @@
 {% endblock %}
 {% block description %}View TCM treatment {{ treatment.getName() }} on TCM Shifu!{% endblock %}
 {% block nav %}
-    {% include "includes/normalNavControls.html" %}
+    {{ normalNavControls.normalNavControls() }}
 {% endblock %}
 {% block navRight %}
     {% include "includes/userControls.html" %}
