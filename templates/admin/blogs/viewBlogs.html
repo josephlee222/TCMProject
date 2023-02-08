@@ -33,7 +33,7 @@
                                 <td>{{ blogs[blog]["datetime"].strftime("%d/%m/%Y, %I:%M %p") }}</td>
                                 <td class="text-nowrap">
                                     <a href="#"><button class="btn custom-btn">View Article</button></a>
-                                    <a href="#"><button class="btn custom-btn">Edit</button></a>
+                                    <a href="{{ url_for("adminBlog.editBlog", id=blogs[blog]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
                                     <a onclick="showDeleteModal('{{ blogs[blog]["title"] }}', '{{ url_for("adminBlog.deleteBlog", id=blogs[blog]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
                                 </td>
                             </tr>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Create Article
+    Edit Article
 {% endblock %}
 {% block nav %}
     {% include "includes/adminNavControls.html" %}
@@ -14,13 +14,21 @@
 {% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
-        <span class="material-icons me-3" style="font-size: 60px">post_add</span>
+        <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
         <div>
-            <h1>Create Article</h1>
-            <h6 class="m-0">Create a new article</h6>
+            <h1>Edit Article</h1>
+            <h6 class="m-0">Edit existing article</h6>
         </div>
     </div>
     <form method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-12">
+                <h6 class="card-title mb-3">Existing Cover Image</h6>
+                <div class="card white">
+                    <img style="height: 200px; object-fit: cover" src="/{{ image }}">
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6">
                 <h2 class="h4">Article Information</h2>
@@ -32,7 +40,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <h2 class="h4">Article Cover Image</h2>
+                <h2 class="h4">Edit Cover Image</h2>
                 <div class="mb-3">
                     {{ formHelper.renderField(form.articleImage) }}
                     <div class="form-text">Only JPG, PNG and WEBP images supported</div>

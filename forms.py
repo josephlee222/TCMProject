@@ -2,8 +2,9 @@ import shelve
 from datetime import datetime
 
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, \
-    FileField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 from functions import checkCoupon
 
@@ -617,17 +618,44 @@ class CheckoutForm(Form):
 
 
 # ADMIN BLOG FORMS
-class createArticleForm(Form):
+class createArticleForm(FlaskForm):
     title = StringField("Title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
         validators.DataRequired(message="Blog title is required.")
     ])
+    brief = StringField("Brief Description", [
+        validators.Length(3, 128, message="Brief description must be between 3 to 128 characters."),
+        validators.DataRequired(message="Brief description is required.")
+    ])
     content = TextAreaField("Article Content", [
         validators.DataRequired(message="Article content is required.")
     ])
-    articleImage = FileField("Article Cover Image", [])
+    articleImage = FileField("Article Cover Image", validators=[
+        FileRequired("Cover image is required"),
+        FileAllowed(['jpg', 'png', 'webp'], message='Images files only!'),
+    ])
 
     submit = SubmitField("Create Article")
+
+
+class editArticleForm(FlaskForm):
+    title = StringField("Title", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
+        validators.DataRequired(message="Blog title is required.")
+    ])
+    brief = StringField("Brief Description", [
+        validators.Length(3, 128, message="Brief description must be between 3 to 128 characters."),
+        validators.DataRequired(message="Brief description is required.")
+    ])
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
+    ])
+    articleImage = FileField("Article Cover Image", validators=[
+        validators.Optional(),
+        FileAllowed(['jpg', 'png', 'webp'], message='Images files only!'),
+    ])
+
+    submit = SubmitField("Save")
 
 
 class searchBlogForm(Form):

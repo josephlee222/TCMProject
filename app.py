@@ -20,9 +20,13 @@ from routes.checkout import checkout
 from routes.profile import profile
 from routes.test import test
 from routes.treatments import treatments
+from routes.blog import blogs
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
+
+# Configuration
+app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
 
 # Register blueprints
 app.register_blueprint(test)
@@ -39,6 +43,7 @@ app.register_blueprint(profile)
 app.register_blueprint(treatments)
 app.register_blueprint(cart)
 app.register_blueprint(checkout)
+app.register_blueprint(blogs)
 
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)

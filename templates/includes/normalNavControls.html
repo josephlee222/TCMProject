@@ -10,6 +10,6 @@
         <a class="nav-link d-flex align-items-center{% if active == 3 %} active{% endif %}" href="{{ url_for("treatments.viewTreatments") }}"><span class="material-icons navbar-icon me-1">medical_services</span>Treatments</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link d-flex align-items-center{% if active == 4 %} active{% endif %}" href="/"><span class="material-icons navbar-icon me-1">newspaper</span>Blog</a>
+        <a class="nav-link d-flex align-items-center{% if active == 4 %} active{% endif %}" href="{{ url_for("blogs.viewBlogs") }}"><span class="material-icons navbar-icon me-1">newspaper</span>Blog</a>
     </li>
 {% endmacro %}
