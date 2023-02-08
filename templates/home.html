@@ -4,7 +4,7 @@
     {% include "includes/userControls.html" %}
 {% endblock %}
 {% block nav %}
-    {% include "includes/normalNavControls.html" %}
+    {{ normalNavControls.normalNavControls(1) }}
 {% endblock %}
 {% block fluidContent %}
     <div class="row">
@@ -36,7 +36,10 @@
         </div>
         <div class="col-md-9">
             <!--About content-->
-            <p class="ms-0 ms-md-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p class="ms-0 ms-md-3">Introducing the premier online destination for traditional Chinese medicine. Our online shop offers a curated selection of premium herbal remedies and supplements to support your overall wellness. Browse our range of products, carefully sourced from trusted providers, to find the best solution for your needs.
+                <br><br>In addition to shopping, you can also book appointments at our clinic, where our experienced practitioners use ancient techniques to bring balance to your mind, body, and spirit. Choose from a variety of services including acupuncture, massage therapy, and herbal consultations, and book your appointment at a time that suits you.
+                <br><br>Experience the power of traditional Chinese medicine with ease and convenience, right at your fingertips. Shop now and book your appointment today.
+            </p>
         </div>
     </div>
     <div class="row mt-5 mb-5">
@@ -44,20 +47,20 @@
         <div class="col-lg-4 text-center mb-4 mb-lg-0">
             <span class="material-icons feature-icon p-3 mb-3">shopping_cart</span>
             <h5>TCM Online Shop</h5>
-            <p>Shop for TCH herbs or medicine on TCM Shifu</p>
+            <p>Shop for TCM products on TCM Shifu</p>
             <a href="./products/viewProduct.html"><button class="btn custom-btn">Visit Shop</button></a>
         </div>
         <div class="col-lg-4 text-center mb-4 mb-lg-0">
             <span class="material-icons feature-icon p-3 mb-3">event</span>
             <h5>Appointment Booking</h5>
-            <p>Book TCM Appointments online</p>
-            <a href="#"><button class="btn custom-btn">Start Booking</button></a>
+            <p>Book TCM treatments online</p>
+            <a href="{{ url_for("treatments.viewTreatments") }}"><button class="btn custom-btn">Start Booking</button></a>
         </div>
         <div class="col-lg-4 text-center">
             <span class="material-icons feature-icon p-3 mb-3">school</span>
             <h5>TCM Education Blog</h5>
-            <p>Read blogs and learn more about TCM</p>
-            <a href="#"><button class="btn custom-btn">Visit Blog</button></a>
+            <p>Learn more about TCM</p>
+            <a href="{{ url_for("blogs.viewBlogs") }}"><button class="btn custom-btn">Visit Blog</button></a>
         </div>
     </div>
 {% endblock %}

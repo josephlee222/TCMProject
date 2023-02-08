@@ -120,8 +120,9 @@ class User:
     def deleteAddress(self, id):
         try:
             self.address.pop(int(id))
+            return True
         except IndexError:
-            flash("Unable to edit address, address does not exist.", category="error")
+            # Fuck me
             return False
 
     def deleteMedication(self, id):

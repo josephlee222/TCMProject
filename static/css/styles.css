@@ -92,7 +92,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control) {
     margin: 0;
 }
 
-.card.white *:not(.btn):not(.badge) {
+.card.white *:not(.btn):not(.badge):not(.btn span) {
     color: var(--text-colour-background);
 }
 
@@ -265,6 +265,10 @@ a.white:hover {
 }
 
 hr {
+    border-top: 2px solid rgba(0, 0, 0, .35) !important;
+}
+
+hr.dropdown-divider {
     border-top: 1px solid rgba(0, 0, 0, .2) !important;
 }
 
@@ -344,6 +348,14 @@ footer hr {
 
 .status-icon {
     font-size: 36px;
+}
+
+.navbar-icon {
+    font-size: 1rem;
+}
+
+.product-img {
+    object-fit: contain;
 }
 
 @media screen and (max-width: 767px) {

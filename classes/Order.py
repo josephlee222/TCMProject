@@ -22,6 +22,7 @@ class Order:
         for item in self.cart:
             if item.getType == "products":
                 self.status = 1
+                break
 
     def getId(self):
         return self.id

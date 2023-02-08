@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Edit Profile
+    New Address
 {% endblock %}
 {% block nav %}
     {{ normalNavControls.normalNavControls() }}
@@ -17,11 +17,11 @@
         </div>
     </div>
     <div class="row">
-        {{ profileControls.profileControls(1) }}
+        {{ profileControls.profileControls(5) }}
         <div class="col-lg-9">
             <form method="post">
                 <div class="d-flex align-items-center mb-4">
-                    <h2 class="h4 flex-grow-1 m-0">Edit Profile</h2>
+                    <h2 class="h4 flex-grow-1 m-0">New Address</h2>
                 </div>
                 <div class="row">
                     <div class="col-lg-10 mb-3">
@@ -29,11 +29,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 col-lg-5 mb-3">
-                        {{ formHelper.renderField(form.phone) }}
-                    </div>
-                    <div class="col-sm-6 col-lg-5 mb-3">
-                        {{ formHelper.renderField(form.birthday) }}
+                    <div class="col-lg-10 mb-3">
+                        {{ formHelper.renderField(form.location) }}
                     </div>
                 </div>
                 {{ formHelper.renderField(form.submit) }}

@@ -2,6 +2,8 @@ import shelve
 from datetime import time, datetime
 
 from flask import Flask, render_template, session, url_for
+
+from classes.User import User
 from functions import normalAccess
 
 from routes.adminAppointments import adminAppointments
@@ -18,9 +20,13 @@ from routes.checkout import checkout
 from routes.profile import profile
 from routes.test import test
 from routes.treatments import treatments
+from routes.blog import blogs
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
+
+# Configuration
+app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
 
 # Register blueprints
 app.register_blueprint(test)
@@ -37,6 +43,7 @@ app.register_blueprint(profile)
 app.register_blueprint(treatments)
 app.register_blueprint(cart)
 app.register_blueprint(checkout)
+app.register_blueprint(blogs)
 
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
@@ -63,6 +70,14 @@ def initialization():
             print("No opening hours detected. Setting default 9am - 9pm opening hours.")
             data["opening"] = time(9, 0, 0)
             data["closing"] = time(21, 0, 0)
+
+    with shelve.open("users", writeback=True) as users:
+        if "admin@admin.com" not in users:
+            print("Default admin user not detected. Creating one...")
+            user = User("Admin", "Adminpassword", "admin@admin.com", "admin")
+            users["admin@admin.com"] = user
+            print("Default Admin E-mail: admin@admin.com")
+            print("Default Admin Password: Adminpassword")
 
 initialization()
 

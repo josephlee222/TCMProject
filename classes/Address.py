@@ -11,16 +11,14 @@ class Address:
             geoLocater = ArcGIS(user_agent="TCMShifu")
             geoLocation = geoLocater.geocode(location)
         except GeopyError:
-            self.latitude = 0
-            self.longitude = 0
-            flash("Error has occurred when getting information from the location provider", category="Error")
+            self.latitude = None
+            self.longitude = None
         else:
-            self.latitude = geoLocation.latitude
-            self.longitude = geoLocation.longitude
+            self.latitude = geoLocation.latitude if geoLocation is not None else None
+            self.longitude = geoLocation.longitude if geoLocation is not None else None
         finally:
             self.name = name
             self.location = location
-
 
     def getName(self):
         return self.name
@@ -38,15 +36,19 @@ class Address:
         self.name = name
 
     def setLocation(self, location):
-        self.location = location
+
         try:
             geoLocater = ArcGIS(user_agent="TCMShifu")
             geoLocation = geoLocater.geocode(location)
         except GeopyError:
-            self.latitude = 0
-            self.longitude = 0
+            self.latitude = None
+            self.longitude = None
+            return False
         else:
-            self.latitude = geoLocation.latitude
-            self.longitude = geoLocation.longitude
-
-
+            if geoLocation is not None:
+                self.location = location
+                self.latitude = geoLocation.latitude
+                self.longitude = geoLocation.longitude
+                return True
+            else:
+                return False

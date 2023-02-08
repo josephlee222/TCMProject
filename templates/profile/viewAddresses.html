@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}
+    My Delivery Addresses
+{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls() }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">face</span>
+        <div>
+            <h1>My Profile</h1>
+            <h6 class="m-0">{{ session["user"]["email"] }}</h6>
+        </div>
+    </div>
+    <div class="row">
+        {{ profileControls.profileControls(5) }}
+        <div class="col-lg-9">
+            <div class="d-flex align-items-center mb-4">
+                <h2 class="h4 flex-grow-1 m-0">Delivery Addresses</h2>
+                <a href="{{ url_for("profile.addAddress") }}">
+                    <button class="btn custom-btn">New Address</button>
+                </a>
+            </div>
+            {% if addresses|length > 0 %}
+                {% for address in addresses %}
+                    <div class="card white mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">{{ address.getName() }}</h5>
+                            {{ infoBox.infoBox("Location", address.getLocation()) }}
+                            <div class="d-flex">
+                                <a target="_blank" href="https://maps.google.com/?q={{ address.getLatitude() }},{{ address.getLongitude() }}"><button class="btn custom-btn me-1">View on Maps</button></a>
+                                <a href="{{ url_for("profile.editAddress", id=loop.index - 1) }}"><button class="btn custom-btn me-1">Edit</button></a>
+                                <a onclick="showDeleteModal('{{ address.getName() }}', '{{ url_for("profile.deleteAddress", id=loop.index - 1) }}')"><button class="btn btn-danger">Delete</button></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="card white">
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        No delivery addresses added. You need one to use the online store.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete Delivery Address?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Treatment? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <a id="delete-treatment-link">
+                        <button type="button" class="btn btn-danger">Yes</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/profileViewAddresses.js') }}"></script>
+{% endblock %}

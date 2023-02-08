@@ -50,7 +50,7 @@ def register():
         password = form.password.data
         email = form.email.data
 
-        user = User(name, password, email, "admin")
+        user = User(name, password, email, "customer")
         with shelve.open("users") as users:
             users[email] = user
             flash("User successfully created, you can login now", category="success")

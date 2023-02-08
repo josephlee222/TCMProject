@@ -1,5 +1,6 @@
 import shelve
 from functools import wraps
+from datetime import timedelta
 
 from flask import flash, Markup, session, redirect, url_for
 
@@ -107,3 +108,9 @@ def checkCart():
         with shelve.open("users", flag="r") as users:
             user = users[session["user"]["email"]]
             return len(user.getCart())
+
+def convertHoursToTime(hours):
+    hour = int(hours // 1)
+    minute = int(((hours % 1) * 60) // 1)
+
+    return timedelta(hours=hour, minutes=minute)

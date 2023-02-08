@@ -87,3 +87,15 @@ def deleteCoupon(id):
         flash("Unable to delete coupon: coupon does not exist", category="error")
 
     return redirect(url_for("adminCoupons.viewAllCoupons"))
+
+@adminCoupons.route("/admin/coupons/view/<id>",  methods=['GET', 'POST'])
+@adminAccess
+def viewCouponDetails(id):
+    try:
+        with shelve.open("coupons", writeback=True) as coupons:
+            coupon = coupons[id]
+
+        return render_template("admin/shop/viewCouponDetails.html", coupon=coupon, id=id)
+    except KeyError:
+        flash("Unable to view coupon details: Coupon does not exist", category="error")
+        return redirect(url_for("adminCoupons.viewAllCoupons"))
