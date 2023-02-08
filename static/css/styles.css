@@ -92,7 +92,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control) {
     margin: 0;
 }
 
-.card.white *:not(.btn):not(.badge) {
+.card.white *:not(.btn):not(.badge):not(.btn span) {
     color: var(--text-colour-background);
 }
 
@@ -352,6 +352,10 @@ footer hr {
 
 .navbar-icon {
     font-size: 1rem;
+}
+
+.product-img {
+    object-fit: contain;
 }
 
 @media screen and (max-width: 767px) {

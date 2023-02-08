@@ -71,7 +71,9 @@
                                 {% endif %}
                             </div>
                             {% if treatment.onSale %}
-                                <small>Usual Price: ${{ "%.2f"|format(treatment.getPrice()) }}</small>
+                                <small>Usual Price: ${{ "%.2f"|format(treatment.getPrice()) }} | Duration: {{ treatment.getDuration() }} hours</small>
+                            {% else %}
+                                <small>Duration: {{ treatment.getDuration() }} hours</small>
                             {% endif %}
                         </div>
                         <a href="{{ url_for("cart.addCart", id=treatment.getId(), quantity=1, type="treatments") }}" class="mb-3">

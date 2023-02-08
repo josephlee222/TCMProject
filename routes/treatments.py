@@ -20,4 +20,5 @@ def viewTreatment(id):
 @treatments.route('/treatments')
 @normalAccess
 def viewTreatments():
-    return render_template("treatment/viewTreatments.html")
+    with shelve.open("treatments") as treatments:
+        return render_template("treatment/viewTreatments.html", treatments=list(treatments.values()))
