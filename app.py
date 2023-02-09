@@ -2,6 +2,7 @@ import shelve
 from datetime import time, datetime
 
 from flask import Flask, render_template, session, url_for
+from flask_mail import Mail
 
 from classes.User import User
 from functions import normalAccess
@@ -14,6 +15,7 @@ from routes.adminProducts import adminProducts
 from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
 from routes.adminBlog import adminBlog
+from routes.adminEnquiry import adminEnquiry
 from routes.auth import auth
 from routes.cart import cart
 from routes.checkout import checkout
@@ -21,12 +23,20 @@ from routes.profile import profile
 from routes.test import test
 from routes.treatments import treatments
 from routes.blog import blogs
+from routes.enquiry import enquiry
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
+mail = Mail(app)
 
 # Configuration
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'TCMShifu@gmail.com'
+app.config['MAIL_PASSWORD'] = 'IT2201SIT'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = True
 
 # Register blueprints
 app.register_blueprint(test)
@@ -36,6 +46,7 @@ app.register_blueprint(adminTreatments)
 app.register_blueprint(adminAppointments)
 app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
+app.register_blueprint(adminEnquiry)
 app.register_blueprint(medications)
 app.register_blueprint(adminBlog)
 app.register_blueprint(adminProducts)
@@ -44,6 +55,7 @@ app.register_blueprint(treatments)
 app.register_blueprint(cart)
 app.register_blueprint(checkout)
 app.register_blueprint(blogs)
+app.register_blueprint(enquiry)
 
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)

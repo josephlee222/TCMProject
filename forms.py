@@ -369,8 +369,7 @@ class editMedicationForm(Form):
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
-    submit = SubmitField("Edit Medicine")
-
+    submit = SubmitField("Save Medicine")
 
 class openingHoursForm(Form):
     opening = TimeField("Opening Hour", [
@@ -569,6 +568,7 @@ class addProductForm(Form):
         print(form.images.data)
 
 
+
 class editProductForm(Form):
     name = StringField("Product Name", [
         validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
@@ -595,6 +595,7 @@ class editProductForm(Form):
     def validate_salePrice(form, salePrice):
         if form.salePrice.data >= form.price.data:
             raise ValidationError("Sale price cannot exceed normal price")
+
 
 
 class CartCouponForm(Form):
@@ -681,10 +682,36 @@ class editBlogForm(Form):
 # how to update a previously existing blog using this function?
 
 
-class medicationForm(Form):
-    morning = BooleanField("Morning")
-    afternoon = BooleanField("Afternoon")
-    night = BooleanField("Night")
+class createEnquiryForm(Form):
+    name = StringField("Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Name is required")
+    ])
+    email = EmailField("Email Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail is required to contact us")
+    ])
+    purpose = SelectField('Purpose',
+                          [validators.DataRequired(message="Purpose is required")],
+                          choices=[("", 'Select a Purpose'), ('Products Question', 'Products Question'),
+                                   ('Feedback / Feature Request', 'Feedback / Feature Request'),
+                                   ('General Questions', 'General Questions')], default="")
+
+    subject = StringField("Subject", [
+        validators.Length(3, 128, message="Subject must be between 3 to 128 characters"),
+        validators.DataRequired(message="Subject is required")
+    ])
+    enquiry = TextAreaField("Enquiry", [
+        validators.Length(3, message="Your enquiry needs to be more than 3 characters"),
+        validators.DataRequired(message="Enquiry is required")
+    ])
+    submit = SubmitField("Submit")
+
+class searchEnquiry(Form):
+    name = StringField("Search by email", [
+        validators.Length(3, 128, message="Email must be between 3 to 128 characters"),
+        validators.DataRequired(message="Email is required to search")
+    ])
 
 
 class bookAppointmentForm(Form):
