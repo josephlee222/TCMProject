@@ -735,3 +735,16 @@ class bookAppointmentForm(Form):
         with shelve.open("data") as data:
             if data["opening"] > form.startTime.data >= data["closing"]:
                 raise ValidationError("Appointment start time cannot exceed operating hours")
+
+
+class searchOrdersForm(Form):
+    id = StringField("Search by order ID", [
+        validators.DataRequired(message="Order ID is required to search")
+    ])
+
+class editOrdersStatusForm(Form):
+    status = SelectField("Order Status", [
+        validators.DataRequired(message="Order status required to update")
+    ])
+
+    submit = SubmitField("Save")

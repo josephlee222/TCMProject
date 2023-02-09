@@ -13,9 +13,7 @@ from flask import flash, render_template, session, redirect, url_for, request
 from functions import loginAccess, normalAccess, flashFormErrors, adminAccess
 from flask_mail import Mail, Message
 
-mail = Mail(adminEnquiry)
-
-@adminEnquiry.route('/admin/ContactUs')
+@adminEnquiry.route('/admin/enquiries')
 @adminAccess
 def viewAllEnquiries():
     form = searchEnquiry(request.form)
@@ -27,7 +25,7 @@ def viewAllEnquiries():
         return render_template("admin/enquiry/viewAllEnquiry.html", form=form, enquiries=enquiry)
 
 
-@adminEnquiry.route('/admin/ContactUs/view/<id>')
+@adminEnquiry.route('/admin/enquiries/view/<id>')
 @adminAccess
 def viewEnquiry(id):
     with shelve.open("enquiry") as enquiry:

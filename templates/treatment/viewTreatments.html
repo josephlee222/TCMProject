@@ -26,7 +26,7 @@
     <div class="row mb-3">
         <h4>Just Added</h4>
         {% for item in treatments[-4:]|reverse %}
-            <div class="col-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
                 <div class="card white w-100 mb-3">
                     <div class="ratio ratio-16x9">
                         <img src="/{{ item.getImages()[0] }}" class="product-img card-img ratio ratio-16x9">
@@ -52,7 +52,7 @@
     <div class="row">
         <h4>All Treatments</h4>
         {% for item in treatments %}
-            <div class="col-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 d-flex align-items-stretch">
                 <div class="card white w-100 mb-3">
                     <div class="ratio ratio-16x9">
                         <img src="/{{ item.getImages()[0] }}" class=" product-img card-img ratio ratio-16x9">

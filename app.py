@@ -16,6 +16,7 @@ from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
 from routes.adminBlog import adminBlog
 from routes.adminEnquiry import adminEnquiry
+from routes.adminOrders import adminOrders
 from routes.auth import auth
 from routes.cart import cart
 from routes.checkout import checkout
@@ -27,16 +28,17 @@ from routes.enquiry import enquiry
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
-mail = Mail(app)
 
-# Configuration
+# Configuration (The gmail password is correct, its a app password specifically generated)
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'TCMShifu@gmail.com'
-app.config['MAIL_PASSWORD'] = 'IT2201SIT'
-app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_PASSWORD'] = 'tklwzooqrebhqdmz'
+app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)
 
 # Register blueprints
 app.register_blueprint(test)
@@ -47,6 +49,7 @@ app.register_blueprint(adminAppointments)
 app.register_blueprint(adminCoupons)
 app.register_blueprint(adminTrackers)
 app.register_blueprint(adminEnquiry)
+app.register_blueprint(adminOrders)
 app.register_blueprint(medications)
 app.register_blueprint(adminBlog)
 app.register_blueprint(adminProducts)

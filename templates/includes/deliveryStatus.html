@@ -1,0 +1,34 @@
+{% macro deliveryStatus(status) %}
+    {% if status < 5 %}
+        <div class="d-flex align-items-center mb-1 {% if status > 1 %}text-success{% elif status < 1 %}text-secondary{% endif %}">
+            <span class="material-icons status-icon me-2 {% if status > 1 %}text-success{% elif status < 1 %}text-secondary{% endif %}">{% if status > 1 %}
+                check{% elif status == 1 %}pending{% else %}remove{% endif %}</span>
+            Clinic Preparing Order
+        </div>
+        <div class="d-flex align-items-center mb-1 {% if status > 2 %}text-success{% elif status < 2 %}text-secondary{% endif %}">
+            <span class="material-icons status-icon me-2 {% if status > 2 %}text-success{% elif status < 2 %}text-secondary{% endif %}">{% if status > 2 %}
+                check{% elif status == 2 %}pending{% else %}remove{% endif %}</span>
+            Waiting for Delivery
+        </div>
+        <div class="d-flex align-items-center mb-1 {% if status > 3 %}text-success{% elif status < 3 %}text-secondary{% endif %}">
+            <span class="material-icons status-icon me-2 {% if status > 3 %}text-success{% elif status < 3 %}text-secondary{% endif %}">{% if status > 3 %}
+                check{% elif status == 3 %}pending{% else %}remove{% endif %}</span>
+            Delivery in Progress
+        </div>
+        <div class="d-flex align-items-center mb-1 {% if status == 4 %}text-success{% elif status < 4 %}text-secondary{% endif %}">
+            <span class="material-icons status-icon me-2 {% if status == 4 %}text-success{% elif status < 4 %}text-secondary{% endif %}">{% if status == 4 %}
+                check{% else %}remove{% endif %}</span>
+            Delivery Completed
+        </div>
+    {% elif status == 5 %}
+        <div class="d-flex align-items-center mb-1 text-danger">
+            <span class="material-icons status-icon me-2 text-danger">close</span>
+            Order Cancelled
+        </div>
+    {% else %}
+        <div class="d-flex align-items-center mb-1 text-secondary">
+            <span class="material-icons status-icon me-2 text-secondary">question_mark</span>
+            Unknown Status
+        </div>
+    {% endif %}
+{% endmacro %}
