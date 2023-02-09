@@ -1,5 +1,6 @@
 import shelve
 from datetime import datetime, timedelta
+from time import time
 
 from flask import flash
 
@@ -8,15 +9,8 @@ class Enquiry:
 
     def __init__(self, name, email, purpose, subject, query):
 
-        with shelve.open("enquiry_counter", writeback=True) as counter:
-            if "enquiry" not in counter:
-                id = 1
-            else:
-                id = counter["enquiry"] + 1
-            counter["enquiry"] = id
-
         try:
-            self.id = id
+            self.id = int(time() * 1000)
             self.date = datetime.now().date()
             self.name = str(name)
             self.email = email
