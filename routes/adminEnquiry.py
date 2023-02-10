@@ -46,7 +46,7 @@ def viewEnquiry(id):
             enquiry = enquiries[id]
             enquiry.setResolved(datetime.datetime.now().date())
 
-        flash("Order status successfully changed. User will be notified with an email about the change",
+        flash("Email has been successfully sent. User will be notified with an email about the change",
               category="success")
         return redirect(url_for("adminEnquiry.viewAllEnquiries"))
 
@@ -55,7 +55,7 @@ def viewEnquiry(id):
 
         form.email.data = enquiry.getEmail()
         form.subject.data = enquiry.getSubject()
-        form.message.data = 'Hey '+str(enquiry.getName())+' , in response to your query/feedback '+str(enquiry.getQuery())+' '
+        form.message.data = 'Hey '+str(enquiry.getName())+', in response to your query/feedback to '+str(enquiry.getQuery())+' '
 
 
         return render_template("admin/enquiry/viewEnquiry.html", id=id, enquiry=enquiry, form=form)
