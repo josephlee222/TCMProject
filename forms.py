@@ -748,3 +748,10 @@ class editOrdersStatusForm(Form):
     ])
 
     submit = SubmitField("Save")
+
+class sendEmailForm(Form):
+    email = EmailField('To', [validators.DataRequired()])
+    subject = StringField('Subject', [validators.DataRequired()])
+    message = TextAreaField('Message', [validators.DataRequired()])
+
+    submit = SubmitField('Send Email')

@@ -9,12 +9,6 @@
 {% block head %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
-    <style>
-      label {
-        display: inline-block;
-        width: 150px;
-      }
-    </style>
 {% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
@@ -44,22 +38,29 @@
             <div class="col-md-4">
                 <p>Query<br>{{ enquiry.getQuery() }}</p>
             </div>
+            <div class="col=md-4">
+                <a href="{{ url_for("adminEnquiry.viewAllEnquiries", email=email) }}"><button class="btn custom-btn mb-3">Back to View All Enquiries</button></a>
+            </div>
         </div>
         <div class="col-md-6">
                 <h2 class="h4">Enquiry Reply</h2>
-                <div class="col-md-4">
-                    <form action="{{ url_for('adminEnquiry.send_email') }}" method="post">
-                      <label for="to">To: </label>
-                      <input type="email" name="to" value="{{ enquiry.getEmail() }}"><br><br>
-                      <label for="to">Subject: </label>
-                      <input type="text" name="subject" value="RE:{{ enquiry.getSubject() }}"><br><br>
-                      <label for="to">Message: </label>
-                      <textarea name="subject">Hey {{ enquiry.getName() }}, in response to your query/feedback{{ enquiry.getQuery() }}</textarea><br><br>
-                      <button class = 'btn custom-btn' type="submit">Send</button>
+                <div>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.email) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.subject) }}
+                        </div>
+                        <div>
+                            {{ formHelper.renderField(form.message) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.submit) }}
+                        </div>
                     </form>
                 </div>
             </div>
-            <a href="{{ url_for("adminTrackers.viewAllTrackers", email=email) }}"><button class="btn custom-btn mb-3">Back to View All Enquiries</button></a>
         </div>
     </div>
 {% endblock %}
@@ -68,7 +69,6 @@
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/viewMedications.js') }}"></script>
 <script>
-    var descriptionMd = new EasyMDE({ element: document.getElementById("description"), maxHeight: "150px", forceSync:true, });
-    var benefitsMd = new EasyMDE({ element: document.getElementById("benefits"), maxHeight: "150px", forceSync:true, });
+    var messageMd = new EasyMDE({ element: document.getElementById("message"), maxHeight: "150px", forceSync:true, });
 </script>
 {% endblock %}

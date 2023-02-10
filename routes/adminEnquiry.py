@@ -1,17 +1,19 @@
-import smtplib
+import datetime
 
 from flask import Blueprint
-
-from forms import searchEnquiry
+from markupsafe import Markup
+from marko import convert
+import app
+from forms import searchEnquiry, sendEmailForm
 
 adminEnquiry = Blueprint("adminEnquiry", __name__)
 
-from classes.Enquiry import Enquiry
+from functions import enquiryreplyTemplate
 import shelve
-from datetime import timedelta, date
-from flask import flash, render_template, session, redirect, url_for, request
-from functions import loginAccess, normalAccess, flashFormErrors, adminAccess
-from flask_mail import Mail, Message
+from flask import flash, render_template, redirect, url_for, request
+from functions import adminAccess
+from flask_mail import Message
+
 
 @adminEnquiry.route('/admin/enquiries')
 @adminAccess
@@ -25,54 +27,35 @@ def viewAllEnquiries():
         return render_template("admin/enquiry/viewAllEnquiry.html", form=form, enquiries=enquiry)
 
 
-@adminEnquiry.route('/admin/enquiries/view/<id>')
+@adminEnquiry.route('/admin/enquiries/view/<id>', methods=['GET', 'POST'])
 @adminAccess
 def viewEnquiry(id):
-    with shelve.open("enquiry") as enquiry:
-        enquiries = ''
-        if len(enquiry.keys()) == 0:
-            flash("No enquiries have been made.")
-        for en in enquiry.values():
-            for i in range(len(enquiry.keys())):
-                if str(i) == id:
-                    enquiries = en
-        print(enquiries)
+    form = sendEmailForm(request.form)
 
-        return render_template("admin/enquiry/viewEnquiry.html", id=id, enquiry=enquiries)
+    if request.method == 'POST' and form.validate():
+        email = form.email.data
+        subject = form.subject.data
+        message = convert(form.message.data)
+
+        msg = Message("[TCM Shifu]", sender="TCMShifu@gmail.com",
+                      recipients=[email])
+        msg.html = Markup(enquiryreplyTemplate(str(subject), message))
+        app.mail.send(msg)
+
+        with shelve.open("enquiry", writeback=True) as enquiries:
+            enquiry = enquiries[id]
+            enquiry.setResolved(datetime.datetime.now().date())
+
+        flash("Order status successfully changed. User will be notified with an email about the change",
+              category="success")
+        return redirect(url_for("adminEnquiry.viewAllEnquiries"))
+
+    with shelve.open("enquiry") as enquiries:
+        enquiry = enquiries[id]
+
+        form.email.data = enquiry.getEmail()
+        form.subject.data = enquiry.getSubject()
+        form.message.data = 'Hey '+str(enquiry.getName())+' , in response to your query/feedback '+str(enquiry.getQuery())+' '
 
 
-@adminEnquiry.route("/send_email", methods=["GET", "POST"])
-def send_email():
-    email_data = Enquiry("", "", "", "", "")
-    if request.method == "POST":
-        email_data.to = request.form['to']
-        email_data.subject = request.form['subject']
-        email_data.message = request.form['query']
-        try:
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.ehlo()
-            server.starttls()
-            server.login('pethesnotes@gmail.com', '7DSeliza')
-            message = 'Subject: {}\n\n{}'.format(email_data.subject, email_data.message)
-            server.sendmail('your_email@gmail.com', email_data.to, message)
-            server.quit()
-            flash("Email sent successfully")
-        except:
-            flash("Email failed to send")
-            return render_template("admin/enquiry/viewEnquiry.html", id=id)
-
-def send_email():
-    if request.method == 'POST':
-        email = request.form['email']
-        subject = request.form['subject']
-        msg = request.form['message']
-
-        message = Message(subject, sender='TCMShifu@gmail.com', recipients=[email])
-
-        message.body = msg
-
-        mail.send(message)
-
-        flash('Email was successfully sent')
-        return render_template("admin/enquiry/viewAllEnquiry.html", id=id)
-
+        return render_template("admin/enquiry/viewEnquiry.html", id=id, enquiry=enquiry, form=form)

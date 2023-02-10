@@ -17,39 +17,40 @@
     <form method="post">
         <div class="row mb-4">
             <div class="col-lg-9 mb-3 mb-lg-0">
-                {{ form.name(class_="form-control", placeholder="Search by Name...") }}
+                {{ form.name(class="form-control", placeholder="Search by Name...") }}
             </div>
             <div class="col-lg-3">
                 <input type="submit" class="btn custom-btn w-100" value="Search">
             </div>
         </div>
     </form>
-    <a href="{{ url_for("adminTrackers.addTracker", email=email) }}">
-        <button class="btn custom-btn mb-3">Create Medication</button>
-    </a>
     <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
+                <th>Date</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Purpose</th>
                 <th>Subject</th>
                 <th>Action</th>
+                <th>Date Resolved</th>
                 </thead>
                 <tbody>
                 {% if enquiries|length > 0 %}
                     {% for en in enquiries.values() %}
                         <tr>
+                            <td>{{ en.getDate() }}</td>
                             <td>{{ en.getName() }}</td>
                             <td>{{ en.getEmail() }}</td>
                             <td>{{ en.getPurpose() }}</td>
                             <td>{{ en.getSubject() }}</td>
                             <td class="text-nowrap">
-                                <a href="{{ url_for("adminEnquiry.viewEnquiry", id=loop.index - 1) }}">
+                                <a href="{{ url_for("adminEnquiry.viewEnquiry", id=en.getId()) }}">
                                     <button class="btn custom-btn">View Details</button>
                                 </a>
                             </td>
+                            <td>{{ en.getResolved() }}</td>
                         </tr>
                     {% endfor %}
                 {% else %}

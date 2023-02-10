@@ -7,6 +7,7 @@ from flask import flash
 
 class Enquiry:
 
+
     def __init__(self, name, email, purpose, subject, query):
 
         try:
@@ -17,6 +18,7 @@ class Enquiry:
             self.purpose = purpose
             self.subject = subject
             self.query = query
+            self.resolved = 'Not resolved'
         except ValueError as e:
             print("Value error while entering enquiry into Enquiry class")
             flash(str(e))
@@ -42,6 +44,9 @@ class Enquiry:
     def getQuery(self):
         return self.query
 
+    def getResolved(self):
+        return self.resolved
+
     def setName(self, name):
         self.name = name
 
@@ -57,3 +62,8 @@ class Enquiry:
     def setQuery(self, query):
         self.query = query
 
+    def setResolved(self, resolved):
+        if resolved != None:
+            self.resolved = resolved
+        else:
+            self.resolved = 'Not'
