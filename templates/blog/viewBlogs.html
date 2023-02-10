@@ -33,7 +33,7 @@
                         <h5 class="card-title">{{ item.getTitle() }}</h5>
                         <p class="card-text flex-grow-1 mb-3">{{ item.getBrief()|truncate(128, True, "...") }}</p>
                         <div class="d-flex align-items-center product-card-actions">
-                            <a href="#">
+                            <a href="{{ url_for('blogs.viewBlog', id=item.getId()) }}">
                                 <button class="btn custom-btn d-flex align-items-center"><span class="material-icons me-1">auto_stories</span>Read</button>
                             </a>
                             <div class="flex-grow-1 d-flex justify-content-end white">

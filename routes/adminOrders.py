@@ -2,7 +2,7 @@ import shelve
 
 from flask_mail import Message
 from markupsafe import Markup
-from flask import flash, Blueprint, render_template, request, redirect, url_for, current_app
+from flask import flash, Blueprint, render_template, request, redirect, url_for
 
 import app
 from functions import flashFormErrors, deliveryAccess, statusChangeTemplate
@@ -66,9 +66,14 @@ def editOrderStatus(id):
                 order.setStatus(int(form.status.data))
                 msg = Message("[TCM Shifu] Your delivery status for order #" + str(order.getId()) + " has changed", sender="TCMShifu@gmail.com", recipients=[order.getUserId()])
                 msg.html = Markup(statusChangeTemplate(str(order.getId()), order.getStatusText()))
-                app.mail.send(msg)
+                try:
+                    app.mail.send(msg)
+                except TimeoutError:
+                    flash("Order status successfully changed however the e-mail is not sent due to a timeout error", category="warning")
+                else:
+                    flash("Order status successfully changed. User will be notified with an email about the change", category="success")
 
-                flash("Order status successfully changed. User will be notified with an email about the change", category="success")
+
                 return redirect(url_for("adminOrders.viewAllOrders"))
 
             form.status.data = order.getStatus()

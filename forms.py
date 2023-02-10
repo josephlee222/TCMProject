@@ -36,6 +36,14 @@ class loginUserForm(Form):
 
     submit = SubmitField("Login")
 
+class resetPasswordForm(Form):
+    email = EmailField("Email Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail is required to login")
+    ])
+
+    submit = SubmitField("Send Reset E-mail")
+
 
 # User registration form
 class registerUserForm(Form):
@@ -58,7 +66,7 @@ class registerUserForm(Form):
         validators.DataRequired(message="E-mail address is required for registration")
     ])
 
-    submit = SubmitField("Register an account")
+    submit = SubmitField("Register")
 
     def validate_email(form, field):
         with shelve.open("users") as users:
@@ -748,6 +756,14 @@ class editOrdersStatusForm(Form):
     ])
 
     submit = SubmitField("Save")
+
+class addProductCartForm(Form):
+    qty = IntegerField("Quantity", [
+        validators.NumberRange(1, 100, message="Quantity range is limited from 1 to 100"),
+        validators.DataRequired(message="Product quantity is required to add to cart")
+    ], default=1)
+
+    submit = SubmitField("Add to Cart")
 
 class sendEmailForm(Form):
     email = EmailField('To', [validators.DataRequired()])

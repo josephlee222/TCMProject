@@ -37,11 +37,11 @@
                             <div class="row">
                                 <div class="col-12 d-flex">
                                     {% if item.getType() != "treatments" %}
-                                        <a href="#" class="me-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        <a href="{{ url_for('cart.increaseCartItem', id=loop.index - 1) }}" class="me-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                            data-bs-title="Increase Quantity">
                                             <button class="btn custom-btn material-icons">add</button>
                                         </a>
-                                        <a href="#" class="me-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        <a href="{{ url_for('cart.decreaseCartItem', id=loop.index - 1) }}" class="me-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                            data-bs-title="Decrease Quantity">
                                             <button class="btn custom-btn material-icons">remove</button>
                                         </a>
