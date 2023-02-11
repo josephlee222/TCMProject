@@ -188,7 +188,7 @@ def viewOrderHistoryDetails(id):
             return redirect(url_for("profile.viewOrderHistory"))
 
         if order.getStatus() == 1:
-            statusDescription = "Your item has been received by the clinic and its being prepared."
+            statusDescription = "Your order has been received by the clinic and its being prepared."
         elif order.getStatus() == 2:
             statusDescription = "Your order has been prepared and its awaiting delivery."
         elif order.getStatus() == 3:

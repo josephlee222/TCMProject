@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}View Medications{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">medication</span>
+        <div>
+            <h1>View Enquiries</h1>
+            <h6 class="m-0">View all incoming enquiries</h6>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row mb-4">
+            <div class="col-lg-9 mb-3 mb-lg-0">
+                {{ form.name(class="form-control", placeholder="Search by Name...") }}
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn custom-btn w-100" value="Search">
+            </div>
+        </div>
+    </form>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Purpose</th>
+                <th>Subject</th>
+                <th>Action</th>
+                <th>Date Resolved</th>
+                </thead>
+                <tbody>
+                {% if enquiries|length > 0 %}
+                    {% for en in enquiries.values() %}
+                        <tr>
+                            <td>{{ en.getDate() }}</td>
+                            <td>{{ en.getName() }}</td>
+                            <td>{{ en.getEmail() }}</td>
+                            <td>{{ en.getPurpose() }}</td>
+                            <td>{{ en.getSubject() }}</td>
+                            <td class="text-nowrap">
+                                <a href="{{ url_for("adminEnquiry.viewEnquiry", id=en.getId()) }}">
+                                    <button class="btn custom-btn">View Details</button>
+                                </a>
+                            </td>
+                            <td>{{ en.getResolved() }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No enquiry has been made yet.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

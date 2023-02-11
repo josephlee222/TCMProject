@@ -13,7 +13,7 @@
             Shop
         </a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">shopping_cart</span>View All Orders</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminOrders.viewAllOrders") }}"><span class="material-icons me-1">shopping_cart</span>View All Orders</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -62,7 +62,7 @@
             Orders
         </a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="material-icons me-1">shopping_cart</span>View All Orders</a></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminOrders.viewAllOrders") }}"><span class="material-icons me-1">shopping_cart</span>View All Orders</a></li>
         </ul>
     </li>
 {% endif %}

@@ -36,6 +36,14 @@ class loginUserForm(Form):
 
     submit = SubmitField("Login")
 
+class resetPasswordForm(Form):
+    email = EmailField("Email Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail is required to login")
+    ])
+
+    submit = SubmitField("Send Reset E-mail")
+
 
 # User registration form
 class registerUserForm(Form):
@@ -58,7 +66,7 @@ class registerUserForm(Form):
         validators.DataRequired(message="E-mail address is required for registration")
     ])
 
-    submit = SubmitField("Register an account")
+    submit = SubmitField("Register")
 
     def validate_email(form, field):
         with shelve.open("users") as users:
@@ -369,8 +377,7 @@ class editMedicationForm(Form):
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
-    submit = SubmitField("Edit Medicine")
-
+    submit = SubmitField("Save Medicine")
 
 class openingHoursForm(Form):
     opening = TimeField("Opening Hour", [
@@ -569,6 +576,7 @@ class addProductForm(Form):
         print(form.images.data)
 
 
+
 class editProductForm(Form):
     name = StringField("Product Name", [
         validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
@@ -595,6 +603,7 @@ class editProductForm(Form):
     def validate_salePrice(form, salePrice):
         if form.salePrice.data >= form.price.data:
             raise ValidationError("Sale price cannot exceed normal price")
+
 
 
 class CartCouponForm(Form):
@@ -681,10 +690,36 @@ class editBlogForm(Form):
 # how to update a previously existing blog using this function?
 
 
-class medicationForm(Form):
-    morning = BooleanField("Morning")
-    afternoon = BooleanField("Afternoon")
-    night = BooleanField("Night")
+class createEnquiryForm(Form):
+    name = StringField("Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Name is required")
+    ])
+    email = EmailField("Email Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail is required to contact us")
+    ])
+    purpose = SelectField('Purpose',
+                          [validators.DataRequired(message="Purpose is required")],
+                          choices=[("", 'Select a Purpose'), ('Products Question', 'Products Question'),
+                                   ('Feedback / Feature Request', 'Feedback / Feature Request'),
+                                   ('General Questions', 'General Questions')], default="")
+
+    subject = StringField("Subject", [
+        validators.Length(3, 128, message="Subject must be between 3 to 128 characters"),
+        validators.DataRequired(message="Subject is required")
+    ])
+    enquiry = TextAreaField("Enquiry", [
+        validators.Length(3, message="Your enquiry needs to be more than 3 characters"),
+        validators.DataRequired(message="Enquiry is required")
+    ])
+    submit = SubmitField("Submit")
+
+class searchEnquiry(Form):
+    name = StringField("Search by email", [
+        validators.Length(3, 128, message="Email must be between 3 to 128 characters"),
+        validators.DataRequired(message="Email is required to search")
+    ])
 
 
 class bookAppointmentForm(Form):
@@ -708,3 +743,31 @@ class bookAppointmentForm(Form):
         with shelve.open("data") as data:
             if data["opening"] > form.startTime.data >= data["closing"]:
                 raise ValidationError("Appointment start time cannot exceed operating hours")
+
+
+class searchOrdersForm(Form):
+    id = StringField("Search by order ID", [
+        validators.DataRequired(message="Order ID is required to search")
+    ])
+
+class editOrdersStatusForm(Form):
+    status = SelectField("Order Status", [
+        validators.DataRequired(message="Order status required to update")
+    ])
+
+    submit = SubmitField("Save")
+
+class addProductCartForm(Form):
+    qty = IntegerField("Quantity", [
+        validators.NumberRange(1, 100, message="Quantity range is limited from 1 to 100"),
+        validators.DataRequired(message="Product quantity is required to add to cart")
+    ], default=1)
+
+    submit = SubmitField("Add to Cart")
+
+class sendEmailForm(Form):
+    email = EmailField('To', [validators.DataRequired()])
+    subject = StringField('Subject', [validators.DataRequired()])
+    message = TextAreaField('Message', [validators.DataRequired()])
+
+    submit = SubmitField('Send Email')

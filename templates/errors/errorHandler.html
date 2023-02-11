@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls() }}
+{% endblock %}
+{% block content %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-6">
+            <div class="card white">
+                <div class="card-body d-flex align-items-center flex-column text-center">
+                    <span class="material-icons mb-3 text-warning" style="font-size: 128px">warning</span>
+                    <h6 class="card-title">{{ title }}</h6>
+                    <p>{{ message }}</p>
+                    <a href="{{ url_for("home") }}"><button class="btn custom-btn">Return Home</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

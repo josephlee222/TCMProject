@@ -65,7 +65,7 @@ nav {
     border-radius: 4px;
 }
 
-nav p, .card *:not(.btn):not(.badge):not(.form-control) {
+nav p, .card *:not(.btn):not(.badge):not(.form-control):not(a) {
     color: var(--text-colour-primary);
 }
 
@@ -76,7 +76,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control) {
 .list-group .list-group-item {
     background-color: var(--primary-colour);
     color: var(--text-colour-primary);
-    border: 3px solid rgba(0, 0, 0, .125);
+    border: 1px solid rgba(0, 0, 0, .125);
 }
 
 .list-group .list-group-item.active {
@@ -92,7 +92,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control) {
     margin: 0;
 }
 
-.card.white *:not(.btn):not(.badge):not(.btn span) {
+.card.white *:not(.btn):not(.badge):not(.btn span):not(a) {
     color: var(--text-colour-background);
 }
 
@@ -149,6 +149,10 @@ table td, table th {
 /*Note: Firefox just implemented this, style may not apply to all web browsers yet (Works on all chromium browsers)*/
 a:has(button) {
     text-decoration: none;
+}
+
+a {
+    color: var(--secondary-colour);
 }
 
 .btn.custom-btn:disabled {
@@ -244,6 +248,12 @@ a.white:hover {
     background-image: url("/static/img/main_background.png");
     background-size: cover;
     height: 500px;
+}
+
+.login-card-img {
+    background-image: url("/static/img/main_background.png");
+    background-size: cover;
+    border-radius: 4px 0 0 4px;
 }
 
 .main-splash h1, .main-splash h2 {
@@ -358,8 +368,23 @@ footer hr {
     object-fit: contain;
 }
 
+.blog-banner-img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+    border-radius: 4px;
+}
+
 @media screen and (max-width: 767px) {
     .fc-toolbar.fc-header-toolbar {
         font-size: 50%
+    }
+
+    .login-card-img-col {
+        height: 200px;
+    }
+
+    .login-card-img {
+        border-radius: 4px 4px 0 0;
     }
 }

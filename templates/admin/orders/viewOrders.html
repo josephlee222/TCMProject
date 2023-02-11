@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}All Orders{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">receipt_long</span>
+        <div>
+            <h1>View Orders</h1>
+            <h6 class="m-0">View all incoming orders</h6>
+        </div>
+    </div>
+    <form method="post">
+        <div class="row mb-4">
+            <div class="col-lg-9 mb-3 mb-lg-0">
+                {{ form.id(class_="form-control", placeholder="Search by order ID...") }}
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn custom-btn w-100" value="Search">
+            </div>
+        </div>
+    </form>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100">
+                <thead>
+                    <th>Order ID</th>
+                    <th>Order Date & Time</th>
+                    <th>User E-mail</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                {% if orders|length > 0 %}
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.getId() }}</td>
+                            <td>{{ order.getDateTime().strftime("%d/%m/%Y, %I:%M %p") }}</td>
+                            <td>{{ order.getUserId() }}</td>
+                            <td>{{ order.getStatusText() }}</td>
+                            <td class="text-nowrap">
+                                <a href="{{ url_for("adminOrders.viewOrder", id=order.getId()) }}"><button class="btn custom-btn">View Order</button></a>
+                                <a {% if order.getStatus() != 4 and order.getStatus() != 5 %}href="{{ url_for("adminOrders.editOrderStatus", id=order.getId()) }}" {% endif %}><button class="btn custom-btn" {% if order.getStatus() == 4 or order.getStatus() == 5 %}disabled{% endif %}>Edit Status</button></a>
+                                <a {% if order.getStatus() != 4 and order.getStatus() != 5 %}onclick="showCancelModal({{ order.getId() }}, '{{ url_for("adminOrders.cancelOrder", id=order.getId()) }}')" {% endif %}><button class="btn btn-danger" {% if order.getStatus() == 4 or order.getStatus() == 5 %}disabled{% endif %}>Cancel</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">No orders to display.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Cancel Order?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Medication? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewOrders.js') }}"></script>
+{% endblock %}

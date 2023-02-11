@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Enquiry{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <div>
+            <h1>View Enquiry</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="h4">Enquiry Information</h2>
+            <div class="col-md-4">
+                <p>Enquiry made on: <br>{{ enquiry.getDate().strftime('%d/%m/%Y') }}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Name<br>{{ enquiry.getName() }}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Email<br>{{ enquiry.getEmail() }}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Purpose<br>{{ enquiry.getPurpose()}}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Subject<br>{{ enquiry.getSubject() }}</p>
+            </div>
+            <div class="col-md-4">
+                <p>Query<br>{{ enquiry.getQuery() }}</p>
+            </div>
+            <div class="col=md-4">
+                <a href="{{ url_for("adminEnquiry.viewAllEnquiries", email=email) }}"><button class="btn custom-btn mb-3">Back to View All Enquiries</button></a>
+            </div>
+        </div>
+        <div class="col-md-6">
+                <h2 class="h4">Enquiry Reply</h2>
+                <div>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.email) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.subject) }}
+                        </div>
+                        <div>
+                            {{ formHelper.renderField(form.message) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ formHelper.renderField(form.submit) }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extras %}
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/viewMedications.js') }}"></script>
+<script>
+    var messageMd = new EasyMDE({ element: document.getElementById("message"), maxHeight: "150px", forceSync:true, });
+</script>
+{% endblock %}

@@ -7,39 +7,50 @@
     {% include "includes/accessibilityDropdown.html" %}
 {% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-6 mb-3 mb-lg-0">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title mb-3">Register a TCM Shifu Account (WIP)</h5>
-                    <form method="post">
-                        <div class="mb-3">
-                            {{ formHelper.renderField(form.name) }}
-                        </div>
-                        <div class="mb-3">
-                            {{ formHelper.renderField(form.email) }}
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 mb-3">
-                                {{ formHelper.renderField(form.password) }}
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+            <div class="card white">
+                <div class="row">
+                    <div class="col-md-3 login-card-img-col">
+                        <div class="login-card-img w-100 h-100"></div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <div class="my-md-5">
+                                <h5 class="fw-bold d-flex align-items-center"><span class="material-icons me-2">person_add</span>Register with TCM Shifu</h5>
+                                <form method="post">
+                                    <div class="mb-3">
+                                        {{ formHelper.renderField(form.name) }}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{ formHelper.renderField(form.email) }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-3">
+                                            {{ formHelper.renderField(form.password) }}
+                                        </div>
+                                        <div class="col-lg-6 mb-3">
+                                            {{ formHelper.renderField(form.confirmPassword) }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        {{ formHelper.renderField(form.submit) }}
+                                        <a class="ms-3" href="{{ url_for('auth.login') }}">Login Instead</a>
+                                    </div>
+                                </form>
+                                <hr>
+                                <h5 class="fw-bold d-flex align-items-center"><span class="material-icons me-2">info</span>About TCM Shifu</h5>
+                                <p>
+                                    TCM Shifu helps you to book and manage your TCM clinic appointments, tracks
+                                    your prescriptions and doses, lets you order TCM medicine/herbs on the online store
+                                    as well as
+                                    providing education on TCM medicine with blog articles!
+                                </p>
                             </div>
-                            <div class="col-lg-6 mb-3">
-                                {{ formHelper.renderField(form.confirmPassword) }}
-                            </div>
                         </div>
-                        {{ formHelper.renderField(form.submit) }}
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Welcome to TCM Shifu</h5>
-                <p class="card-text">TCM Shifu helps you to book and manage your TCM clinic appointments, tracks your prescriptions and doses, lets you order TCM medicine/herbs on the online store as well as providing education on TCM medicine with blog articles!<br><br>Already have an account? Login by clicking the button below.</p>
-                <a href="{{ url_for('auth.login') }}"><button class="btn custom-btn">Login</button></a>
-            </div>
-        </div>
-    </div>
     </div>
 {% endblock %}

@@ -15,7 +15,7 @@
                     <h2 class="h5">TCM Shop, Appointments, Education</h2>
                     <div class="mt-4">
                         {% if session["user"] %}
-                            <a href="#"><button class="btn custom-btn">My Account</button></a>
+                            <a href="{{ url_for("profile.viewProfile") }}"><button class="btn custom-btn">My Account</button></a>
                         {% else %}
                             <a href="{{ url_for("auth.login") }}"><button class="btn custom-btn">Login Now</button></a>
                         {% endif %}
