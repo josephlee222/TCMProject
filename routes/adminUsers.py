@@ -72,6 +72,20 @@ def deleteUser(email):
                 else:
                     try:
                         del users[email]
+
+                        # Delete all user data like appointments and orders
+                        with shelve.open("appointments", writeback=True) as appointments:
+                            for key, appointment in appointments.items():
+                                if appointment.getDoctorEmail() == email or appointment.getUserEmail() == email:
+                                    del appointments[key]
+
+                        with shelve.open("orders", writeback=True) as orders:
+                            for key, order in orders.items():
+                                if order.getUserId() == email:
+                                    del orders[key]
+
+                        #TODO: Add refunds
+
                         flash("Successfully deleted the account.", category="success")
 
                         if session["user"]["email"] == email:

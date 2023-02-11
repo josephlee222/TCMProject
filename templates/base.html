@@ -9,13 +9,16 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - {{ websiteName }}</title>
     <meta name="description" content="{% block description %}{% endblock %}">
-    <meta name="keywords" content="TCM, Traditional Chinese Medicine, clinic, treatments, medicine products, educational blog">
+    <meta name="keywords"
+          content="TCM, Traditional Chinese Medicine, clinic, treatments, medicine products, educational blog">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -31,7 +34,7 @@
                 aria-expanded="false"
                 aria-label="Toggle navigation"
         >
-              <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">{% block nav %}{% endblock %}</ul>
@@ -91,9 +94,27 @@
 </div>
 <footer>
     <div class="container">
-        <div class="row mt-4">
+        <div class="row mt-3">
             <div class="col-12">
-                <h2 class="mb-4">{{ websiteName }}</h2>
+                <ul class="navbar-nav navbar-dark flex-lg-row me-auto">
+                    <li class="nav-item me-lg-3">
+                        <a class="nav-link d-flex align-items-center"
+                           href="{{ url_for("products.viewProducts") }}"><span class="material-icons navbar-icon me-1">store</span>Shop</a>
+                    </li>
+                    <li class="nav-item me-lg-3">
+                        <a class="nav-link d-flex align-items-center"
+                           href="{{ url_for("treatments.viewTreatments") }}"><span
+                                class="material-icons navbar-icon me-1">medical_services</span>Treatments</a>
+                    </li>
+                    <li class="nav-itemm me-lg-3">
+                        <a class="nav-link d-flex align-items-center"
+                           href="{{ url_for("blogs.viewBlogs") }}"><span class="material-icons navbar-icon me-1">newspaper</span>Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center"
+                           href="{{ url_for("enquiry.addEnquiry") }}"><span class="material-icons navbar-icon me-1">feedback</span>Contact Us</a>
+                    </li>
+                </ul>
                 <hr>
                 <p class="footer-credit">TCM Shifu - 2022 - App Development Group 1</p>
             </div>

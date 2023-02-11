@@ -5,7 +5,6 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 from datetime import datetime, timedelta
 from flask_mail import Message
 import jwt
-from markupsafe import Markup
 
 import app
 from classes.User import User
@@ -77,7 +76,7 @@ def resetPassword():
         email = form.email.data
         with shelve.open("users") as users:
             if email in users:
-                token = jwt.encode({'reset_password': email, 'exp': datetime.now() + timedelta(minutes=15)}, key="reset_password")
+                token = jwt.encode({'reset_password': email, 'exp': datetime.utcnow() + timedelta(minutes=15)}, key="reset_password")
                 msg = Message("[TCM Shifu] Password reset requested", sender="TCMShifu@gmail.com", recipients=[email])
                 msg.html = render_template("email/resetPassword.html", token=token)
 

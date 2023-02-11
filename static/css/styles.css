@@ -76,7 +76,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control):not(a) {
 .list-group .list-group-item {
     background-color: var(--primary-colour);
     color: var(--text-colour-primary);
-    border: 3px solid rgba(0, 0, 0, .125);
+    border: 1px solid rgba(0, 0, 0, .125);
 }
 
 .list-group .list-group-item.active {

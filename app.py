@@ -26,6 +26,7 @@ from routes.treatments import treatments
 from routes.blog import blogs
 from routes.enquiry import enquiry
 from routes.products import products
+from routes.errors import errors
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
@@ -61,6 +62,7 @@ app.register_blueprint(checkout)
 app.register_blueprint(blogs)
 app.register_blueprint(enquiry)
 app.register_blueprint(products)
+app.register_blueprint(errors)
 
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)
