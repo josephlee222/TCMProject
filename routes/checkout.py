@@ -1,6 +1,5 @@
 import shelve
 
-from decimal import Decimal
 import stripe
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, jsonify
 

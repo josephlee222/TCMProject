@@ -1,5 +1,4 @@
-import shelve
-from datetime import datetime, timedelta
+from datetime import datetime
 from time import time
 
 from flask import flash

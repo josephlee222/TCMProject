@@ -6,9 +6,8 @@ from forms import createEnquiryForm
 enquiry = Blueprint("enquiry", __name__)
 
 import shelve
-from datetime import timedelta, date
-from flask import flash, render_template, session, redirect, url_for, request
-from functions import loginAccess, normalAccess, flashFormErrors
+from flask import flash, render_template, redirect, url_for, request
+from functions import normalAccess, flashFormErrors
 
 @enquiry.route("/ContactUs", methods=['GET', 'POST'])
 @normalAccess
