@@ -36,7 +36,7 @@ def addTreatment():
         salePrice = form.salePrice.data
         onSale = form.onSale.data
         duration = form.duration.data
-        treatment = Treatment(name, description, benefits, price, salePrice, onSale, [], duration)
+        treatment = Treatment(name, description, benefits, price, salePrice, onSale, duration)
         images = request.files.getlist("images")
         bPath = "static/uploads/products/" + str(treatment.getId())
         os.makedirs(bPath)

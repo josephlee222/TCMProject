@@ -1,30 +1,22 @@
 import shelve
+from time import time
 
 from marko import convert
 
 
 class Product:
-    def __init__(self, name, description, benefits, price, salePrice=0, onSale=0, images=[]):
+    def __init__(self, name, description, benefits, price, salePrice=0, onSale=0):
         # Init class with safe measures
-        with shelve.open("counter", writeback=True) as counter:
-            if "shop" not in counter:
-                id = 1
-            else:
-                id = counter["shop"] + 1
-            counter["shop"] = id
 
         try:
-            if type(images) != list:
-                raise ValueError
-
-            self.id = id
+            self.id = int(time() * 1000)
             self.name = str(name)
             self.description = str(description)
             self.benefits = str(benefits)
             self.price = float(price)
             self.salePrice = float(salePrice)
             self.onSale = bool(onSale)
-            self.images = images
+            self.images = []
         except ValueError:
             print("Value error while creating Product class")
             return False
