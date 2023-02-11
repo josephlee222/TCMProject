@@ -1,10 +1,9 @@
 import shelve
-import os
-
-from flask import flash, Blueprint, render_template, request, session, redirect, url_for
 from datetime import datetime, timedelta
-from flask_mail import Message
+
 import jwt
+from flask import flash, Blueprint, render_template, request, session, redirect, url_for
+from flask_mail import Message
 
 import app
 from classes.User import User

@@ -12,26 +12,33 @@
 {% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">live_help</span>
         <div>
-            <h1>View Enquiry</h1>
+            <h1>Enquiry Details</h1>
+            <h6 class="m-0">{{ enquiry.getSubject() }}</h6>
         </div>
     </div>
-
+    <a href="{{ url_for("adminEnquiry.viewAllEnquiries") }}" style="display: contents">
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back to list</button>
+    </a>
     <div class="row">
         <div class="col-md-6">
             <h2 class="h4">Enquiry Information</h2>
-            {{ infoBox.infoBox("Enquiry made on", enquiry.getDate().strftime('%d/%m/%Y')) }}
-            {{ infoBox.infoBox("Name", enquiry.getName()) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ infoBox.infoBox("Name", enquiry.getName()) }}
+                </div>
+                <div class="col-md-6">
+                    {{ infoBox.infoBox("Enquiry made on", enquiry.getDate().strftime('%d/%m/%Y')) }}
+                </div>
+            </div>
             {{ infoBox.infoBox("Email", enquiry.getEmail()) }}
             {{ infoBox.infoBox("Purpose", enquiry.getPurpose()) }}
             {{ infoBox.infoBox("Subject", enquiry.getSubject()) }}
-            {{ infoBox.infoBox("Query", enquiry.getQuery()) }}
-            <div class="col=md-4">
-                <a href="{{ url_for("adminEnquiry.viewAllEnquiries", email=email) }}"><button class="btn custom-btn mb-3">Back to View All Enquiries</button></a>
-            </div>
+            {{ infoBox.infoBox("Question", enquiry.getQuery()) }}
         </div>
         <div class="col-md-6">
-                <h2 class="h4">Enquiry Reply</h2>
+                <h2 class="h4">Reply to Enquiry</h2>
                 <div>
                     <form method="post" enctype="multipart/form-data">
                         <div class="mb-3">

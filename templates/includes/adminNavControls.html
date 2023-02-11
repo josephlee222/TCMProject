@@ -6,6 +6,10 @@
         <ul class="dropdown-menu">
             <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">groups</span>View All Users</a></li>
             <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminUsers.addUser") }}"><span class="material-icons me-1">person_add</span>Create User</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminEnquiry.viewAllEnquiries") }}"><span class="material-icons me-1">feedback</span>View Enquiries</a></li>
         </ul>
     </li>
     <li class="nav-item dropdown">

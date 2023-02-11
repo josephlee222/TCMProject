@@ -1,12 +1,12 @@
 import shelve
 
+from flask import flash, Blueprint, render_template, request, redirect, url_for
 from flask_mail import Message
 from markupsafe import Markup
-from flask import flash, Blueprint, render_template, request, redirect, url_for
 
 import app
-from functions import flashFormErrors, deliveryAccess, statusChangeTemplate
 from forms import searchOrdersForm, editOrdersStatusForm
+from functions import deliveryAccess, statusChangeTemplate
 
 adminOrders = Blueprint("adminOrders", __name__)
 

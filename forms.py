@@ -1,10 +1,10 @@
 import shelve
 from datetime import datetime
 
-from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
 
 from functions import checkCoupon
 

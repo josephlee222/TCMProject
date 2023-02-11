@@ -1,8 +1,9 @@
 import shelve
 
 from flask import flash, Blueprint, render_template, redirect, url_for, request
-from functions import normalAccess
+
 from forms import addProductCartForm
+from functions import normalAccess
 
 products = Blueprint("products", __name__)
 

@@ -1,8 +1,9 @@
 import datetime
 
 from flask import Blueprint
-from markupsafe import Markup
 from marko import convert
+from markupsafe import Markup
+
 import app
 from forms import searchEnquiry, sendEmailForm
 
