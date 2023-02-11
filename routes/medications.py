@@ -6,7 +6,7 @@ medications = Blueprint("medications", __name__)
 
 import shelve
 from datetime import timedelta, date
-from flask import flash, render_template, session, redirect, url_for
+from flask import flash, render_template, session
 from functions import loginAccess
 
 

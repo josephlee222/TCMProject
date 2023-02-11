@@ -1,6 +1,5 @@
 # Customer delivery address class
 # Library to get map coordinates via address
-from flask import flash
 from geopy.exc import GeopyError
 from geopy.geocoders import ArcGIS
 
