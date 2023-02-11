@@ -55,7 +55,7 @@ def viewEnquiry(id):
 
         form.email.data = enquiry.getEmail()
         form.subject.data = enquiry.getSubject()
-        form.message.data = 'Hey '+str(enquiry.getName())+', in response to your query/feedback to '+str(enquiry.getQuery())+' '
+        form.message.data = 'Hey '+str(enquiry.getName())+', in response to your query/feedback on '+str(enquiry.getQuery())+' '
 
 
         return render_template("admin/enquiry/viewEnquiry.html", id=id, enquiry=enquiry, form=form)

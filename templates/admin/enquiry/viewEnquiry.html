@@ -20,24 +20,12 @@
     <div class="row">
         <div class="col-md-6">
             <h2 class="h4">Enquiry Information</h2>
-            <div class="col-md-4">
-                <p>Enquiry made on: <br>{{ enquiry.getDate().strftime('%d/%m/%Y') }}</p>
-            </div>
-            <div class="col-md-4">
-                <p>Name<br>{{ enquiry.getName() }}</p>
-            </div>
-            <div class="col-md-4">
-                <p>Email<br>{{ enquiry.getEmail() }}</p>
-            </div>
-            <div class="col-md-4">
-                <p>Purpose<br>{{ enquiry.getPurpose()}}</p>
-            </div>
-            <div class="col-md-4">
-                <p>Subject<br>{{ enquiry.getSubject() }}</p>
-            </div>
-            <div class="col-md-4">
-                <p>Query<br>{{ enquiry.getQuery() }}</p>
-            </div>
+            {{ infoBox.infoBox("Enquiry made on", enquiry.getDate().strftime('%d/%m/%Y')) }}
+            {{ infoBox.infoBox("Name", enquiry.getName()) }}
+            {{ infoBox.infoBox("Email", enquiry.getEmail()) }}
+            {{ infoBox.infoBox("Purpose", enquiry.getPurpose()) }}
+            {{ infoBox.infoBox("Subject", enquiry.getSubject()) }}
+            {{ infoBox.infoBox("Query", enquiry.getQuery()) }}
             <div class="col=md-4">
                 <a href="{{ url_for("adminEnquiry.viewAllEnquiries", email=email) }}"><button class="btn custom-btn mb-3">Back to View All Enquiries</button></a>
             </div>
