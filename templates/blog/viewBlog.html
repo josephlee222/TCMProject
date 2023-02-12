@@ -21,7 +21,7 @@
         <h1>{{ blog.getTitle() }}</h1>
     </div>
     <div class="mb-3 d-flex flex-column">
-        <small class="text-secondary">Written/Updated By: {{ blog.getUpdatedBy() if blog.getUpdatedBy() else blog.getCreatedBy }}</small>
+        <small class="text-secondary">Written/Updated By: {{ blog.getUpdatedBy() if blog.getUpdatedBy() else blog.getCreatedBy() }}</small>
         <small class="text-secondary">Created On: {{ blog.getDatetime().strftime("%d/%m/%Y, %I:%M %p") }}</small>
     </div>
     <div>
