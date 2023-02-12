@@ -5,3 +5,7 @@ function showCancelModal(name, link) {
 
     deleteModel.show()
 }
+
+$(document).ready( function () {
+    $('#orders').DataTable();
+} );

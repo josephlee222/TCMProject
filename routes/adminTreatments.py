@@ -36,7 +36,7 @@ def addTreatment():
         salePrice = form.salePrice.data
         onSale = form.onSale.data
         duration = form.duration.data
-        treatment = Treatment(name, description, benefits, price, salePrice, onSale, [], duration)
+        treatment = Treatment(name, description, benefits, price, salePrice, onSale, duration)
         images = request.files.getlist("images")
         bPath = "static/uploads/products/" + str(treatment.getId())
         os.makedirs(bPath)
@@ -97,12 +97,8 @@ def deleteTreatment(id):
     try:
         with shelve.open("treatments", writeback=True) as treatments:
             del treatments[id]
-            try:
-                shutil.rmtree("static/uploads/products/" + id)
-            except FileNotFoundError:
-                flash("Blog article has been deleted, however, there is an error when deleting the image files", category="warning")
-            else:
-                flash("Successfully deleted treatment", category="success")
+            # I used to delete the image files, but that was causing order history images to be missing
+            flash("Successfully deleted treatment", category="success")
     except KeyError:
         flash("Unable to delete treatment: treatment does not exist", category="error")
 
@@ -147,7 +143,7 @@ def deleteTreatmentImage(id, imageId):
             if len(treatment.getImages()) > 1:
                 imgPath = treatment.getImages()[int(imageId)]
                 treatment.deleteImage(imageId)
-                os.remove(imgPath)
+                # I used to delete the image files, but that was causing order history images to be missing
                 flash("Image successfully deleted", category="success")
             else:
                 flash("Unable to delete the last image. Product should has at least one image", category="error")

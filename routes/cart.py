@@ -24,7 +24,7 @@ def viewCart():
         flashFormErrors("The coupon code entered is not valid", form.errors)
 
 
-    with shelve.open("users") as users:
+    with shelve.open("users", writeback=True) as users:
         user = users[session["user"]["email"]]
         cart = users[session["user"]["email"]].getCart()
 

@@ -79,4 +79,11 @@ class Order:
 
     def getTotalPrice(self):
         # +3 for delivery fee
-        return round(self.getCartSubtotalPrice() + self.getCartGST() + 3 - self.discount, 2)
+        return round(self.getCartSubtotalPrice() + self.getCartGST() + self.getDeliveryPrice() - self.discount, 2)
+
+    def getDeliveryPrice(self):
+        for item in self.cart:
+            if item.getType() == "products":
+                return 3
+
+        return 0

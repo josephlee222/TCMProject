@@ -64,8 +64,8 @@
                             <h6>${{ "%.2f"|format(user.getCartGST()) }}</h6>
                         </div>
                         <div class="d-flex">
-                            <h6 class="fw-bold flex-grow-1">Delivery Fee (Fixed)</h6>
-                            <h6>$3.00</h6>
+                            <h6 class="fw-bold flex-grow-1">Delivery Fee</h6>
+                            <h6>${{ "%.2f"|format(user.getDeliveryPrice()) }}</h6>
                         </div>
                         <div class="d-flex">
                             <h6 class="fw-bold flex-grow-1">Coupon</h6>
