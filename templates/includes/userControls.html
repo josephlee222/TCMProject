@@ -29,7 +29,7 @@
                 </li>
                 {% if session["user"]["accountType"] == "admin" %}
                     <li><a class="dropdown-item d-flex align-items-center"
-                           href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Admin
+                           href="{{ url_for("adminStats.dashboard") }}"><span class="material-icons me-1">construction</span>Admin
                         Panel</a></li>
                 {% endif %}
                 {% if session["user"]["accountType"] == "delivery" %}
