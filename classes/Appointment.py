@@ -1,23 +1,17 @@
 import shelve
+from time import time
 
 
 class Appointment:
-    def __init__(self, name, userEmail, doctorEmail, date, time, endTime, notes):
-        with shelve.open("counter", writeback=True) as counter:
-            if "appointment" not in counter:
-                id = 1
-            else:
-                id = counter["appointment"] + 1
-            counter["appointment"] = id
-
-            self.id = id
-            self.name = str(name)
-            self.userEmail = str(userEmail)
-            self.doctorEmail = str(doctorEmail)
-            self.date = date
-            self.time = time
-            self.endTime = endTime
-            self.notes = str(notes)
+    def __init__(self, name, userEmail, doctorEmail, date, startTime, endTime, notes):
+        self.id = int(time() * 1000)
+        self.name = str(name)
+        self.userEmail = str(userEmail)
+        self.doctorEmail = str(doctorEmail)
+        self.date = date
+        self.time = startTime
+        self.endTime = endTime
+        self.notes = str(notes)
 
     def getId(self):
         return self.id

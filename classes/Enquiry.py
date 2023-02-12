@@ -1,12 +1,9 @@
 from datetime import datetime
 from time import time
-
 from flask import flash
 
 
 class Enquiry:
-
-
     def __init__(self, name, email, purpose, subject, query):
 
         try:

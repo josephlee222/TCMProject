@@ -7,5 +7,7 @@ function showCancelModal(name, link) {
 }
 
 $(document).ready( function () {
-    $('#orders').DataTable();
+    $('#orders').DataTable({
+        responsive: true
+    });
 } );

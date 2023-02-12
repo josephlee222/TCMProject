@@ -17,7 +17,6 @@ def viewAllTrackers(email):
 
     with shelve.open("users") as users:
         trackers = users[email].getMedications()
-        print(trackers)
         if len(trackers) == 0:
             flash("No medications added yet. Add one by clicking 'Create Medication'")
 

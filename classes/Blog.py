@@ -6,7 +6,7 @@ from marko import convert
 
 class Blog:
     def __init__(self, createdBy, title, content, brief, coverImage=[]):
-        self.id = self.id = int(time() * 1000)
+        self.id = int(time() * 1000)
         self.createdBy = createdBy
         self.updatedBy = None
         self.datetime = datetime.now()

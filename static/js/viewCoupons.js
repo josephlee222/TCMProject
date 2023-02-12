@@ -5,3 +5,9 @@ function showDeleteModal(name, link) {
 
     deleteModel.show()
 }
+
+$(document).ready( function () {
+    $('#coupons').DataTable({
+        responsive: true
+    });
+} );

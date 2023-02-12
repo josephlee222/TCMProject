@@ -7,9 +7,8 @@
     {% include "includes/userControls.html" %}
 {% endblock %}
 {% block head %}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datatables.css') }}"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.2/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
 {% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
@@ -44,10 +43,6 @@
                             </td>
                         </tr>
                     {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="5">No orders to display.</td>
-                    </tr>
                 {% endif %}
                 </tbody>
             </table>
