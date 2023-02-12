@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}All Users{% endblock %}
 {% block nav %}
-    {% include "includes/adminNavControls.html" %}
+    {% include "includes/normalNavControls.html" %}
 {% endblock %}
 {% block navRight %}
     {% include "includes/userControls.html" %}
@@ -24,7 +24,7 @@
             </div>
         </div>
     </form>
-    <a href="{{ url_for("adminRefund.addRefund") }}"><button class="btn custom-btn mb-3">Create New Refund</button></a>
+    <a href="{{ url_for("refunds.addRefund") }}"><button class="btn custom-btn mb-3">Create New Refund</button></a>
     <div class="row overflow-auto">
         <div class="col-12">
             <table class="table table-striped w-100">
@@ -33,7 +33,6 @@
                     <th>E-mail</th>
                     <th>Product</th>
                     <th>Reason</th>
-                    <th>Creation Date</th>
                     <th>Actions</th>
                 </thead>
                 <tbody>
@@ -42,13 +41,12 @@
                         <tr>
                             <td>{{ refunds[refund]["name"] }}</td>
                             <td>{{ refunds[refund]["email"] }}</td>
-                            <td>{{ refunds[refund]["order"] }}</td>
                             <td>{{ refunds[refund]["creation"] }}</td>
+                            <td>{{ refunds[refund]["product"] }}</td>
                             <td>{{ refunds[refund]["reason"] }}</td>
                             <td class="text-nowrap">
-                                <a href="{{ url_for("adminRefund.viewAllRefunds", id=refunds[refund]["id"]) }}"><button class="btn custom-btn">View Refund</button></a>
-                                <a href="{{ url_for("adminRefund.editRefund", id=refunds[refund]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
-                                <a href="{{ url_for("adminRefund.deleteRefund", id=refunds[refund]["id"]) }}"><button class="btn btn-danger">Delete</button></a>
+                                <a href="#"><button class="btn custom-btn">View Refund</button></a>
+                                <a href="#"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>
                     {% endfor %}

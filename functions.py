@@ -104,6 +104,6 @@ def checkCoupon(couponCode):
 
 def checkCart():
     if "user" in session:
-        with shelve.open("users", flag="r") as users:
+        with shelve.open("users") as users:
             user = users[session["user"]["email"]]
             return len(user.getCart())

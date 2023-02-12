@@ -3,7 +3,7 @@
     Add Product
 {% endblock %}
 {% block nav %}
-    {% include "includes/adminNavControls.html" %}
+    {% include "includes/normalNavControls.html" %}
 {% endblock %}
 {% block navRight %}
     {% include "includes/userControls.html" %}
@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <h2 class="h4">Refund Information</h2>
-                <div class="row">
+                <div>
                     {{ infoBox.infoBox("Your Name", session["user"]["name"]) }}
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 {{ infoBox.infoBox("Your E-mail", session["user"]["email"]) }}
             </div>
             <div>
-                {{ formHelper.renderField(form.order) }}
+                {{ infoBox.infoBox("Order ID", "#" + id) }}
             </div>
             <div class="mb-3">
                 {{ formHelper.renderField(form.reason) }}

@@ -108,6 +108,11 @@
                         <h6 class="fw-bold flex-grow-1">Total</h6>
                         <h4>${{ "%.2f"|format(order.getTotalPrice()) }}</h4>
                     </div>
+                    <div class="col-12 d-flex">
+                        <a href="{{ url_for("refunds.addRefund", id=order.getId()) }}" class="w-100">
+                            <button class="btn custom-btn w-100">Refund</button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

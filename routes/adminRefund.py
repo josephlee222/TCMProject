@@ -1,6 +1,7 @@
+import datetime
 import shelve
 
-from flask import flash, Blueprint, render_template, request, redirect, url_for
+from flask import flash, Blueprint, render_template, request, redirect, url_for, session
 
 from classes.Refund import Refund
 from forms import addRefundForm, searchRefundForm, editRefundForm
@@ -8,8 +9,6 @@ from functions import flashFormErrors, adminAccess
 
 adminRefund = Blueprint("adminRefund", __name__)
 
-
-# Admin side products
 
 @adminRefund.route("/admin/refunds", methods=['GET', 'POST'])
 @adminAccess
@@ -30,13 +29,13 @@ def addRefund():
     form = addRefundForm(request.form)
     # Check whether user is submitting data and whether form is valid
     if request.method == "POST" and form.validate():
-        fname = form.fname.data
-        lname = form.lname.data
-        email = form.email.data
-        product = form.product.data
+        name = session["user"]["name"]
+        email = session["user"]["email"]
+        order = id
+        creation = datetime.datetime
         reason = form.reason.data
         # Take data from form and combine into a single object representing the product
-        refund = Refund(fname, lname, email, product, reason)
+        refund = Refund(name, email, order,creation, reason)
 
         with shelve.open("refunds", writeback=True) as refunds:
             refunds[str(refund.getId())] = refund
@@ -56,10 +55,9 @@ def editRefund(id):
 
             if request.method == "POST" and form.validate():
                 print("Edit refund request here")
-                refund.setfname(form.fname.data)
-                refund.setlname(form.lname.data)
-                refund.setemail(form.email.data)
-                refund.setproduct(form.product.data)
+                refund.setname(session["user"]["name"])
+                refund.setemail(session["user"]["email"])
+                refund.setorder(id)
                 refund.setreason(form.reason.data)
 
                 flash("Successfully edited refund request.", category="success")
@@ -68,10 +66,9 @@ def editRefund(id):
             else:
                 flashFormErrors("Unable to edit the refund request", form.errors)
 
-        form.fname.data = refund.getfname()
-        form.lname.data = refund.getlname()
+        form.name.data = refund.getname()
         form.email.data = refund.getemail()
-        form.product.data = refund.getproduct()
+        form.order.data = refund.getorder()
         form.reason.data = refund.getreason()
 
         return render_template("admin/refunds/editRefunds.html", refunds=refunds, form=form)

@@ -648,8 +648,8 @@ class addRefundForm(Form):
         validators.Email(granular_message=True),
         validators.DataRequired(message='E-mail is required to continue with refund')
     ])
-    product = StringField('Product name', [
-        validators.DataRequired(message='Product name is required to continue with refund')
+    order = StringField('Order number', [
+        validators.DataRequired(message='Order number is required to continue with refund')
     ])
     reason = TextAreaField('Reason for refund', [
         validators.DataRequired(message='Reason is required to continue with refund')
@@ -673,8 +673,8 @@ class editRefundForm(Form):
         validators.Email(granular_message=True),
         validators.DataRequired(message='E-mail is required to continue with refund')
     ])
-    product = StringField('Product name', [
-        validators.DataRequired(message='Product name is required to continue with refund')
+    order = StringField('Product name', [
+        validators.DataRequired(message='Order number is required to continue with refund')
     ])
     reason = TextAreaField('Reason for refund', [
         validators.DataRequired(message='Reason is required to continue with refund'),
