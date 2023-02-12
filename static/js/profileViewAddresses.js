@@ -5,3 +5,4 @@ function showDeleteModal(name, link) {
 
     deleteModel.show()
 }
+
