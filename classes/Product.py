@@ -13,8 +13,8 @@ class Product:
             self.name = str(name)
             self.description = str(description)
             self.benefits = str(benefits)
-            self.price = float(price)
-            self.salePrice = float(salePrice)
+            self.price = round(float(price), 2)
+            self.salePrice = round(float(salePrice), 2)
             self.onSale = bool(onSale)
             self.images = []
         except ValueError:
@@ -61,10 +61,10 @@ class Product:
         self.benefits = benefits
 
     def setPrice(self, price):
-        self.price = float(price)
+        self.price = round(float(price),2)
 
     def setSalePrice(self, salePrice):
-        self.salePrice = float(salePrice)
+        self.salePrice = round(float(salePrice), 2)
 
     def setOnSale(self, onSale):
         self.onSale = bool(onSale)
