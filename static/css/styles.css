@@ -103,7 +103,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control):not(a) {
 
 .table {
     border-radius: 3px;
-    border: 1px solid rgba(0, 0, 0, .125);
+    border: 1px solid rgba(0, 0, 0, .125) !important;
 }
 
 table td, table th {
@@ -153,6 +153,10 @@ a:has(button) {
 
 a {
     color: var(--secondary-colour);
+}
+
+.paginate_button {
+    color: var(--secondary-colour) !important;
 }
 
 .btn.custom-btn:disabled {
@@ -349,6 +353,21 @@ footer hr {
 
 .bg-custom {
     background-color: var(--secondary-colour);
+}
+
+.active > .page-link, .page-link.active {
+    background-color: var(--secondary-colour);
+    border-color: var(--secondary-colour);
+    color: white !important;
+}
+
+.disabled > .page-link, .page-link.active {
+
+    color: grey !important;
+}
+
+.paginate_button > .page-link, .page-link.active {
+    color: var(--secondary-colour);
 }
 
 .card.splash {

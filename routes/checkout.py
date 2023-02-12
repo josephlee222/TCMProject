@@ -17,12 +17,12 @@ def viewCheckout(coupon=None):
     form = CheckoutForm(request.form)
     discount = 0
 
-    with shelve.open("users") as users:
+    with shelve.open("users", writeback=True) as users:
         user = users[session["user"]["email"]]
 
-    if len(user.getCart()) == 0:
-        flash("Unable to checkout as there are no items in the cart", category="error")
-        return redirect(url_for("cart.viewCart"))
+        if len(user.getCart()) == 0:
+            flash("Unable to checkout as there are no items in the cart", category="error")
+            return redirect(url_for("cart.viewCart"))
 
     if coupon:
         if not checkCoupon(coupon):
