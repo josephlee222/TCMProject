@@ -15,7 +15,7 @@ class Order:
         self.userId = userId
         self.cart = cart
         self.address = address
-        self.status = 1
+        self.status = 4
         self.discount = discount
 
         # Check the cart consists of products that needs delivering. If only treatments, set to finished because

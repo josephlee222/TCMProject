@@ -15,6 +15,7 @@ from routes.adminOrders import adminOrders
 from routes.adminProducts import adminProducts
 from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
+from routes.adminStats import adminStats
 from routes.auth import auth
 from routes.blog import blogs
 from routes.cart import cart
@@ -54,6 +55,7 @@ app.register_blueprint(adminOrders)
 app.register_blueprint(medications)
 app.register_blueprint(adminBlog)
 app.register_blueprint(adminProducts)
+app.register_blueprint(adminStats)
 app.register_blueprint(profile)
 app.register_blueprint(treatments)
 app.register_blueprint(cart)
