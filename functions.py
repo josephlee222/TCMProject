@@ -420,7 +420,7 @@ def enquiryreplyTemplate(subject, message):
                                                   </tr>
                                                 </tbody>
                                               </table>
-                                              <p class="text-gray-700" style="line-height: 24px; font-size: 16px; color: #4a5568; width: 100%; margin: 0;" align="left">We hope that we have answered your enquiries and we hope that you have a pleasant day!</p>
+                                              <p class="text-gray-700" style="line-height: 24px; font-size: 16px; color: #4a5568; width: 100%; margin: 0;" align="left">We hope that we have answered your enquiry if there are any other enquiries feel free to contact us at +65 8990 6030 or email us at TCMShifu@gmail.com. <br><br> We hope that you have a pleasant day!</p>
                                             </div>
                                             <table class="s-5 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                               <tbody>
