@@ -1,21 +1,13 @@
-import shelve
 from datetime import datetime, timedelta
+from time import time
 
 from flask import flash
 
 
 class Medication:
     def __init__(self, name, description, duration_of_medication, no_of_pills, frequency_of_pills, notes):
-
-        with shelve.open("counter", writeback=True) as counter:
-            if "medications" not in counter:
-                id = 1
-            else:
-                id = counter["medications"] + 1
-            counter["medications"] = id
-
         try:
-            self.id = id
+            self.id = int(time() * 1000)
             self.date = datetime.now().date()
             self.enddate = self.date + timedelta(days=int(duration_of_medication))
             self.name = str(name)

@@ -6,6 +6,11 @@
 {% block navRight %}
     {% include "includes/userControls.html" %}
 {% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datatables.css') }}"/>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
+{% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">feedback</span>
@@ -14,21 +19,11 @@
             <h6 class="m-0">View all incoming enquiries</h6>
         </div>
     </div>
-    <form method="post">
-        <div class="row mb-4">
-            <div class="col-lg-9 mb-3 mb-lg-0">
-                {{ form.name(class="form-control", placeholder="Search by Name...") }}
-            </div>
-            <div class="col-lg-3">
-                <input type="submit" class="btn custom-btn w-100" value="Search">
-            </div>
-        </div>
-    </form>
     <button id="button1" class="btn custom-btn mb-3">Show resolved enquiries</button></a>
     <button id="button2" class="btn custom-btn mb-3" style="display: none">Show unresolved enquiries</button></a>
     <div class="row overflow-auto">
         <div class="col-12">
-            <table class="table table-striped w-100">
+            <table class="table table-striped w-100" id="enquiries">
                 <thead>
                 <th>Date</th>
                 <th>Name</th>
@@ -74,10 +69,6 @@
                         </tr>
                         {% endif %}
                     {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="7">No enquiry has been made yet.</td>
-                    </tr>
                 {% endif %}
                 </tbody>
             </table>
@@ -113,5 +104,11 @@ button1.onclick = function () {
 button1.style.display = "none";
 button2.style.display = "block";
 };
+
+$(document).ready( function () {
+    $('#enquiries').DataTable({
+        responsive: true
+    });
+} );
 </script>
 {% endblock %}
