@@ -76,7 +76,7 @@ def editOrderStatus(id):
 
                 return redirect(url_for("adminOrders.viewAllOrders"))
 
-            form.status.data = order.getStatus()
+            form.status.data = str(order.getStatus())
             print(order.getStatus())
 
         return render_template("admin/orders/editOrderStatus.html", form=form, order=order)

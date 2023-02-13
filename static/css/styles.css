@@ -384,7 +384,8 @@ footer hr {
 }
 
 .product-img {
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 4px 4px 0 0;
 }
 
 .blog-banner-img {

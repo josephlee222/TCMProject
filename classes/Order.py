@@ -21,7 +21,7 @@ class Order:
         # Check the cart consists of products that needs delivering. If only treatments, set to finished because
         # there is nothing to deliver
         for item in self.cart:
-            if item.getType == "products":
+            if item.getType() == "products":
                 self.status = 1
                 break
 

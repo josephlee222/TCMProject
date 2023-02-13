@@ -43,7 +43,9 @@
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <div class="col-md-2 mb-3 mb-md-0">
-                                        <img class="cart-img w-100" src="/{{ item.getStoredItem().getImages()[0] }}">
+                                        <div class="ratio ratio-16x9">
+                                            <img class="cart-img w-100" src="/{{ item.getStoredItem().getImages()[0] }}">
+                                        </div>
                                     </div>
                                     <div class="col-md-8 col-10">
                                         <h6 class="card-title">{{ item.getStoredItem().getName() }}</h6>

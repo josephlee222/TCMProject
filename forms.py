@@ -237,10 +237,12 @@ class createTreatmentForm(Form):
         validators.DataRequired(message="Treatment name is required to search")
     ])
     price = DecimalField("Treatment Price ($)", [
-        validators.DataRequired(message="Treatment price is required")
+        validators.DataRequired(message="Treatment price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
@@ -251,7 +253,7 @@ class createTreatmentForm(Form):
     benefits = TextAreaField("Treatment Benefits", [
         validators.DataRequired(message="Treatment benefits is required")
     ])
-    duration = DecimalField("Treatment Duration", [
+    duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
     ])
@@ -276,10 +278,12 @@ class editTreatmentForm(Form):
         validators.DataRequired(message="Treatment name is required to search")
     ])
     price = DecimalField("Treatment Price ($)", [
-        validators.DataRequired(message="Treatment price is required")
+        validators.DataRequired(message="Treatment price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
@@ -290,9 +294,9 @@ class editTreatmentForm(Form):
     benefits = TextAreaField("Treatment Benefits", [
         validators.DataRequired(message="Treatment benefits is required")
     ])
-    duration = DecimalField("Treatment Duration", [
+    duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
-        validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
+        validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours"),
     ])
 
     submit = SubmitField("Edit Treatment")
@@ -420,7 +424,7 @@ class createCouponForm(Form):
     ])
     discount = IntegerField("Discount Amount (%)", [
         validators.NumberRange(1, 100, "Discount amount must range between 1% to 100%"),
-        validators.DataRequired(message="Discount amount is required")
+        validators.DataRequired(message="Discount amount is required"),
     ])
     startDate = DateField("Start Date", [
         validators.DataRequired(message="Discount start date is required")
@@ -547,10 +551,12 @@ class addProductForm(Form):
         validators.DataRequired(message="Treatment name is required")
     ])
     price = DecimalField("Product Price ($)", [
-        validators.DataRequired(message="Product price is required")
+        validators.DataRequired(message="Product price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
@@ -583,7 +589,8 @@ class editProductForm(Form):
         validators.DataRequired(message="Product name is required")
     ])
     price = DecimalField("Product Price ($)", [
-        validators.DataRequired(message="Treatment price is required")
+        validators.DataRequired(message="Treatment price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     description = TextAreaField("Product Description", [
         validators.DataRequired(message="Treatment description is required")
@@ -592,7 +599,8 @@ class editProductForm(Form):
         validators.DataRequired(message="Treatment benefits is required")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()

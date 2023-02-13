@@ -43,7 +43,7 @@ def addProduct():
         with shelve.open("products", writeback=True) as products:
             products[str(product.getId())] = product
 
-        flash("Successfully created product")
+        flash("Successfully created product", category="success")
         return redirect(url_for("adminProducts.viewAllProducts"))
     return render_template("admin/products/addProduct.html", form=form)
 

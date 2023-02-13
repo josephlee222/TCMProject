@@ -1,4 +1,7 @@
 {% if session["user"]["accountType"] == "admin" %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for("adminStats.dashboard") }}">Dashboard</a>
+    </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Users
@@ -56,9 +59,6 @@
             <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminBlog.viewAllBlogs") }}"><span class="material-icons me-1">feed</span>View All Articles</a></li>
             <li><a class="dropdown-item d-flex align-items-center" href="{{ url_for("adminBlog.addBlog") }}"><span class="material-icons me-1">post_add</span>Create New Article</a></li>
         </ul>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/">About</a>
     </li>
 {% else %}
     <li class="nav-item dropdown">
