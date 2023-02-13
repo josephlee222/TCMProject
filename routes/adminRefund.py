@@ -30,20 +30,8 @@ def viewRefund(id):
             refund = refunds[id]
             return render_template("admin/refunds/viewRefund.html", refund=refund)
     except KeyError:
-        flash("Unable to edit refund request: product does not exist", category="error")
+        flash("Unable to edit refund request: request does not exist", category="error")
         return redirect(url_for("adminRefund.viewAllRefunds"))
-
-
-@adminRefund.route("/admin/refunds/<id>/view/reject", methods=['GET', 'POST'])
-@adminAccess
-def rejectRefund(id):
-    try:
-        with shelve.open("refunds", writeback=True) as refunds:
-            del refunds[id]
-    except KeyError:
-        flash("Unable to edit refund request: Request does not exist", category="error")
-
-    return redirect(url_for("adminRefund.viewAllRefunds"))
 
 
 @adminRefund.route("/admin/refunds/<id>/view/accept", methods=['GET', 'POST'])
