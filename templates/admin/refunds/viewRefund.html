@@ -37,7 +37,7 @@
             <div class="mb-3">
                 {{ infoBox.infoBox("Created On", refund.getCreationDate().strftime("%d/%m/%Y, %I:%M %p")) }}
             </div>
-            <a class="me-1" href="{{ url_for("adminOrders.viewOrder", id=refund.getId()) }}">
+            <a class="me-1" href="{{ url_for("adminOrders.viewOrder", id=refund.getOrder()) }}">
                 <button class="btn custom-btn">View Order</button>
             </a>
         </div>
