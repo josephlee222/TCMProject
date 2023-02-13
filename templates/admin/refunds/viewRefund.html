@@ -48,7 +48,7 @@
                     <p class="card-text">By approving this refund request, the customer order will be cancelled and
                         an e-mail will be sent to the customer about the refund.</p>
                     <div class="d-flex">
-                        {% if not refund.getResolved %}
+                        {% if not refund.getResolved() %}
                             <a href="{{ url_for("adminRefund.acceptRefund", id=refund.getId()) }}">
                                 <button class="btn btn-danger">Accept and Refund</button>
                             </a>
