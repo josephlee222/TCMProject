@@ -327,7 +327,7 @@ class createMedicationForm(Form):
         validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
         validators.DataRequired(message="Medicine name is required to search")
     ])
-    description = StringField('Description of Medication', [
+    description = StringField('Description', [
         validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
         validators.DataRequired(message="Description of medication is required")
     ])
@@ -358,7 +358,7 @@ class editMedicationForm(Form):
         validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
         validators.DataRequired(message="Medicine name is required to search")
     ])
-    description = StringField('Description of Medication', [
+    description = StringField('Description', [
         validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
         validators.DataRequired(message="Description of medication is required")
     ])
