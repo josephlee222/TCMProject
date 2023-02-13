@@ -20,12 +20,11 @@ def viewMedications(day=0):
         morning = []
         afternoon = []
         night = []
-        trackers = users[session["user"]["email"]].getMedications()
-        print(trackers)
-        if len(trackers) == 0:
+        medications = users[session["user"]["email"]].getMedications()
+        if len(medications) == 0:
             flash("You are currently not on any medication")
 
-        for tracker in trackers:
+        for tracker in medications:
             list = []
             for i in range(int(tracker.getDuration_of_medication())):
                 list.append(tracker.getDate() + timedelta(days=int(i)))
@@ -41,4 +40,4 @@ def viewMedications(day=0):
                     afternoon.append(tracker)
                     night.append(tracker)
 
-        return render_template("profile/viewMedication.html", morning=morning, afternoon=afternoon, night=night, trackers=trackers, date=today, day=day)
+        return render_template("profile/viewMedication.html", morning=morning, afternoon=afternoon, night=night, medications=medications, date=today, day=day)

@@ -1,5 +1,5 @@
 import shelve
-from datetime import datetime
+from datetime import datetime, date, timedelta, time
 
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, Response
 from icalendar import Calendar, Event, vCalAddress, vText
@@ -10,6 +10,7 @@ from forms import editProfileForm, addAddressForm, editAddressForm, bookAppointm
 from functions import flashFormErrors, loginAccess, convertHoursToTime
 
 profile = Blueprint("profile", __name__)
+
 
 @profile.route('/profile')
 @loginAccess
@@ -23,6 +24,7 @@ def viewProfile():
                 appointmentArray.append(appointment)
 
     return render_template("profile/viewProfile.html", user=user, appointments=appointmentArray)
+
 
 @profile.route('/profile/edit', methods=['GET', 'POST'])
 @loginAccess
@@ -77,7 +79,6 @@ def cancelAppointment(id):
     except KeyError:
         flash("Unable to cancel your appointment, appointment does not exist.", category="error")
         return redirect(url_for("profile.viewProfile"), code=404)
-
 
 
 @profile.route('/profile/appointments/export/')
@@ -152,7 +153,8 @@ def exportCalendar(id):
 
                 cal.add_component(event)
 
-                return Response(cal.to_ical(),mimetype="text/calendar", headers={"Content-disposition":"attachment; filename=appointment.ics"})
+                return Response(cal.to_ical(), mimetype="text/calendar",
+                                headers={"Content-disposition": "attachment; filename=appointment.ics"})
             else:
                 flash("Unable to export event, appointment is not assigned to your account", category="error")
                 return redirect(url_for("profile.viewProfile"), code=401)
@@ -245,7 +247,8 @@ def bookAppointment(id, itemId):
             startTime = form.startTime.data
             endTime = datetime.combine(date.today(), startTime) + convertHoursToTime(item.getStoredItem().getDuration())
 
-            appointment = Appointment(name, userEmail, doctorEmail, date, startTime, endTime.time(), "Booked automatically via website")
+            appointment = Appointment(name, userEmail, doctorEmail, date, startTime, endTime.time(),
+                                      "Booked automatically via website")
             with shelve.open("appointments") as appointments:
                 appointments[str(appointment.getId())] = appointment
 
@@ -258,8 +261,6 @@ def bookAppointment(id, itemId):
             return redirect(url_for("profile.viewOrderHistoryDetails", id=id))
         else:
             flashFormErrors("Unable to book an appointment", form.errors)
-
-
 
         return render_template("profile/bookAppointment.html", order=order, item=item, form=form)
     except KeyError:
@@ -297,7 +298,8 @@ def addAddress():
                     flash("Your new address has been added to your account", category="success")
                     return redirect(url_for("profile.viewAddresses"))
                 else:
-                    flash("Unable to add address because our location provider could not find your address.", category="error")
+                    flash("Unable to add address because our location provider could not find your address.",
+                          category="error")
         except Exception as e:
             flash("Unable to add delivery address", category="error")
 
@@ -335,7 +337,8 @@ def editAddress(id):
                     flash("Address has been successfully edited", category="success")
                     return redirect(url_for("profile.viewAddresses"))
                 else:
-                    flash("Unable to edit your address because our location provider could not find your address.", category="error")
+                    flash("Unable to edit your address because our location provider could not find your address.",
+                          category="error")
             else:
                 flashFormErrors("Unable to edit address", form.errors)
 
@@ -355,3 +358,89 @@ def editAddress(id):
     except KeyError:
         flash("Unable to delete delivery address: Account or delivery address does not exist", category="error")
         return redirect(url_for("profile.viewAddresses"))
+
+
+@profile.route('/profile/medications/export/')
+@loginAccess
+def exportMedicationCalendar():
+    try:
+        cal = Calendar()
+        cal.add('prodid', '-//My calendar product//example.com//')
+        cal.add('version', '2.0')
+        with shelve.open("users") as users:
+            medicationArray = []
+            medications = users[session["user"]["email"]].getMedications()
+            for medication in medications:
+                if medication.getEnddate() > datetime.now().date():
+                    medicationArray.append(medication)
+
+            for medication in medicationArray:
+                day = medication.getEnddate() - datetime.now().date()
+                medication_days_left = day.days
+                for i in range(int(medication_days_left)):
+                    if medication.getFrequency_of_pills() == "1":
+                        # MORNING
+                        event = Event()
+                        event.add("summary", "Take " + medication.getName() + " at 9:00AM")
+                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("dtstart", datetime.combine(datetime.now().date() + timedelta(i), time(9, 0, 0)))
+                        event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(10, 0, 0)))
+                        event.add('uid', medication.getName() + str(
+                            datetime.combine(datetime.now().date() + day + timedelta(i), time(9, 0, 0))) + ' MORNING')
+                        cal.add_component(event)
+                    elif medication.getFrequency_of_pills() == "2":
+                        # MORNING
+                        event = Event()
+                        event.add("summary", "Take " + medication.getName() + " at 9:00AM")
+                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("dtstart", datetime.combine(datetime.now().date() + timedelta(i), time(9, 0, 0)))
+                        event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(10, 0, 0)))
+                        event.add('uid', medication.getName() + str(
+                            datetime.combine(datetime.now().date() + day + timedelta(i), time(9, 0, 0))) + ' MORNING')
+                        cal.add_component(event)
+                        # NIGHT
+                        event = Event()
+                        event.add("summary", "Take " + medication.getName() + " at 6:00PM")
+                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("dtstart",
+                                  datetime.combine(datetime.now().date() + timedelta(i), time(18, 0, 0)))
+                        event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(19, 0, 0)))
+                        event.add('uid', medication.getName() + str(
+                            datetime.combine(datetime.now().date() + day + timedelta(i), time(18, 0, 0))) + ' NIGHT')
+                        cal.add_component(event)
+                    elif medication.getFrequency_of_pills() == "3":
+                        # MORNING
+                        event = Event()
+                        event.add("summary", "Take " + medication.getName() + " at 9:00AM")
+                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("dtstart", datetime.combine(datetime.now().date() + timedelta(i), time(9, 0, 0)))
+                        event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(10, 0, 0)))
+                        event.add('uid', medication.getName() + str(
+                            datetime.combine(datetime.now().date() + day + timedelta(i), time(9, 0, 0))) + ' MORNING')
+                        cal.add_component(event)
+                        # AFTERNOON
+                        event = Event()
+                        event.add("summary", "Take " + medication.getName() + " at 12:00PM")
+                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("dtstart",
+                                  datetime.combine(medication.getDate() + timedelta(i), time(12, 0, 0)))
+                        event.add("dtend", datetime.combine(datetime.now().date()+ timedelta(i), time(13, 0, 0)))
+                        event.add('uid', medication.getName() + str(
+                            datetime.combine(datetime.now().date() + day + timedelta(i), time(12, 0, 0))) + ' AFTERNOON')
+                        cal.add_component(event)
+                        # NIGHT
+                        event = Event()
+                        event.add("summary", "Take " + medication.getName() + " at 6:00PM")
+                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("dtstart",
+                                  datetime.combine(datetime.now().date() + timedelta(i), time(18, 0, 0)))
+                        event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(19, 0, 0)))
+                        event.add('uid', medication.getName() + str(
+                            datetime.combine(datetime.now().date() + day + timedelta(i), time(18, 0, 0))) + ' NIGHT')
+                        cal.add_component(event)
+
+            return Response(cal.to_ical(), mimetype="text/calendar",
+                            headers={"Content-disposition": "attachment; filename=medications.ics"})
+    except KeyError:
+        flash("Unable to export calendar, No appointments available to export with this account.", category="error")
+        return redirect(url_for("profile.viewProfile"), code=404)

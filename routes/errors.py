@@ -9,7 +9,7 @@ def handle404(err):
 
 @errors.app_errorhandler(500)
 def handle500(err):
-    return render_template("errors/errorHandler.html", title="Internal Server Error", message="Something when wrong on our side when trying to process your request.")
+    return render_template("errors/errorHandler.html", title="Internal Server Error", message="Something went wrong on our side when trying to process your request.")
 
 
 @errors.app_errorhandler(503)

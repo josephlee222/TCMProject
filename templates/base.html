@@ -3,6 +3,7 @@
 {% import "includes/profileControls.html" as profileControls %}
 {% import "includes/normalNavControls.html" as normalNavControls %}
 {% import "includes/deliveryStatus.html" as deliveryStatus %}
+{% import "includes/productItem.html" as productItem %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,20 +101,11 @@
                 <ul class="navbar-nav navbar-dark flex-lg-row me-auto">
                     <li class="nav-item me-lg-3">
                         <a class="nav-link d-flex align-items-center"
-                           href="{{ url_for("products.viewProducts") }}"><span class="material-icons navbar-icon me-1">store</span>Shop</a>
-                    </li>
-                    <li class="nav-item me-lg-3">
-                        <a class="nav-link d-flex align-items-center"
-                           href="{{ url_for("treatments.viewTreatments") }}"><span
-                                class="material-icons navbar-icon me-1">medical_services</span>Treatments</a>
-                    </li>
-                    <li class="nav-itemm me-lg-3">
-                        <a class="nav-link d-flex align-items-center"
-                           href="{{ url_for("blogs.viewBlogs") }}"><span class="material-icons navbar-icon me-1">newspaper</span>Blog</a>
+                           href="{{ url_for("enquiry.addEnquiry") }}"><span class="material-icons navbar-icon me-1">feedback</span>Contact Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center"
-                           href="{{ url_for("enquiry.addEnquiry") }}"><span class="material-icons navbar-icon me-1">feedback</span>Contact Us</a>
+                           href="#"><span class="material-icons navbar-icon me-1">info</span>About Website</a>
                     </li>
                 </ul>
                 <hr>
