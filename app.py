@@ -1,5 +1,6 @@
 import shelve
 from datetime import time, datetime
+import os
 
 from flask import Flask, render_template, session, url_for
 from flask_mail import Mail
@@ -90,6 +91,7 @@ def websiteContextInit():
 
 def initialization():
     print("Init code start")
+    os.environ['TZ'] = 'Asia/Singapore'
     with shelve.open("data", writeback=True) as data:
         if "opening" not in data or "closing" not in data:
             print("No opening hours detected. Setting default 9am - 9pm opening hours.")
