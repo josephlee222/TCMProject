@@ -4,8 +4,9 @@
 # 3 - Delivery
 # 4 - Received
 # 5 - Cancelled
-from time import time
 from datetime import datetime
+from time import time
+
 
 class Order:
     def __init__(self, userId, cart, address=None, discount=0):
@@ -20,8 +21,9 @@ class Order:
         # Check the cart consists of products that needs delivering. If only treatments, set to finished because
         # there is nothing to deliver
         for item in self.cart:
-            if item.getType == "products":
+            if item.getType() == "products":
                 self.status = 1
+                break
 
     def getId(self):
         return self.id
@@ -77,4 +79,11 @@ class Order:
 
     def getTotalPrice(self):
         # +3 for delivery fee
-        return round(self.getCartSubtotalPrice() + self.getCartGST() + 3 - self.discount, 2)
+        return round(self.getCartSubtotalPrice() + self.getCartGST() + self.getDeliveryPrice() - self.discount, 2)
+
+    def getDeliveryPrice(self):
+        for item in self.cart:
+            if item.getType() == "products":
+                return 3
+
+        return 0

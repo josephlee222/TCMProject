@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ blog.getTitle() }}
+{% endblock %}
+{% block description %}{{ blog.getBrief() }}{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls(4) }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="card white mb-4">
+        <img class="blog-banner-img" src="/{{ blog.getCoverImage() }}">
+    </div>
+    <div class="mb-3">
+        <div class="d-flex align-items-center mb-1">
+            <span class="material-icons me-1">newspaper</span>
+            Blog Article
+        </div>
+        <h1>{{ blog.getTitle() }}</h1>
+    </div>
+    <div class="mb-3 d-flex flex-column">
+        <small class="text-secondary">Written/Updated By: {{ blog.getUpdatedBy() if blog.getUpdatedBy() else blog.getCreatedBy() }}</small>
+        <small class="text-secondary">Created On: {{ blog.getDatetime().strftime("%d/%m/%Y, %I:%M %p") }}</small>
+    </div>
+    <div>
+        {{ blog.getConvertedContent()|safe }}
+    </div>
+
+{% endblock %}

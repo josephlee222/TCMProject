@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}
+    TCM Shop
+{% endblock %}
+{% block description %}View our full product catalogue on TCM Shifu{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls(2) }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">store</span>
+        <div>
+            <h1>TCM Shop</h1>
+            <h6 class="m-0">Shop for TCM Products</h6>
+        </div>
+    </div>
+    <div class="row">
+        <p>Our online TCM store allows you to buy various TCM products and get it delivered straight to your
+            doorstep</p>
+        <hr>
+    </div>
+    {% if products|length > 0 %}
+        {% if saleProducts|length > 0 %}
+            <div class="row mb-3">
+                <h4>Products On Sale</h4>
+                {% for item in saleProducts%}
+                    {{ productItem.productItem(item, "product") }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <h4>All TCM Products</h4>
+            {% for item in products %}
+                {{ productItem.productItem(item, "product") }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card white">
+                    <div class="card-body d-flex justify-content-center">
+                        No TCM products available on TCM Shifu
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

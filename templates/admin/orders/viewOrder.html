@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Order Details{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">receipt_long</span>
+        <div>
+            <h1>Order Details</h1>
+            <h6 class="m-0">Order #{{ order.getId() }}</h6>
+        </div>
+    </div>
+    <a href="{{ url_for("adminOrders.viewAllOrders") }}" style="display: contents">
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back to list</button>
+    </a>
+    <div class="row">
+        <div class="col-lg-9 order-1 order-lg-0">
+            <div class="card mb-3 white">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Customer & Delivery Information</h6>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ infoBox.infoBox("Customer E-mail", order.getUserId()) }}
+                        </div>
+                    </div>
+                    {{ infoBox.infoBox("Delivery Address", order.getAddress().getLocation() if order.getAddress() else "Please set an address!", type="warning" if not order.getAddress() else None) }}
+                    <hr>
+                    <h6 class="card-title mb-3">Delivery Status</h6>
+                    <div class="row">
+                        <div class="col-lg-6 mb-3 mb-lg-0">
+                            {{ deliveryStatus.deliveryStatus(order.getStatus()) }}
+                        </div>
+                        <div class="col-lg-6">
+                            {{ infoBox.infoBox("Status Description", statusDescription) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card white">
+                <div class="card-body">
+                    <h6 class="card-title">Order Items</h6>
+                    {% for item in order.getCart() %}
+                        <div class="card white mt-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 mb-3 mb-md-0">
+                                        <div class="ratio ratio-16x9">
+                                            <img class="cart-img w-100" src="/{{ item.getStoredItem().getImages()[0] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-10">
+                                        <h6 class="card-title">{{ item.getStoredItem().getName() }}</h6>
+                                        <p>Quantity - {{ item.getQuantity() }}</p>
+                                    </div>
+                                    <div class="col-2 d-flex justify-content-end">
+                                        <h5>${{ "%.2f"|format(item.getStoredPrice()) }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 order-0 order-lg-1 mb-3 mb-lg-0">
+            <div class="card white">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Payment Summary</h6>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Subtotal</h6>
+                        <h6>${{ "%.2f"|format(order.getCartSubtotalPrice()) }}</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">GST (8%)</h6>
+                        <h6>${{ "%.2f"|format(order.getCartGST()) }}</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Delivery Fee</h6>
+                        <h6>${{ "%.2f"|format(order.getDeliveryPrice()) }}</h6>
+                    </div>
+                    <div class="d-flex">
+                        <h6 class="fw-bold flex-grow-1">Coupon</h6>
+                        <h6>-${{ "%.2f"|format(order.getDiscount()) }}</h6>
+                    </div>
+                    <hr>
+                    <div class="d-flex align-items-center">
+                        <h6 class="fw-bold flex-grow-1">Total</h6>
+                        <h4>${{ "%.2f"|format(order.getTotalPrice()) }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

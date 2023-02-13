@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"
+            integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+{% block content %}
+    <div class="mb-4">
+        <h5 class="d-flex align-items-center mb-3">
+            <span class="material-icons me-1">query_stats</span>
+            Website Statistics
+        </h5>
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="card mb-3 mb-lg-0 white">
+                    <div class="card-body">
+                        <h6 class="card-title">Total Users</h6>
+                        <p class="h1 mb-1">{{ users }}</p>
+                        <a href="{{ url_for("adminUsers.viewAllUsers") }}">Manage</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="card mb-3 mb-lg-0 white">
+                    <div class="card-body">
+                        <h6 class="card-title">Total Products</h6>
+                        <p class="h1 mb-1">{{ products }}</p>
+                        <a href="{{ url_for("adminProducts.viewAllProducts") }}">Manage</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="card mb-3 mb-lg-0 white">
+                    <div class="card-body">
+                        <h6 class="card-title">Pending Orders</h6>
+                        <p class="h1 mb-1">{{ pending }}</p>
+                        <a href="{{ url_for("adminOrders.viewAllOrders") }}">Manage</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="card mb-3 mb-lg-0 white">
+                    <div class="card-body">
+                        <h6 class="card-title">Unresolved Enquiries</h6>
+                        <p class="h1 mb-1">{{ unresolved }}</p>
+                        <a href="{{ url_for("adminEnquiry.viewAllEnquiries") }}">Manage</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="d-flex align-items-center mb-3">
+                    <span class="material-icons me-1">attach_money</span>
+                    Sales Statistics
+                </h5>
+                <div class="card mb-3 mb-lg-0 white">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 mb-3 mb-lg-0">
+                                <h6>This Month</h6>
+                                <p class="h1 m-0">${{ "%.2f"|format(profitThisMonth) }}</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6>Last Month</h6>
+                                <p class="h1 m-0">${{ "%.2f"|format(profitLastMonth) }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-6 mb-3 mb-lg-0">
+                                <h6>Margin (%)</h6>
+                                <p class="h1 m-0 {% if margin >= 0 %}text-success{% else %}text-danger{% endif %}">{{ margin }}%</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6>Lifetime</h6>
+                                <p class="h1 m-0">${{ "%.2f"|format(profitLifetime) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5 class="d-flex align-items-center mb-3">
+                    <span class="material-icons me-1">schedule</span>
+                    Appointment Booking Hours
+                </h5>
+                <div class="card mb-3 mb-lg-0 white">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 mb-3 mb-lg-0">
+                                <h6>Opening Hour</h6>
+                                <p class="h1 m-0">{{ opening.strftime("%I:%M %p") }}</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6>Closing Hour</h6>
+                                <p class="h1 m-0">{{ closing.strftime("%I:%M %p") }}</p>
+                            </div>
+                            <a  class="mt-1" href="{{ url_for("adminAppointments.editOpeningHours") }}">Edit Hours</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

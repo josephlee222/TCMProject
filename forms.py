@@ -1,8 +1,10 @@
 import shelve
 from datetime import datetime
 
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import Form, StringField, PasswordField, RadioField, validators, EmailField, DateField, ValidationError, \
-    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField, FileField
+    SubmitField, TextAreaField, IntegerField, DecimalField, BooleanField, MultipleFileField, SelectField, TimeField
 
 from functions import checkCoupon
 
@@ -34,6 +36,14 @@ class loginUserForm(Form):
 
     submit = SubmitField("Login")
 
+class resetPasswordForm(Form):
+    email = EmailField("Email Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail is required to login")
+    ])
+
+    submit = SubmitField("Send Reset E-mail")
+
 
 # User registration form
 class registerUserForm(Form):
@@ -56,7 +66,7 @@ class registerUserForm(Form):
         validators.DataRequired(message="E-mail address is required for registration")
     ])
 
-    submit = SubmitField("Register an account")
+    submit = SubmitField("Register")
 
     def validate_email(form, field):
         with shelve.open("users") as users:
@@ -84,7 +94,8 @@ class editUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     submit = SubmitField("Edit User")
 
@@ -103,7 +114,8 @@ class editProfileForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
 
     submit = SubmitField("Update Profile")
@@ -153,7 +165,8 @@ class addUserForm(Form):
     ])
     phone = StringField("Phone Number", [
         validators.Optional(),
-        validators.regexp("^[689]\d{7}$", message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
+        validators.regexp("^[689]\d{7}$",
+                          message="Phone number must a number that starts with the number 6, 8 or 9 and 8 digits long")
     ])
     accountType = RadioField("Account Type", choices=[
         ("customer", "Customer Account"),
@@ -224,10 +237,12 @@ class createTreatmentForm(Form):
         validators.DataRequired(message="Treatment name is required to search")
     ])
     price = DecimalField("Treatment Price ($)", [
-        validators.DataRequired(message="Treatment price is required")
+        validators.DataRequired(message="Treatment price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
@@ -238,7 +253,7 @@ class createTreatmentForm(Form):
     benefits = TextAreaField("Treatment Benefits", [
         validators.DataRequired(message="Treatment benefits is required")
     ])
-    duration = DecimalField("Treatment Duration", [
+    duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
     ])
@@ -263,10 +278,12 @@ class editTreatmentForm(Form):
         validators.DataRequired(message="Treatment name is required to search")
     ])
     price = DecimalField("Treatment Price ($)", [
-        validators.DataRequired(message="Treatment price is required")
+        validators.DataRequired(message="Treatment price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
@@ -277,9 +294,9 @@ class editTreatmentForm(Form):
     benefits = TextAreaField("Treatment Benefits", [
         validators.DataRequired(message="Treatment benefits is required")
     ])
-    duration = DecimalField("Treatment Duration", [
+    duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
-        validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
+        validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours"),
     ])
 
     submit = SubmitField("Edit Treatment")
@@ -310,38 +327,7 @@ class createMedicationForm(Form):
         validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
         validators.DataRequired(message="Medicine name is required to search")
     ])
-    description = StringField('Description of Medication', [
-        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
-        validators.DataRequired(message="Description of medication is required")
-    ])
-    duration = SelectField("Duration",
-                           [validators.DataRequired(message="Duration of the medication is required")],
-                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
-                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
-                                    (14, 'Two weeks')])
-    pills = SelectField('Dosage',
-                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
-                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
-                                (3, '3 Tablet(s)'),
-                                (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
-                                (6, '6 Tablet(s)')])
-    frequency_of_pills = SelectField('No. of times',
-                                     [validators.DataRequired(message="Dosage of the medication is required")],
-                                     choices=[(1, '1 times a day'),
-                                              (2, '2 times a day'),
-                                              (3, '3 times a day')])
-    additional_notes = TextAreaField("Additional Notes", [
-        validators.optional()
-    ])
-    submit = SubmitField("Add Medicine")
-
-
-class editMedicationForm(Form):
-    name = StringField("Medicine Name", [
-        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
-        validators.DataRequired(message="Medicine name is required to search")
-    ])
-    description = StringField('Description of Medication', [
+    description = StringField('Description', [
         validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
         validators.DataRequired(message="Description of medication is required")
     ])
@@ -364,9 +350,38 @@ class editMedicationForm(Form):
     additional_notes = TextAreaField("Additional Notes", [
         validators.optional()
     ])
-    submit = SubmitField("Edit Medicine")
+    submit = SubmitField("Add Medicine")
 
 
+class editMedicationForm(Form):
+    name = StringField("Medicine Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Medicine name is required to search")
+    ])
+    description = StringField('Description', [
+        validators.Length(3, 128, message="Description of medication must be between 3 to 128 characters"),
+        validators.DataRequired(message="Description of medication is required")
+    ])
+    duration = SelectField("Duration",
+                           [validators.DataRequired(message="Duration of the medication is required")],
+                           choices=[(1, '1 days'), (2, '2 days'), (3, '3 days'), (4, '4 days'),
+                                    (5, '5 days'), (6, '6 days'), (7, 'One week'),
+                                    (14, 'Two weeks')])
+    pills = SelectField('Dosage',
+                        [validators.DataRequired(message="Pills per dosage of the medication is required")],
+                        choices=[(1, '1 Tablet(s)'), (2, '2 Tablet(s)'),
+                                 (3, '3 Tablet(s)'),
+                                 (4, '4 Tablet(s)'), (5, '5 Tablet(s)'),
+                                 (6, '6 Tablet(s)')])
+    frequency_of_pills = SelectField('No. of times',
+                                     [validators.DataRequired(message="Dosage of the medication is required")],
+                                     choices=[(1, '1 times a day'),
+                                              (2, '2 times a day'),
+                                              (3, '3 times a day')])
+    additional_notes = TextAreaField("Additional Notes", [
+        validators.optional()
+    ])
+    submit = SubmitField("Save Medicine")
 
 class openingHoursForm(Form):
     opening = TimeField("Opening Hour", [
@@ -386,12 +401,14 @@ class openingHoursForm(Form):
 
     submit = SubmitField("Edit Hours")
 
+
 # Coupon forms
 class searchCouponsForm(Form):
     name = StringField("Search by coupon name", [
         validators.Length(3, 128, message="Coupon name must be between 3 to 128 characters"),
         validators.DataRequired(message="Coupon name is required to search")
     ])
+
 
 class createCouponForm(Form):
     name = StringField("Coupon Name", [
@@ -407,7 +424,7 @@ class createCouponForm(Form):
     ])
     discount = IntegerField("Discount Amount (%)", [
         validators.NumberRange(1, 100, "Discount amount must range between 1% to 100%"),
-        validators.DataRequired(message="Discount amount is required")
+        validators.DataRequired(message="Discount amount is required"),
     ])
     startDate = DateField("Start Date", [
         validators.DataRequired(message="Discount start date is required")
@@ -427,6 +444,7 @@ class createCouponForm(Form):
     def validate_endDate(form, endDate):
         if form.endDate.data < datetime.now().date():
             raise ValidationError("Coupon end date cannot be earlier than current time")
+
 
 class editCouponForm(Form):
     name = StringField("Coupon Name", [
@@ -526,16 +544,19 @@ class searchProductForm(Form):
         validators.DataRequired(message="Name is required to search")
     ])
 
+
 class addProductForm(Form):
     name = StringField("Product Name", [
         validators.Length(3, 128, message="Treatment name must be between 3 to 128 characters"),
         validators.DataRequired(message="Treatment name is required")
     ])
     price = DecimalField("Product Price ($)", [
-        validators.DataRequired(message="Product price is required")
+        validators.DataRequired(message="Product price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
@@ -560,13 +581,16 @@ class addProductForm(Form):
     def validate_images(form, images):
         print(form.images.data)
 
+
+
 class editProductForm(Form):
     name = StringField("Product Name", [
         validators.Length(3, 100, message="Product name must be between 3 to 100 characters"),
         validators.DataRequired(message="Product name is required")
     ])
     price = DecimalField("Product Price ($)", [
-        validators.DataRequired(message="Treatment price is required")
+        validators.DataRequired(message="Treatment price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     description = TextAreaField("Product Description", [
         validators.DataRequired(message="Treatment description is required")
@@ -575,7 +599,8 @@ class editProductForm(Form):
         validators.DataRequired(message="Treatment benefits is required")
     ])
     salePrice = DecimalField("Sale Price ($)", [
-        validators.DataRequired(message="Sale price is required")
+        validators.DataRequired(message="Sale price is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
     ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
@@ -586,6 +611,8 @@ class editProductForm(Form):
     def validate_salePrice(form, salePrice):
         if form.salePrice.data >= form.price.data:
             raise ValidationError("Sale price cannot exceed normal price")
+
+
 
 class CartCouponForm(Form):
     coupon = StringField("Coupon Code (Optional)", [
@@ -605,24 +632,55 @@ class CheckoutForm(Form):
     delivery = SelectField("Delivery Address", [
         validators.DataRequired()
     ])
+
+
 # ADMIN BLOG FORMS
-class createArticleForm(Form):
+class createArticleForm(FlaskForm):
     title = StringField("Title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
         validators.DataRequired(message="Blog title is required.")
     ])
+    brief = StringField("Brief Description", [
+        validators.Length(3, 128, message="Brief description must be between 3 to 128 characters."),
+        validators.DataRequired(message="Brief description is required.")
+    ])
     content = TextAreaField("Article Content", [
         validators.DataRequired(message="Article content is required.")
     ])
-    articleImage = FileField("Article Cover Image", [])
+    articleImage = FileField("Article Cover Image", validators=[
+        FileRequired("Cover image is required"),
+        FileAllowed(['jpg', 'png', 'webp'], message='Images files only!'),
+    ])
 
     submit = SubmitField("Create Article")
+
+
+class editArticleForm(FlaskForm):
+    title = StringField("Title", [
+        validators.Length(3, 64, message="Blog title must be between 3 to 64 characters."),
+        validators.DataRequired(message="Blog title is required.")
+    ])
+    brief = StringField("Brief Description", [
+        validators.Length(3, 128, message="Brief description must be between 3 to 128 characters."),
+        validators.DataRequired(message="Brief description is required.")
+    ])
+    content = TextAreaField("Article Content", [
+        validators.DataRequired(message="Article content is required.")
+    ])
+    articleImage = FileField("Article Cover Image", validators=[
+        validators.Optional(),
+        FileAllowed(['jpg', 'png', 'webp'], message='Images files only!'),
+    ])
+
+    submit = SubmitField("Save")
+
 
 class searchBlogForm(Form):
     name = StringField("Search by title", [
         validators.Length(3, 64, message="Blog title must be between 3 to 64 characters"),
         validators.DataRequired(message="Blog title is required to search")
     ])
+
 
 class editBlogForm(Form):
     title = StringField("Title", [
@@ -635,7 +693,6 @@ class editBlogForm(Form):
     articleImage = FileField("Article Cover Image", [])
 
     submit = SubmitField("Edit Article")
-#how to update a previously existing blog using this function?
 
 class addRefundForm(Form):
     fname = StringField('First Name', [
@@ -683,7 +740,87 @@ class editRefundForm(Form):
     submit = SubmitField("Edit Refund")
 
 
-class medicationForm(Form):
-    morning = BooleanField("Morning")
-    afternoon = BooleanField("Afternoon")
-    night = BooleanField("Night")
+# how to update a previously existing blog using this function?
+
+
+class createEnquiryForm(Form):
+    name = StringField("Name", [
+        validators.Length(3, 128, message="Medicine name must be between 3 to 128 characters"),
+        validators.DataRequired(message="Name is required")
+    ])
+    email = EmailField("Email Address", [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message="E-mail is required to contact us")
+    ])
+    purpose = SelectField('Purpose',
+                          [validators.DataRequired(message="Purpose is required")],
+                          choices=[("", 'Select a Purpose'), ('Products Question', 'Products Question'),
+                                   ('Feedback / Feature Request', 'Feedback / Feature Request'),
+                                   ('General Questions', 'General Questions')], default="")
+
+    subject = StringField("Subject", [
+        validators.Length(3, 128, message="Subject must be between 3 to 128 characters"),
+        validators.DataRequired(message="Subject is required")
+    ])
+    enquiry = TextAreaField("Enquiry", [
+        validators.Length(3, message="Your enquiry needs to be more than 3 characters"),
+        validators.DataRequired(message="Enquiry is required")
+    ])
+    submit = SubmitField("Submit")
+
+class searchEnquiry(Form):
+    name = StringField("Search by email", [
+        validators.Length(3, 128, message="Email must be between 3 to 128 characters"),
+        validators.DataRequired(message="Email is required to search")
+    ])
+
+
+class bookAppointmentForm(Form):
+    date = DateField("Appointment Date", [
+        validators.DataRequired(message="Appointment date is required")
+    ])
+    startTime = TimeField("Appointment Time", [
+        validators.DataRequired(message="Appointment time is required")
+    ])
+    doctor = SelectField("Consulting Doctor", [
+        validators.DataRequired(message="Consultation doctor is required")
+    ])
+
+    submit = SubmitField("Book")
+
+    def validate_date(form, date):
+        if form.date.data <= datetime.now().date():
+            raise ValidationError("Appointment date cannot be in the past and can only be made from tomorrow onwards")
+
+    def validate_startTime(form, startTime):
+        with shelve.open("data") as data:
+            if data["opening"] > form.startTime.data >= data["closing"]:
+                raise ValidationError("Appointment start time cannot exceed operating hours")
+
+
+class searchOrdersForm(Form):
+    id = StringField("Search by order ID", [
+        validators.DataRequired(message="Order ID is required to search")
+    ])
+
+class editOrdersStatusForm(Form):
+    status = SelectField("Order Status", [
+        validators.DataRequired(message="Order status required to update")
+    ])
+
+    submit = SubmitField("Save")
+
+class addProductCartForm(Form):
+    qty = IntegerField("Quantity", [
+        validators.NumberRange(1, 100, message="Quantity range is limited from 1 to 100"),
+        validators.DataRequired(message="Product quantity is required to add to cart")
+    ], default=1)
+
+    submit = SubmitField("Add to Cart")
+
+class sendEmailForm(Form):
+    email = EmailField('To', [validators.DataRequired()])
+    subject = StringField('Subject', [validators.DataRequired()])
+    message = TextAreaField('Message', [validators.DataRequired()])
+
+    submit = SubmitField('Send Email')

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}
+    Blog
+{% endblock %}
+{% block description %}Learn more about TCM with TCM Shifu!{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls(4) }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">newspaper</span>
+        <div>
+            <h1>Blog</h1>
+            <h6 class="m-0">Browse and read TCM blog articles</h6>
+        </div>
+    </div>
+    <div class="row">
+        <p>Learn more about the world of TCM (Traditional Chinese Medicine). Our blog articles contain fun facts and education about the benefits of using TCM in daily life.</p>
+        <hr>
+    </div>
+    {% if blogs|length > 0 %}
+    <div class="row mb-3">
+        {% for item in blogs %}
+            <div class="col-12 col-lg-4 d-flex align-items-stretch">
+                <div class="card white w-100 mb-3">
+                    <div class="ratio ratio-16x9">
+                        <img src="/{{ item.getCoverImage() }}" class="product-img card-img ratio ratio-16x9">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ item.getTitle() }}</h5>
+                        <p class="card-text flex-grow-1 mb-3">{{ item.getBrief()|truncate(128, True, "...") }}</p>
+                        <div class="d-flex align-items-center product-card-actions">
+                            <a href="{{ url_for('blogs.viewBlog', id=item.getId()) }}">
+                                <button class="btn custom-btn d-flex align-items-center"><span class="material-icons me-1">auto_stories</span>Read</button>
+                            </a>
+                            <div class="flex-grow-1 d-flex justify-content-end white">
+                                {{ item.getDatetime().strftime('%d/%m/%Y') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card white">
+                    <div class="card-body d-flex justify-content-center">
+                        No blog articles available on TCM Shifu
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

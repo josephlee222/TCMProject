@@ -1,16 +1,18 @@
-from time import time
 from datetime import datetime
+from time import time
+
 from marko import convert
 
 
 class Blog:
-    def __init__(self, createdBy, title, content, coverImage=[]):
-        self.id = self.id = int(time() * 1000)
+    def __init__(self, createdBy, title, content, brief, coverImage=[]):
+        self.id = int(time() * 1000)
         self.createdBy = createdBy
         self.updatedBy = None
         self.datetime = datetime.now()
         self.title = str(title)
         self.content = str(content)
+        self.brief = str(brief)
         self.coverImage = coverImage
 
 
@@ -26,6 +28,9 @@ class Blog:
     def getTitle(self):
         return self.title
 
+    def getBrief(self):
+        return self.brief
+
     def getContent(self):
         return self.content
 
@@ -35,14 +40,20 @@ class Blog:
     def getCoverImage(self):
         return self.coverImage
 
-    def setCreatedBy(self, createdBy):
-        return self.createdBy
+    def getDatetime(self):
+        return self.datetime
 
-    def getUpdatedBy(self, updatedBy):
-        return self.updatedBy
+    def setCreatedBy(self, createdBy):
+        self.createdBy = createdBy
+
+    def setUpdatedBy(self, updatedBy):
+        self.updatedBy = updatedBy
 
     def setTitle(self, title):
         self.title = title
+
+    def setBrief(self, brief):
+        self.brief = brief
 
     def setContent(self, content):
         self.content = content

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls() }}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_calendar</span>
+        <div>
+            <h1>Make a Booking</h1>
+            <h6 class="m-0">Order #{{ order.getId() }} - {{ item.getStoredItem().getName() }}</h6>
+        </div>
+    </div>
+    <a href="{{ url_for("profile.viewOrderHistoryDetails", id=order.getId()) }}" style="display: contents">
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back to details
+        </button>
+    </a>
+    <div class="row">
+        <h2 class="h4">Appointment Details</h2>
+        <div class="col-lg-6 order-1 order-lg-0">
+            <form method="post">
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.doctor) }}
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        {{ formHelper.renderField(form.date) }}
+                    </div>
+                    <div class="col-6">
+                        {{ formHelper.renderField(form.startTime) }}
+                    </div>
+                </div>
+                {{ formHelper.renderField(form.submit) }}
+            </form>
+        </div>
+        <div class="col-lg-6 order-0 order-lg-1 mb-3 mb-lg-0">
+            <div class="card white mt-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-2">
+                            <img class="cart-img w-100" src="/{{ item.getStoredItem().getImages()[0] }}">
+                        </div>
+                        <div class="col-8">
+                            <h6 class="card-title">{{ item.getStoredItem().getName() }}</h6>
+                        </div>
+                        <div class="col-2 d-flex justify-content-end">
+                            <h5>${{ "%.2f"|format(item.getStoredPrice()) }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

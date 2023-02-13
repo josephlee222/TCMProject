@@ -1,19 +1,11 @@
-import shelve
 from datetime import datetime
+from time import time
 class Coupon:
     def __init__(self, name, code, discount, startDate, endDate, description=None):
         # Discount is in percentage
         # TODO: IMPROVE TYPE ENFORCEMENT TO REDUCE ERRORS
-
-        with shelve.open("counter", writeback=True) as counter:
-            if "coupon" not in counter:
-                id = 1
-            else:
-                id = counter["coupon"] + 1
-            counter["coupon"] = id
-
         try:
-            self.id = id
+            self.id = int(time() * 1000)
             self.name = str(name)
             self.description = description
             self.code = str(code)

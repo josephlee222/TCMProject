@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}
+    Edit Article
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">edit_note</span>
+        <div>
+            <h1>Edit Article</h1>
+            <h6 class="m-0">Edit existing article</h6>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-12">
+                <h6 class="card-title mb-3">Existing Cover Image</h6>
+                <div class="card white">
+                    <img class="blog-banner-img" src="/{{ image }}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="h4">Article Information</h2>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.title) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.brief) }}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h4">Edit Cover Image</h2>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.articleImage) }}
+                    <div class="form-text">Only JPG, PNG and WEBP images supported</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.content) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form.csrf_token }}
+                {{ formHelper.renderField(form.submit) }}
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var contentMd = new EasyMDE({ element: document.getElementById("content"), maxHeight: "200px", forceSync:true, });
+    </script>
+{% endblock %}

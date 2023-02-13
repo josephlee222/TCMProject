@@ -48,7 +48,19 @@ class User:
         self.cart = []
 
     def getCart(self):
+        self.checkCart()
         return self.cart
+
+    def checkCart(self):
+        deleted = False
+        for index, item in enumerate(self.cart):
+            if not item.getItem():
+                print(index)
+                self.cart.pop(index)
+                deleted = True
+
+        if deleted:
+            flash("Deleted products have been removed from your cart", category="warning")
 
     def updateCart(self):
         for item in self.cart:
@@ -67,7 +79,14 @@ class User:
 
     def getTotalPrice(self):
         # +3 for delivery fee
-        return round(self.getCartSubtotalPrice() + self.getCartGST() + 3, 2)
+        return round(self.getCartSubtotalPrice() + self.getCartGST() + self.getDeliveryPrice(), 2)
+
+    def getDeliveryPrice(self):
+        for item in self.cart:
+            if item.getType() == "products":
+                return 3
+
+        return 0
 
     def setPassword(self, password):
         self.password = password
@@ -120,8 +139,9 @@ class User:
     def deleteAddress(self, id):
         try:
             self.address.pop(int(id))
+            return True
         except IndexError:
-            flash("Unable to edit address, address does not exist.", category="error")
+            # Fuck me
             return False
 
     def deleteMedication(self, id):

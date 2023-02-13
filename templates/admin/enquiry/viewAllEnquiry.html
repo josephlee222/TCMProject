@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}View Medications{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datatables.css') }}"/>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">feedback</span>
+        <div>
+            <h1>View Enquiries</h1>
+            <h6 class="m-0">View all incoming enquiries</h6>
+        </div>
+    </div>
+    <button id="button1" class="btn custom-btn mb-3">Show resolved enquiries</button></a>
+    <button id="button2" class="btn custom-btn mb-3" style="display: none">Show unresolved enquiries</button></a>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100" id="enquiries">
+                <thead>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Purpose</th>
+                <th>Subject</th>
+                <th>Action</th>
+                <th>Date Resolved</th>
+                </thead>
+                <tbody>
+                {% if enquiries|length > 0 %}
+                    {% for en in enquiries.values() %}
+                        {% if en.getResolved() == 'Not resolved' %}
+                            <tr id="{{en.id}}" style="display:table-row;">
+                                <td>{{ en.getDate() }}</td>
+                                <td>{{ en.getName() }}</td>
+                                <td>{{ en.getEmail() }}</td>
+                                <td>{{ en.getPurpose() }}</td>
+                                <td>{{ en.getSubject() }}</td>
+                                <td class="text-nowrap">
+                                    <a href="{{ url_for("adminEnquiry.viewEnquiry", id=en.getId()) }}">
+                                        <button class="btn custom-btn">View Details</button>
+                                    </a>
+                                </td>
+                                <td>{{ en.getResolved() }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    {% for row in enquiries.values() %}
+                        {% if row.getResolved() != 'Not resolved' %}
+                        <tr id="{{row.id}}" style="display:none;">
+                            <td>{{ row.getDate() }}</td>
+                            <td>{{ row.getName() }}</td>
+                            <td>{{ row.getEmail() }}</td>
+                            <td>{{ row.getPurpose() }}</td>
+                            <td>{{ row.getSubject() }}</td>
+                            <td class="text-nowrap">
+                                <a href="{{ url_for("adminEnquiry.viewEnquiry", id=row.getId()) }}">
+                                    <button class="btn custom-btn">View Details</button>
+                                </a>
+                            </td>
+                            <td>{{ row.getResolved() }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script>
+{% for row in enquiries.values() %}
+const row{{ loop.index }} = document.getElementById("{{row.id}}");
+{% endfor %}
+const button1 = document.getElementById("button1");
+const button2 = document.getElementById("button2");
+button2.onclick = function () {
+{% for row in enquiries.values() %}
+  if (row{{ loop.index }}.style.display === "none") {
+    row{{ loop.index }}.style.display = "table-row";
+  } else {
+    row{{ loop.index }}.style.display = "none";
+  }
+{% endfor %}
+button2.style.display = "none";
+button1.style.display = "block";
+};
+button1.onclick = function () {
+{% for row in enquiries.values() %}
+    if (row{{ loop.index }}.style.display === "none") {
+    row{{ loop.index }}.style.display = "table-row";
+    } else {
+    row{{ loop.index }}.style.display = "none";
+    }
+{% endfor %}
+button1.style.display = "none";
+button2.style.display = "block";
+};
+
+$(document).ready( function () {
+    $('#enquiries').DataTable({
+        responsive: true
+    });
+} );
+</script>
+{% endblock %}

@@ -6,6 +6,10 @@
 {% block navRight %}
     {% include "includes/userControls.html" %}
 {% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datatables.css') }}"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
+{% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">discount</span>
@@ -14,22 +18,12 @@
             <h6 class="m-0">View and manage discount coupons</h6>
         </div>
     </div>
-    <form method="post">
-        <div class="row mb-4">
-            <div class="col-lg-9 mb-3 mb-lg-0">
-                {{ form.name(class_="form-control", placeholder="Search by Coupon Name...") }}
-            </div>
-            <div class="col-lg-3">
-                <input type="submit" class="btn custom-btn w-100" value="Search">
-            </div>
-        </div>
-    </form>
     <a href="{{ url_for("adminCoupons.addCoupon") }}">
         <button class="btn custom-btn mb-3">Create New Coupon</button>
     </a>
     <div class="row overflow-auto">
         <div class="col-12">
-            <table class="table table-striped w-100">
+            <table class="table table-striped w-100" id="coupons">
                 <thead>
                     <th>Coupon Name</th>
                     <th>Code</th>
@@ -45,19 +39,15 @@
                             <td>{{ coupons[coupon]["name"] }}</td>
                             <td>{{ coupons[coupon]["code"] }}</td>
                             <td>{{ coupons[coupon]["discount"] }}%</td>
-                            <td>{{ coupons[coupon]["startDate"] }} to {{ coupons[coupon]["endDate"] }}</td>
+                            <td>{{ coupons[coupon]["startDate"].strftime('%d/%m/%Y') }} - {{ coupons[coupon]["endDate"].strftime('%d/%m/%Y') }}</td>
                             <td>{{ coupons[coupon].isValid() }}</td>
                             <td class="text-nowrap">
-                                <a href="#"><button class="btn custom-btn">View Details</button></a>
+                                <a href="{{ url_for("adminCoupons.viewCouponDetails", id=coupons[coupon]["id"]) }}"><button class="btn custom-btn">View Details</button></a>
                                 <a href="{{ url_for("adminCoupons.editCoupon", id=coupons[coupon]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
                                 <a onclick="showDeleteModal('{{ coupons[coupon]["name"] }}', '{{ url_for("adminCoupons.deleteCoupon", id=coupons[coupon]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>
                     {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="6">No coupons added yet.</td>
-                    </tr>
                 {% endif %}
                 </tbody>
             </table>

@@ -1,13 +1,15 @@
 <!--Future file for normal navbar-->
-<li class="nav-item">
-    <a class="nav-link" href="/">Home</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/">Shop</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/">Services</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/">Blog</a>
-</li>
+{% macro normalNavControls(active) %}
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center{% if active == 1 %} active{% endif %}" href="{{ url_for("home") }}"><span class="material-icons navbar-icon me-1">home</span>Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center{% if active == 2 %} active{% endif %}" href="{{ url_for("products.viewProducts") }}"><span class="material-icons navbar-icon me-1">store</span>Shop</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center{% if active == 3 %} active{% endif %}" href="{{ url_for("treatments.viewTreatments") }}"><span class="material-icons navbar-icon me-1">medical_services</span>Treatments</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center{% if active == 4 %} active{% endif %}" href="{{ url_for("blogs.viewBlogs") }}"><span class="material-icons navbar-icon me-1">newspaper</span>Blog</a>
+    </li>
+{% endmacro %}

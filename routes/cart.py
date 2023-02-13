@@ -24,7 +24,7 @@ def viewCart():
         flashFormErrors("The coupon code entered is not valid", form.errors)
 
 
-    with shelve.open("users") as users:
+    with shelve.open("users", writeback=True) as users:
         user = users[session["user"]["email"]]
         cart = users[session["user"]["email"]].getCart()
 
@@ -75,7 +75,7 @@ def decreaseCartItem(id):
                 if item.getQuantity() == 1:
                     flash("Cannot decrease quantity below 1. To delete the item from the cart, use the delete button instead.")
                 else:
-                    item.setQuantity(item.getQuantity() + 1)
+                    item.setQuantity(item.getQuantity() - 1)
             else:
                 flash("Cannot change quantity for treatments", category="warning")
 
@@ -95,7 +95,7 @@ def addCart(type, id, quantity):
                 item = items[id]
 
             # Create cart class to add to user cart
-            cart = Cart(id, quantity, type)
+            cart = Cart(id, int(quantity), type)
             with shelve.open("users", writeback=True) as users:
                 user = users[session["user"]["email"]]
                 user.addCartItem(cart)
@@ -104,9 +104,12 @@ def addCart(type, id, quantity):
             if type == "treatments":
                 return redirect(url_for("treatments.viewTreatment", id=id))
             else:
-                # To be replace with product page
-                return redirect(url_for("treatments.viewTreatment", id=id))
+                return redirect(url_for("products.viewProduct", id=id))
         else:
             flash("Cannot item to cart. Invalid product type.", category="error")
+            if type == "treatments":
+                return redirect(url_for("treatments.viewTreatment", id=id))
+            else:
+                return redirect(url_for("products.viewProduct", id=id))
     except KeyError:
         flash("Unable to add to cart. Item does not exist.", category="error")

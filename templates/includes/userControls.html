@@ -1,7 +1,8 @@
 {% if session["user"] %}
     <div class="navbar-nav me-1">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="material-icons navbar-icon me-1">person</span>
                 {{ session["user"]["name"] }} {% if session["cartAmount"] > 0 %}
                 <span class="ms-1 badge bg-custom">{{ session["cartAmount"] }}</span>{% endif %}
             </a>
@@ -28,13 +29,12 @@
                 </li>
                 {% if session["user"]["accountType"] == "admin" %}
                     <li><a class="dropdown-item d-flex align-items-center"
-                           href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Admin
+                           href="{{ url_for("adminStats.dashboard") }}"><span class="material-icons me-1">construction</span>Admin
                         Panel</a></li>
                 {% endif %}
                 {% if session["user"]["accountType"] == "delivery" %}
                     <li><a class="dropdown-item d-flex align-items-center"
-                           href="{{ url_for("adminUsers.viewAllUsers") }}"><span class="material-icons me-1">construction</span>Delivery
-                        Panel</a></li>
+                           href="{{ url_for("adminOrders.viewAllOrders") }}"><span class="material-icons me-1">construction</span>Orders Panel</a></li>
                 {% endif %}
                 <li><a class="dropdown-item text-danger d-flex align-items-center" href="/logout"><span
                         class="material-icons me-1">logout</span>Logout</a></li>

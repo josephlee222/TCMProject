@@ -43,7 +43,7 @@ def addProduct():
         with shelve.open("products", writeback=True) as products:
             products[str(product.getId())] = product
 
-        flash("Successfully created product")
+        flash("Successfully created product", category="success")
         return redirect(url_for("adminProducts.viewAllProducts"))
     return render_template("admin/products/addProduct.html", form=form)
 
@@ -103,7 +103,7 @@ def deleteProduct(id):
     try:
         with shelve.open("products", writeback=True) as products:
             del products[id]
-
+            # I used to delete the image files, but that was causing order history images to be missing
             flash("Successfully deleted product", category="success")
     except KeyError:
         flash("Product either does not exist on database or has a key mismatch.")
@@ -150,7 +150,7 @@ def deleteProductImage(id, imageId):
             if len(product.getImages()) > 1:
                 imgPath = product.getImages()[int(imageId)]
                 product.deleteImage(imageId)
-                os.remove(imgPath)
+                # I used to delete the image files, but that was causing order history images to be missing
                 flash("Image successfully deleted", category="success")
             else:
                 flash("Unable to delete the last image. Product should has at least one image", category="error")

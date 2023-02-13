@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ product.getName() }}
+{% endblock %}
+{% block description %}View TCM product {{ product.getName() }} on TCM Shifu!{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls(2) }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">medical_services</span>
+        <div>
+            <h1>{{ product.getName() }}</h1>
+            <h6 class="m-0">Product Details</h6>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-lg-8">
+            <div id="treatmentCarousel" class="carousel product-carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    {% for image in product.getImages() %}
+                        {% if loop.index == 1 %}
+                            <button type="button" data-bs-target="#treatmentCarousel" data-bs-slide-to="0"
+                                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                        {% else %}
+                            <button type="button" data-bs-target="#treatmentCarousel"
+                                    data-bs-slide-to="{{ loop.index - 1 }}" aria-current="true"
+                                    aria-label="Slide {{ loop.index - 1 }}"></button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                    {% for image in product.getImages() %}
+                        {% if loop.index == 1 %}
+                            <div class="carousel-item ratio ratio-16x9 active">
+                                <img src="/{{ image }}" class="d-block h-100 w-100" alt="...">
+                            </div>
+                        {% else %}
+                            <div class="carousel-item ratio ratio-16x9">
+                                <img src="/{{ image }}" class="d-block h-100 w-100" alt="...">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#treatmentCarousel"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#treatmentCarousel"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 mt-3 mt-lg-0 d-flex justify-content-lg-end align-items-lg-end">
+            <div class="card w-100 white">
+                <div class="card-body">
+                    <h6 class="card-title">Product Price</h6>
+                    <div class="d-flex flex-column">
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center">
+                                <h2 class="m-0 text-lg-end">
+                                    ${{ "%.2f"|format(product.getPrice()) if not product.onSale else "%.2f"|format(product.getSalePrice()) }}</h2>
+                                {% if product.onSale %}
+                                    <span class="badge bg-danger ms-3">Sale</span>
+                                {% endif %}
+                            </div>
+                            {% if product.onSale %}
+                                <small>Usual Price: ${{ "%.2f"|format(product.getPrice()) }}</small>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <form method="post">
+                                <div class="mb-3">
+                                    {{ formHelper.renderField(form.qty) }}
+                                </div>
+                            {{ formHelper.renderField(form.submit, w=True) }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <h3>Product Description</h3>
+            <p>{{ product.getConvertedDescription()|safe }}</p>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <h3>Product Benefits</h3>
+            <p>{{ product.getConvertedBenefits()|safe }}</p>
+        </div>
+    </div>
+{% endblock %}

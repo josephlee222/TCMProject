@@ -16,10 +16,13 @@ class Cart:
         return self.itemId
 
     def getItem(self):
-        with shelve.open(self.type) as items:
-            item = items[self.itemId]
-            self.storedItem = item
-            return item
+        try:
+            with shelve.open(self.type) as items:
+                item = items[self.itemId]
+                self.storedItem = item
+                return item
+        except KeyError:
+            return False
 
     def updateStoredItem(self):
         with shelve.open(self.type) as items:

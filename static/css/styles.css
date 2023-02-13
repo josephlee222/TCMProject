@@ -65,7 +65,7 @@ nav {
     border-radius: 4px;
 }
 
-nav p, .card *:not(.btn):not(.badge):not(.form-control) {
+nav p, .card *:not(.btn):not(.badge):not(.form-control):not(a) {
     color: var(--text-colour-primary);
 }
 
@@ -76,7 +76,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control) {
 .list-group .list-group-item {
     background-color: var(--primary-colour);
     color: var(--text-colour-primary);
-    border: 3px solid rgba(0, 0, 0, .125);
+    border: 1px solid rgba(0, 0, 0, .125);
 }
 
 .list-group .list-group-item.active {
@@ -92,7 +92,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control) {
     margin: 0;
 }
 
-.card.white *:not(.btn):not(.badge) {
+.card.white *:not(.btn):not(.badge):not(.btn span):not(a) {
     color: var(--text-colour-background);
 }
 
@@ -103,7 +103,7 @@ nav p, .card *:not(.btn):not(.badge):not(.form-control) {
 
 .table {
     border-radius: 3px;
-    border: 1px solid rgba(0, 0, 0, .125);
+    border: 1px solid rgba(0, 0, 0, .125) !important;
 }
 
 table td, table th {
@@ -149,6 +149,14 @@ table td, table th {
 /*Note: Firefox just implemented this, style may not apply to all web browsers yet (Works on all chromium browsers)*/
 a:has(button) {
     text-decoration: none;
+}
+
+a {
+    color: var(--secondary-colour);
+}
+
+.paginate_button {
+    color: var(--secondary-colour) !important;
 }
 
 .btn.custom-btn:disabled {
@@ -246,6 +254,12 @@ a.white:hover {
     height: 500px;
 }
 
+.login-card-img {
+    background-image: url("/static/img/main_background.png");
+    background-size: cover;
+    border-radius: 4px 0 0 4px;
+}
+
 .main-splash h1, .main-splash h2 {
     color: white;
 }
@@ -265,6 +279,10 @@ a.white:hover {
 }
 
 hr {
+    border-top: 2px solid rgba(0, 0, 0, .35) !important;
+}
+
+hr.dropdown-divider {
     border-top: 1px solid rgba(0, 0, 0, .2) !important;
 }
 
@@ -337,6 +355,21 @@ footer hr {
     background-color: var(--secondary-colour);
 }
 
+.active > .page-link, .page-link.active {
+    background-color: var(--secondary-colour);
+    border-color: var(--secondary-colour);
+    color: white !important;
+}
+
+.disabled > .page-link, .page-link.active {
+
+    color: grey !important;
+}
+
+.paginate_button > .page-link, .page-link.active {
+    color: var(--secondary-colour);
+}
+
 .card.splash {
     background-color: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(5px);
@@ -346,8 +379,32 @@ footer hr {
     font-size: 36px;
 }
 
+.navbar-icon {
+    font-size: 1rem;
+}
+
+.product-img {
+    object-fit: cover;
+    border-radius: 4px 4px 0 0;
+}
+
+.blog-banner-img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+    border-radius: 4px;
+}
+
 @media screen and (max-width: 767px) {
     .fc-toolbar.fc-header-toolbar {
         font-size: 50%
+    }
+
+    .login-card-img-col {
+        height: 200px;
+    }
+
+    .login-card-img {
+        border-radius: 4px 4px 0 0;
     }
 }

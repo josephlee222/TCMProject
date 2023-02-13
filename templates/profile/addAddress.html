@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+    New Address
+{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls() }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">face</span>
+        <div>
+            <h1>My Profile</h1>
+            <h6 class="m-0">{{ session["user"]["email"] }}</h6>
+        </div>
+    </div>
+    <div class="row">
+        {{ profileControls.profileControls(5) }}
+        <div class="col-lg-9">
+            <form method="post">
+                <div class="d-flex align-items-center mb-4">
+                    <h2 class="h4 flex-grow-1 m-0">New Address</h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 mb-3">
+                        {{ formHelper.renderField(form.name) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 mb-3">
+                        {{ formHelper.renderField(form.location) }}
+                    </div>
+                </div>
+                {{ formHelper.renderField(form.submit) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

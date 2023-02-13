@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Add Treatment
+    Create Article
 {% endblock %}
 {% block nav %}
     {% include "includes/adminNavControls.html" %}
@@ -16,7 +16,7 @@
     <div class="d-flex align-items-center mb-4">
         <span class="material-icons me-3" style="font-size: 60px">post_add</span>
         <div>
-            <h1>Create Blog</h1>
+            <h1>Create Article</h1>
             <h6 class="m-0">Create a new article</h6>
         </div>
     </div>
@@ -26,6 +26,9 @@
                 <h2 class="h4">Article Information</h2>
                 <div class="mb-3">
                     {{ formHelper.renderField(form.title) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.brief) }}
                 </div>
             </div>
             <div class="col-lg-6">
@@ -45,6 +48,7 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
+                {{ form.csrf_token }}
                 {{ formHelper.renderField(form.submit) }}
             </div>
         </div>
@@ -52,6 +56,6 @@
 {% endblock %}
 {% block scripts %}
     <script>
-        var contentMd = new EasyMDE({ element: document.getElementById("content"), maxHeight: "200px", });
+        var contentMd = new EasyMDE({ element: document.getElementById("content"), maxHeight: "200px", forceSync:true, });
     </script>
 {% endblock %}
