@@ -7,36 +7,39 @@ class Refund:
         self.__name = name
         self.__email = email
         self.__order = order
-        self.__creationDate = datetime
+        self.__creationDate = datetime.now()
         self.__reason = reason
-
+        self.__resolved = False
 
     def getId(self):
         return self.__id
 
-    def getname(self):
+    def getName(self):
         return self.__name
 
-    def getemail(self):
+    def getEmail(self):
         return self.__email
 
-    def getorder(self):
+    def getOrder(self):
         return self.__order
 
-    def getcreationDate(self):
+    def getCreationDate(self):
         return self.__creationDate
 
-    def getreason(self):
+    def getReason(self):
         return self.__reason
 
-    def setname(self, name):
+    def getResolved(self):
+        return self.__resolved
+
+    def setName(self, name):
         self.__name = name
 
-    def setemail(self, email):
+    def setEmail(self, email):
         self.__email = email
 
-    def setorder(self, order):
-        self.__order = order
-
-    def setreason(self, reason):
+    def setReason(self, reason):
         self.__reason = reason
+
+    def setResolved(self):
+        self.__resolved == True

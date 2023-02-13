@@ -25,30 +25,33 @@ def addRefund(id):
         with shelve.open("refunds", writeback=True) as refunds:
             refunds[str(refund.getId())] = refund
 
-        flash("Refund successfully created")
+        flash("Refund request successfully created", category="success")
         return redirect(url_for("profile.viewOrderHistoryDetails", id=id))
+
     return render_template("refunds/addRefunds.html", form=form, id=id)
 
-@refunds.route("/profile/orders/", methods=['GET', 'POST'])
+
+@refunds.route("/profile/orders/refunds", methods=['GET', 'POST'])
 @adminAccess
 def viewAllRefund():
-    # Bring up form functions for webpage
-    form = searchRefundForm(request.form)
-    # Load products onto webpage
     with shelve.open("refunds") as refunds:
-        if len(refunds.keys()) == 0:
-            flash("No refund request found.")
-        # Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
-        return render_template("refunds/viewRefunds.html", form=form, refunds=refunds)
+        refund = []
 
-@refunds.route("/profile/orders/<id>/delete", methods=['GET', 'POST'])
+        for item in refunds.values():
+            if item.getEmail() == session["user"]["email"]:
+                refund.append(item)
+        # Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
+        return render_template("refunds/viewRefunds.html", refunds=refund)
+
+
+@refunds.route("/profile/orders/refunds/<id>/delete", methods=['GET', 'POST'])
 @adminAccess
 def deleteRefund(id):
     try:
         with shelve.open("refunds", writeback=True) as refunds:
             del refunds[id]
-
             flash("Successfully deleted refund request", category="success")
     except KeyError:
         flash("Request either does not exist on database or has a key mismatch.")
-    return redirect(url_for("profile.viewOrderHistoryDetails"))
+
+    return redirect(url_for("refunds.viewAllRefund"))

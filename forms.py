@@ -695,23 +695,10 @@ class editBlogForm(Form):
     submit = SubmitField("Edit Article")
 
 class addRefundForm(Form):
-    fname = StringField('First Name', [
-        validators.DataRequired(message='Please input your first name.')
-    ])
-    lname = StringField('Last Name', [
-        validators.DataRequired(message='Please input your last name.')
-    ])
-    email = EmailField('Email Address', [
-        validators.Email(granular_message=True),
-        validators.DataRequired(message='E-mail is required to continue with refund')
-    ])
-    order = StringField('Order number', [
-        validators.DataRequired(message='Order number is required to continue with refund')
-    ])
     reason = TextAreaField('Reason for refund', [
         validators.DataRequired(message='Reason is required to continue with refund')
     ])
-    submit = SubmitField("Submit")
+    submit = SubmitField("Request")
 
 class searchRefundForm(Form):
     name = StringField("Search by name", [

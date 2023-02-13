@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}All Users{% endblock %}
+{% block title %}Refund Requests{% endblock %}
 {% block nav %}
     {% include "includes/adminNavControls.html" %}
 {% endblock %}
@@ -29,26 +29,26 @@
         <div class="col-12">
             <table class="table table-striped w-100">
                 <thead>
-                    <th>Name</th>
+                    <th>Order ID</th>
                     <th>E-mail</th>
-                    <th>Product</th>
+                    <th>Name</th>
                     <th>Reason</th>
-                    <th>Creation Date</th>
+                    <th>Resolved?</th>
                     <th>Actions</th>
                 </thead>
                 <tbody>
                 {% if refunds|length > 0 %}
-                    {% for refund in refunds %}
+                    {% for refund in refunds.values() %}
                         <tr>
-                            <td>{{ refunds[refund]["name"] }}</td>
-                            <td>{{ refunds[refund]["email"] }}</td>
-                            <td>{{ refunds[refund]["order"] }}</td>
-                            <td>{{ refunds[refund]["creation"] }}</td>
-                            <td>{{ refunds[refund]["reason"] }}</td>
+                            <td>{{ refund.getOrder() }}</td>
+                            <td>{{ refund.getEmail() }}</td>
+                            <td>{{ refund.getName() }}</td>
+                            <td>{{ refund.getReason() }}</td>
+                            <td>{% if refund.getResolved() %}Resolved{% else %}Not Resolved{% endif %}</td>
                             <td class="text-nowrap">
-                                <a href="{{ url_for("adminRefund.viewAllRefunds", id=refunds[refund]["id"]) }}"><button class="btn custom-btn">View Refund</button></a>
-                                <a href="{{ url_for("adminRefund.editRefund", id=refunds[refund]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
-                                <a href="{{ url_for("adminRefund.deleteRefund", id=refunds[refund]["id"]) }}"><button class="btn btn-danger">Delete</button></a>
+                                <a href="#"><button class="btn custom-btn">View Refund</button></a>
+                                <a href="#"><button class="btn custom-btn">Edit</button></a>
+                                <a href="#"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>
                     {% endfor %}

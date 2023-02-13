@@ -18,10 +18,14 @@
         {{ profileControls.profileControls(4) }}
         <div class="col-lg-9">
             <div class="mb-4">
-                <h2 class="h4 flex-grow-1 m-0">Order History</h2>
+                <div class="d-flex align-items-center mb-1">
+                    <h2 class="h4 flex-grow-1 m-0">Order History</h2>
+                    <a href="{{ url_for("refunds.viewAllRefund") }}">
+                        <button class="btn custom-btn w-100 w-lg-auto">View Refunds</button>
+                    </a>
+                </div>
                 <h3 class="h6 fw-bold flex-grow-1 mb-0">You can book appointments by accessing the details of the
                     order</h3>
-                <a href="{{ url_for("refunds.viewAllRefund") }}"><button class="btn custom-btn">View Refunds</button></a>
             </div>
             {% if orders|length > 0 %}
                 {% for order in orders %}

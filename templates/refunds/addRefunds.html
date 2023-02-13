@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% block title %}
-    Add Product
+    Request Refund
 {% endblock %}
 {% block nav %}
-    {% include "includes/normalNavControls.html" %}
+    {{ normalNavControls.normalNavControls() }}
 {% endblock %}
 {% block navRight %}
     {% include "includes/userControls.html" %}
 {% endblock %}
 {% block content %}
     <div class="d-flex align-items-center mb-4">
-        <span class="material-icons me-3" style="font-size: 60px">library_add</span>
+        <span class="material-icons me-3" style="font-size: 60px">currency_exchange</span>
         <div>
             <h1>Create refund request</h1>
             <h6 class="m-0">Create a new refund request</h6>
@@ -23,19 +23,20 @@
                 <div>
                     {{ infoBox.infoBox("Your Name", session["user"]["name"]) }}
                 </div>
+                <div>
+                    {{ infoBox.infoBox("Your E-mail", session["user"]["email"]) }}
+                </div>
+                <div>
+                    {{ infoBox.infoBox("Order ID", "#" + id) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.reason) }}
+                </div>
+                <div class="col-lg-6">
+                    {{ formHelper.renderField(form.submit) }}
+                </div>
             </div>
-            <div>
-                {{ infoBox.infoBox("Your E-mail", session["user"]["email"]) }}
-            </div>
-            <div>
-                {{ infoBox.infoBox("Order ID", "#" + id) }}
-            </div>
-            <div class="mb-3">
-                {{ formHelper.renderField(form.reason) }}
-            </div>
-            <div class="col-lg-6">
-                {{ formHelper.renderField(form.submit) }}
-            </div>
+
         </div>
     </form>
 {% endblock %}
