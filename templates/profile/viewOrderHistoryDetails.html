@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 d-flex">
-                                        {% if item.getType() == "treatments" and not item.isConsumed() %}
+                                        {% if item.getType() == "treatments" and not item.isConsumed() and order.getStatus() < 5 %}
                                             <a href="{{ url_for("profile.bookAppointment", id=order.getId(), itemId=loop.index - 1) }}" class="me-1">
                                                 <button class="btn custom-btn">Book Appointment</button>
                                             </a>
@@ -98,6 +98,11 @@
                     <div class="d-flex align-items-center">
                         <h6 class="fw-bold flex-grow-1">Total</h6>
                         <h4>${{ "%.2f"|format(order.getTotalPrice()) }}</h4>
+                    </div>
+                    <div class="col-12 d-flex">
+                        <a {% if order.getStatus() != 5 and order.getStatus() != 6 %}href="{{ url_for("refunds.addRefund", id=order.getId()) }}"{% endif %} class="w-100">
+                            <button class="btn custom-btn w-100" {% if order.getStatus() == 5 or order.getStatus() == 6 %}disabled{% endif %}>Refund</button>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Refund Requests{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datatables.css') }}"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">remove_shopping_cart</span>
+        <div>
+            <h1>View Refunds</h1>
+            <h6 class="m-0">View all refund requests</h6>
+        </div>
+    </div>
+    <div class="row overflow-auto">
+        <div class="col-12">
+            <table class="table table-striped w-100" id="refunds">
+                <thead>
+                <th>Order ID</th>
+                <th>E-mail</th>
+                <th>Name</th>
+                <th>Reason</th>
+                <th>Resolved?</th>
+                <th>Actions</th>
+                </thead>
+                <tbody>
+                {% if refunds|length > 0 %}
+                    {% for refund in refunds.values() %}
+                        <tr>
+                            <td>{{ refund.getOrder() }}</td>
+                            <td>{{ refund.getEmail() }}</td>
+                            <td>{{ refund.getName() }}</td>
+                            <td>{{ refund.getReason() }}</td>
+                            <td>{% if refund.getResolved() %}Resolved{% else %}Not Resolved{% endif %}</td>
+                            <td class="text-nowrap">
+                                <a href="{{ url_for("adminRefund.viewRefund", id=refund.getId()) }}">
+                                    <button class="btn custom-btn">Refund Details</button>
+                                </a>
+                                <a onclick="showDeleteModal('{{ refund.getOrder() }}', '{{ url_for("adminRefund.deleteRefund", id=refund.getId()) }}')">
+                                    <button class="btn btn-danger">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Cancel Refund Request?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    Delete Treatment? (Placeholder)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <a id="delete-treatment-link">
+                        <button type="button" class="btn btn-danger">Yes</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/viewRefunds.js') }}"></script>
+{% endblock %}

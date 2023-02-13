@@ -25,6 +25,11 @@
             <span class="material-icons status-icon me-2 text-danger">close</span>
             Order Cancelled
         </div>
+    {% elif status == 6 %}
+        <div class="d-flex align-items-center mb-1 text-warning">
+            <span class="material-icons status-icon me-2 text-warning">warning</span>
+            Order Refunded
+        </div>
     {% else %}
         <div class="d-flex align-items-center mb-1 text-secondary">
             <span class="material-icons status-icon me-2 text-secondary">question_mark</span>

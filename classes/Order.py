@@ -4,6 +4,7 @@
 # 3 - Delivery
 # 4 - Received
 # 5 - Cancelled
+# 6 - Refunded
 from datetime import datetime
 from time import time
 
@@ -55,6 +56,8 @@ class Order:
             return "Delivered"
         elif self.status == 5:
             return "Cancelled"
+        elif self.status == 6:
+            return "Refunded"
         else:
             return "Unknown"
 
@@ -62,7 +65,7 @@ class Order:
         self.address = address
 
     def setStatus(self, status):
-        self.status = status if 0 < status < 6 else 1
+        self.status = status if 0 < status < 7 else 1
 
     def getCartGST(self):
         return round(self.getCartSubtotalPrice() * 0.08, 2)

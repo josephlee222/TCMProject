@@ -16,6 +16,8 @@ from routes.adminProducts import adminProducts
 from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
 from routes.adminStats import adminStats
+from routes.adminBlog import adminBlog
+from routes.adminRefund import adminRefund
 from routes.auth import auth
 from routes.blog import blogs
 from routes.cart import cart
@@ -27,6 +29,7 @@ from routes.products import products
 from routes.profile import profile
 from routes.test import test
 from routes.treatments import treatments
+from routes.refunds import refunds
 
 app = Flask(__name__)
 app.secret_key = "Secret Key"
@@ -64,6 +67,8 @@ app.register_blueprint(blogs)
 app.register_blueprint(enquiry)
 app.register_blueprint(products)
 app.register_blueprint(errors)
+app.register_blueprint(adminRefund)
+app.register_blueprint(refunds)
 
 
 # ONLY HOMEPAGE HERE (Other pages please use separate files and link via blueprint)

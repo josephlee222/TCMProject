@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     appointments.forEach(makeEvents)
     console.log(events)
     var calendar = new FullCalendar.Calendar(appointmentCalendar, {
-        initialView: 'timeGridDay',
+        initialView: 'listWeek',
         nowIndicator: true,
         headerToolbar: {
             left: 'prev,next today',

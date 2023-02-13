@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}
+    Request Refund
+{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls() }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">remove_shopping_cart</span>
+        <div>
+            <h1>Create refund request</h1>
+            <h6 class="m-0">Create a new refund request</h6>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="h4">Refund Information</h2>
+                <div>
+                    {{ infoBox.infoBox("Your Name", session["user"]["name"]) }}
+                </div>
+                <div>
+                    {{ infoBox.infoBox("Your E-mail", session["user"]["email"]) }}
+                </div>
+                <div>
+                    {{ infoBox.infoBox("Order ID", "#" + id) }}
+                </div>
+                <div class="mb-3">
+                    {{ formHelper.renderField(form.reason) }}
+                </div>
+                <div class="col-lg-6">
+                    {{ formHelper.renderField(form.submit) }}
+                </div>
+            </div>
+
+        </div>
+    </form>
+{% endblock %}
