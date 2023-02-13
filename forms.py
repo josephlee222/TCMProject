@@ -256,7 +256,7 @@ class createTreatmentForm(Form):
     duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
-    ])
+    ], render_kw={"step": "0.5"})
     images = MultipleFileField("Treatment Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
         # validators.DataRequired(message="Treatment Images are required")
@@ -297,7 +297,7 @@ class editTreatmentForm(Form):
     duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours"),
-    ])
+    ], render_kw={"step": "0.5"})
 
     submit = SubmitField("Edit Treatment")
 

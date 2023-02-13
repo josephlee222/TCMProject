@@ -6,7 +6,7 @@
             </div>
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ item.getName() }}</h5>
-                <h6 class="d-flex align-items-center">${% if item.getOnSale() %}{{ "%.2f"|format(item.getSalePrice()) }}{% else %}{{ "%.2f"|format(item.getPrice()) }}{% endif %}{% if item.getOnSale() %}<span class="badge bg-danger ms-1">Sale!</span>{% endif %}</h6>
+                <h6 class="d-flex align-items-center">${% if item.getOnSale() %}{{ "%.2f"|format(item.getSalePrice()) }}{% else %}{{ "%.2f"|format(item.getPrice()) }}{% endif %}{% if item.getOnSale() %}<span class="badge bg-danger ms-2">Sale!</span>{% endif %}</h6>
                 <div class="flex-grow-1 mb-3">
                     {{ item.getConvertedDescription()|safe|truncate(256, True, "...") }}
                 </div>

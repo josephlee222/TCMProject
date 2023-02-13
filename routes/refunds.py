@@ -14,6 +14,16 @@ refunds = Blueprint("refunds", __name__)
 def addRefund(id):
     form = addRefundForm(request.form)
     # Check whether user is submitting data and whether form is valid
+    try:
+        with shelve.open("orders") as orders:
+            order = orders[id]
+            if order.getStatus() == 5 or order.getStatus() == 6:
+                flash("Unable to create a refund request and the order is already cancelled or refunded", category="success")
+                return redirect(url_for("profile.viewOrderHistoryDetails", id=id))
+    except KeyError:
+        flash("Unable to create a refund request and the order is already cancelled or refunded", category="success")
+        return redirect(url_for("profile.viewOrderHistory"))
+
     if request.method == "POST" and form.validate():
         name = session["user"]["name"]
         email = session["user"]["email"]
@@ -36,9 +46,9 @@ def addRefund(id):
 def viewAllRefund():
     with shelve.open("refunds") as refunds:
         refund = []
-
         for item in refunds.values():
             if item.getEmail() == session["user"]["email"]:
+                print(item.getResolved())
                 refund.append(item)
         # Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
         return render_template("refunds/viewRefunds.html", refunds=refund)

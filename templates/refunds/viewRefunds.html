@@ -38,7 +38,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    {{ infoBox.infoBox("Requested On", refund.getCreationDate()) }}
+                                    {{ infoBox.infoBox("Requested On", refund.getCreationDate().strftime("%d/%m/%Y, %I:%M %p")) }}
                                 </div>
                             </div>
                             <div class="d-flex">

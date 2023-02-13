@@ -38,8 +38,8 @@
                         <tr>
                             <td>{{ treatments[treatment]["name"] }}</td>
                             <td>{{ treatments[treatment]["duration"] }} Hours</td>
-                            <td>${{ treatments[treatment]["price"] }}</td>
-                            <td>${{ treatments[treatment]["salePrice"] }}</td>
+                            <td>${{ "%.2f"|format(treatments[treatment]["price"]) }}</td>
+                            <td>${{ "%.2f"|format(treatments[treatment]["salePrice"]) }}</td>
                             <td>{{ treatments[treatment]["onSale"] }}</td>
                             <td class="text-nowrap">
                                 <a href="{{ url_for("treatments.viewTreatment", id=treatments[treatment]["id"]) }}"><button class="btn custom-btn">Store Page</button></a>

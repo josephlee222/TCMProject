@@ -36,7 +36,7 @@
                     <tr>
                         <td>{{ users[user]["email"] }}</td>
                         <td>{{ users[user]["name"] }}</td>
-                        <td>{{ users[user]["accountType"] }}</td>
+                        <td>{{ users[user]["accountType"]|capitalize }}</td>
                         <td class="text-nowrap">
                             <a href="{{ url_for("adminTrackers.viewAllTrackers", email=users[user]["email"]) }}"><button class="btn custom-btn">View Medications</button></a>
                             <a href="{{ url_for("adminUsers.editUser", email=users[user]["email"]) }}"><button class="btn custom-btn">Edit</button></a>

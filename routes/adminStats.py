@@ -30,10 +30,7 @@ def dashboard():
                 profitLastMonth += order.getTotalPrice()
 
             if profitLastMonth != 0 and profitThisMonth != 0:
-                if profitLastMonth > profitThisMonth:
-                    margin = -abs(profitThisMonth/profitLastMonth) * 100
-                else:
-                    margin = profitThisMonth/profitLastMonth * 100
+                margin = ((profitThisMonth - profitLastMonth) / profitLastMonth) * 100
             else:
                 if profitLastMonth == 0:
                     margin = profitThisMonth

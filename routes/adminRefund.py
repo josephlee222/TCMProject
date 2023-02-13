@@ -13,71 +13,58 @@ adminRefund = Blueprint("adminRefund", __name__)
 @adminRefund.route("/admin/refunds", methods=['GET', 'POST'])
 @adminAccess
 def viewAllRefunds():
-    # Bring up form functions for webpage
-    form = searchRefundForm(request.form)
     # Load products onto webpage
     with shelve.open("refunds") as refunds:
         if len(refunds.keys()) == 0:
             flash("No refund request found.")
         # Display page, (ie for treatments=treatments, it signals jinja to load the list into the webpage. {jinjanam=currentFileName)
-        return render_template("admin/refunds/viewRefunds.html", form=form, refunds=refunds)
+        return render_template("admin/refunds/viewRefunds.html", refunds=refunds)
 
 
-@adminRefund.route("/admin/refunds/add", methods=['GET', 'POST'])
+@adminRefund.route("/admin/refunds/<id>/view", methods=['GET', 'POST'])
 @adminAccess
-def addRefund():
-    form = addRefundForm(request.form)
-    # Check whether user is submitting data and whether form is valid
-    if request.method == "POST" and form.validate():
-        name = session["user"]["name"]
-        email = session["user"]["email"]
-        order = id
-        creation = datetime.datetime
-        reason = form.reason.data
-        # Take data from form and combine into a single object representing the product
-        refund = Refund(name, email, order,creation, reason)
-
-        with shelve.open("refunds", writeback=True) as refunds:
-            refunds[str(refund.getId())] = refund
-
-        flash("Refund successfully created")
-        return redirect(url_for("adminRefund.viewAllRefunds"))
-    return render_template("admin/refunds/addRefunds.html", form=form)
-
-
-@adminRefund.route("/admin/refunds/edit/<id>", methods=['GET', 'POST'])
-@adminAccess
-def editRefund(id):
+def viewRefund(id):
     form = editRefundForm(request.form)
     try:
         with shelve.open("refunds", writeback=True) as refunds:
             refund = refunds[id]
-
-            if request.method == "POST" and form.validate():
-                print("Edit refund request here")
-                refund.setname(session["user"]["name"])
-                refund.setemail(session["user"]["email"])
-                refund.setorder(id)
-                refund.setreason(form.reason.data)
-
-                flash("Successfully edited refund request.", category="success")
-                return redirect(url_for("adminRefund.viewAllRefunds"))
-
-            else:
-                flashFormErrors("Unable to edit the refund request", form.errors)
-
-        form.name.data = refund.getname()
-        form.email.data = refund.getemail()
-        form.order.data = refund.getorder()
-        form.reason.data = refund.getreason()
-
-        return render_template("admin/refunds/editRefunds.html", refunds=refunds, form=form)
+            return render_template("admin/refunds/viewRefund.html", refund=refund)
     except KeyError:
         flash("Unable to edit refund request: product does not exist", category="error")
+        return redirect(url_for("adminRefund.viewAllRefunds"))
+
+
+@adminRefund.route("/admin/refunds/<id>/view/reject", methods=['GET', 'POST'])
+@adminAccess
+def rejectRefund(id):
+    try:
+        with shelve.open("refunds", writeback=True) as refunds:
+            del refunds[id]
+    except KeyError:
+        flash("Unable to edit refund request: Request does not exist", category="error")
+
     return redirect(url_for("adminRefund.viewAllRefunds"))
 
 
-@adminRefund.route("/admin/refund/delete/<id>", methods=['GET', 'POST'])
+@adminRefund.route("/admin/refunds/<id>/view/accept", methods=['GET', 'POST'])
+@adminAccess
+def acceptRefund(id):
+    try:
+        with shelve.open("refunds", writeback=True) as refunds:
+            refund = refunds[id]
+            with shelve.open("orders", writeback=True) as orders:
+                order = orders[refund.getOrder()]
+                order.setStatus(6)
+                refund.setResolved()
+
+        flash("Order has been marked as refunded, an email has been sent to the customer about the refund.", category="success")
+    except KeyError:
+        flash("Unable to edit refund request: Request does not exist", category="error")
+
+    return redirect(url_for("adminRefund.viewAllRefunds"))
+
+
+@adminRefund.route("/admin/refund/<id>/delete", methods=['GET', 'POST'])
 @adminAccess
 def deleteRefund(id):
     try:

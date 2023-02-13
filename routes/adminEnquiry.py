@@ -38,7 +38,7 @@ def viewEnquiry(id):
         subject = form.subject.data
         message = convert(form.message.data)
 
-        msg = Message("[TCM Shifu]", sender="TCMShifu@gmail.com",
+        msg = Message("[TCM Shifu] Regarding your enquiry", sender="TCMShifu@gmail.com",
                       recipients=[email])
         msg.html = Markup(enquiryreplyTemplate(str(subject), message))
         app.mail.send(msg)

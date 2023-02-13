@@ -32,7 +32,7 @@ def login():  # put application's code here
                     }
                     session["user"] = userDict
                     print(session["user"])
-                    flash("Successfully logged in, welcome back!")
+                    flash("Successfully logged in. Welcome back!", category="success")
                     return goBack()
                 else:
                     flash("Wrong username or password. Please try again", category="error")

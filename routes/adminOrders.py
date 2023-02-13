@@ -39,6 +39,8 @@ def viewOrder(id):
             statusDescription = "The order has been delivered to the customer."
         elif order.getStatus() == 5:
             statusDescription = "This order has been cancelled by the user or the clinic."
+        elif order.getStatus() == 6:
+            statusDescription = "This order has been has been refunded by the clinic."
         else:
             statusDescription = "Unknown delivery status."
 
@@ -58,8 +60,8 @@ def editOrderStatus(id):
             choices = [(1, "Preparing"), (2, "Pending delivery"), (3, "On Delivery"), (4, "Delivered")]
             form.status.choices = choices
 
-            if order.getStatus() == 4 or order.getStatus() == 5:
-                flash("Unable to update order status, order has already been completed or cancelled", category="error")
+            if order.getStatus() == 4 or order.getStatus() == 5 or order.getStatus() == 6:
+                flash("Unable to update order status, order has already been completed, cancelled or refunded", category="error")
                 return redirect(url_for("adminOrders.viewAllOrders"))
 
             if request.method == "POST" and form.validate():
@@ -93,11 +95,11 @@ def cancelOrder(id):
         with shelve.open("orders", writeback=True) as orders:
             order = orders[id]
 
-            if order.getStatus() != 5 and order.getStatus() != 4:
+            if order.getStatus() != 6 and order.getStatus() != 5 and order.getStatus() != 4:
                 order.setStatus(5)
                 flash("Order successfully cancelled", category="success")
             else:
-                flash("Unable to cancel order, order has already been completed or cancelled", category="error")
+                flash("Unable to cancel order, order has already been completed, cancelled or refunded", category="error")
 
             return redirect(url_for("adminOrders.viewAllOrders"))
 

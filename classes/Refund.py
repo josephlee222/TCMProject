@@ -42,4 +42,4 @@ class Refund:
         self.__reason = reason
 
     def setResolved(self):
-        self.__resolved == True
+        self.__resolved = True
