@@ -21,8 +21,8 @@
         <div class="col-lg-9">
             <div class="d-flex align-items-center mb-4">
                 <h2 class="h4 flex-grow-1 m-0">My Medications</h2>
+                <a href="{% if medications|length > 0 %}{{ url_for("profile.exportMedicationCalendar") }}{% else %}#{% endif %}"><button class="btn custom-btn" {% if medications|length == 0 %}disabled{% endif %}>Add All Medications to Calendar</button></a>
             </div>
-
             <div id="Show_current_date" class="d-flex align-items-center w-100 mb-4">
                 <a href="{{ url_for("medications.viewMedications", day=day - 1) }}" style="display: contents">
                     <button class="btn custom-btn d-flex"><span class="material-icons me-1">chevron_left</span>Yesterday
@@ -34,7 +34,15 @@
                     </button>
                 </a>
             </div>
-
+            {% if morning|length == 0 and afternoon|length == 0 and night|length == 0 %}
+            <div class="card white mb-3">
+                <div class="card-body pb-0" style="padding:0">
+                    <h6 class="card-title" style="text-align:center; margin-bottom:0; margin-top:0">
+                        There is no medication for today
+                    </h6>
+                </div>
+            </div>
+            {% else %}
             <div class="accordion" id="medication-acc">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="morning-acc-header">
@@ -151,6 +159,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 

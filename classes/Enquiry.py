@@ -59,7 +59,7 @@ class Enquiry:
         self.query = query
 
     def setResolved(self, resolved):
-        if resolved != None:
+        if resolved !=  None:
             self.resolved = resolved
         else:
-            self.resolved = 'Not'
+            self.resolved = 'Not resolved'

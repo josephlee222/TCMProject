@@ -45,9 +45,10 @@ def viewEnquiry(id):
 
         with shelve.open("enquiry", writeback=True) as enquiries:
             enquiry = enquiries[id]
-            enquiry.setResolved(datetime.datetime.now().date())
+            today = str(datetime.datetime.now().date())
+            enquiry.setResolved(today)
 
-        flash("Email has been successfully sent. User will be notified with an email about the change",
+        flash("Email has been successfully sent. User will be notified with an email on the enquiry",
               category="success")
         return redirect(url_for("adminEnquiry.viewAllEnquiries"))
 
