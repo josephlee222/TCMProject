@@ -38,8 +38,8 @@
                             <td>{{ order.getStatusText() }}</td>
                             <td class="text-nowrap">
                                 <a href="{{ url_for("adminOrders.viewOrder", id=order.getId()) }}"><button class="btn custom-btn">View Order</button></a>
-                                <a {% if order.getStatus() != 4 and order.getStatus() != 5 %}href="{{ url_for("adminOrders.editOrderStatus", id=order.getId()) }}" {% endif %}><button class="btn custom-btn" {% if order.getStatus() == 4 or order.getStatus() == 5 %}disabled{% endif %}>Edit Status</button></a>
-                                <a {% if order.getStatus() != 4 and order.getStatus() != 5 %}onclick="showCancelModal({{ order.getId() }}, '{{ url_for("adminOrders.cancelOrder", id=order.getId()) }}')" {% endif %}><button class="btn btn-danger" {% if order.getStatus() == 4 or order.getStatus() == 5 %}disabled{% endif %}>Cancel</button></a>
+                                <a {% if order.getStatus() != 4 and order.getStatus() != 5 and order.getStatus() != 6 %}href="{{ url_for("adminOrders.editOrderStatus", id=order.getId()) }}" {% endif %}><button class="btn custom-btn" {% if order.getStatus() == 4 or order.getStatus() == 5 or order.getStatus() == 6 %}disabled{% endif %}>Edit Status</button></a>
+                                <a {% if order.getStatus() != 4 and order.getStatus() != 5 and order.getStatus() != 6 %}onclick="showCancelModal({{ order.getId() }}, '{{ url_for("adminOrders.cancelOrder", id=order.getId()) }}')" {% endif %}><button class="btn btn-danger" {% if order.getStatus() == 4 or order.getStatus() == 5 or order.getStatus() == 6 %}disabled{% endif %}>Cancel</button></a>
                             </td>
                         </tr>
                     {% endfor %}

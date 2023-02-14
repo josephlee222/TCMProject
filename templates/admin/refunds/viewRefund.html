@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}
+    Refund Details
+{% endblock %}
+{% block nav %}
+    {% include "includes/adminNavControls.html" %}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/userControls.html" %}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <span class="material-icons me-3" style="font-size: 60px">remove_shopping_cart</span>
+        <div>
+            <h1>View Refund</h1>
+            <h6 class="m-0">Refund Details - #{{ refund.getId() }}</h6>
+        </div>
+    </div>
+    <a href="{{ url_for("adminRefund.viewAllRefunds") }}" style="display: contents">
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back to list
+        </button>
+    </a>
+    <div class="row">
+        <div class="col-lg-6 order-1 order-lg-0">
+            <h2 class="h4">Refund Information</h2>
+            <div class="row">
+                <div class="col-6">
+                    {{ infoBox.infoBox("Refund ID", "#" + refund.getId()|string) }}
+                </div>
+                <div class="col-6">
+                    {{ infoBox.infoBox("For Order ID", "#" + refund.getOrder()|string) }}
+                </div>
+            </div>
+            <div class="mb-3">
+                {{ infoBox.infoBox("Refund Reason", refund.getReason()) }}
+            </div>
+            <div class="mb-3">
+                {{ infoBox.infoBox("Created On", refund.getCreationDate().strftime("%d/%m/%Y, %I:%M %p")) }}
+            </div>
+            <a class="me-1" href="{{ url_for("adminOrders.viewOrder", id=refund.getOrder()) }}">
+                <button class="btn custom-btn">View Order</button>
+            </a>
+        </div>
+        <div class="col-lg-6 order-0 order-lg-1 mb-3 mb-lg-0">
+            <div class="card white">
+                <div class="card-body">
+                    <h6 class="card-title">Approve This Request?</h6>
+                    <p class="card-text">By approving this refund request, the customer order will be cancelled and
+                        an e-mail will be sent to the customer about the refund.</p>
+                    <div class="d-flex">
+                        {% if not refund.getResolved() %}
+                            <a href="{{ url_for("adminRefund.acceptRefund", id=refund.getId()) }}">
+                                <button class="btn btn-danger">Accept and Refund</button>
+                            </a>
+                        {% else %}
+                            <a>
+                                <button class="btn btn-danger" disabled>Accept and Refund</button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

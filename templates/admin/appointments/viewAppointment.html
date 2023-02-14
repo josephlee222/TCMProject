@@ -16,15 +16,13 @@
             <h6 class="m-0">{{ appointment.getName() }}</h6>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-12 d-flex">
-            <a href="{{ url_for("adminAppointments.editAppointment", id=appointment.getId()) }}" class="me-1"><button type="button" class="btn custom-btn">Edit</button></a>
-            <a onclick="showDeleteModal('{{ appointment.getName() }}', '{{ url_for("adminAppointments.deleteAppointment", id=appointment.getId()) }}')"><button type="button" class="btn btn-danger">Delete</button></a>
-        </div>
-    </div>
+    <a href="{{ url_for("adminAppointments.viewAllAppointments") }}" style="display: contents">
+        <button class="btn custom-btn d-flex mb-3"><span class="material-icons me-1">arrow_back</span>Back to Calender
+        </button>
+    </a>
     <div class="row">
         <div class="col-lg-6">
-            <h2 class="h4 mb-4">Appointment Information</h2>
+            <h2 class="h4 mb-3">Appointment Information</h2>
             {{ infoBox.infoBox("Appointment Name", appointment.getName()) }}
             {{ infoBox.infoBox("Date", appointment.getDate().strftime('%d/%m/%Y')) }}
             <div class="row">
@@ -36,9 +34,17 @@
                 </div>
             </div>
             {{ infoBox.infoBox("Additional Notes", appointment.getNotes() if appointment.getNotes() else "N/A") }}
+            <div class="d-flex">
+                <a href="{{ url_for("adminAppointments.editAppointment", id=appointment.getId()) }}" class="me-1">
+                    <button type="button" class="btn custom-btn">Edit</button>
+                </a>
+                <a onclick="showDeleteModal('{{ appointment.getName() }}', '{{ url_for("adminAppointments.deleteAppointment", id=appointment.getId()) }}')">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+            </div>
         </div>
         <div class="col-lg-6">
-            <h2 class="h4 mb-4">User Information</h2>
+            <h2 class="h4 mb-3">User Information</h2>
             <div class="row">
                 <div class="col-lg-6">
                     {{ infoBox.infoBox("Name", appointment.getUser().getName()) }}
@@ -55,7 +61,9 @@
                     {{ infoBox.infoBox("Phone Number", appointment.getUser().getPhone() if appointment.getUser().getPhone() else "Not Specified") }}
                 </div>
             </div>
-            <a href="{{ url_for("adminTrackers.viewAllTrackers", email=appointment.getUser().getEmail()) }}"><button type="button" class="btn custom-btn">View Medications</button></a>
+            <a href="{{ url_for("adminTrackers.viewAllTrackers", email=appointment.getUser().getEmail()) }}">
+                <button type="button" class="btn custom-btn">View Medications</button>
+            </a>
         </div>
     </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
@@ -70,12 +78,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a id="delete-treatment-link"><button type="button" class="btn btn-danger">Delete</button></a>
+                    <a id="delete-treatment-link">
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/viewAppointment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/viewAppointment.js') }}"></script>
 {% endblock %}

@@ -199,6 +199,8 @@ def viewOrderHistoryDetails(id):
             statusDescription = "Your order has been delivered to the specified address. For enquires, contact the clinic directly."
         elif order.getStatus() == 5:
             statusDescription = "Your order has been cancelled and will not be delivered. Contact the clinic for refunds."
+        elif order.getStatus() == 6:
+            statusDescription = "Your order has been refunded by TCM Shifu. Contact us for more details."
         else:
             statusDescription = "Unknown delivery status. Please contact the clinic for details."
 
@@ -218,7 +220,11 @@ def bookAppointment(id, itemId):
             item = order.getCart()[int(itemId)]
 
         if order.getUserId() != session["user"]["email"]:
-            flash("Unable to view your order, the order is not associated with your account", category="error")
+            flash("Unable to book appointment, the order is not associated with your account", category="error")
+            return redirect(url_for("profile.viewOrderHistory"))
+
+        if order.getStatus() == 5 or order.getStatus() == 6:
+            flash("Unable to book appointment, the order is cancelled or refunded", category="error")
             return redirect(url_for("profile.viewOrderHistory"))
 
         if item.getType() != "treatments":

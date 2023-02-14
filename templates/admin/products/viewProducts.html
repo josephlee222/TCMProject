@@ -34,8 +34,8 @@
                     {% for product in products %}
                         <tr>
                             <td>{{ products[product]["name"] }}</td>
-                            <td>${{ products[product]["price"] }}</td>
-                            <td>${{ products[product]["salePrice"] }}</td>
+                            <td>${{ "%.2f"|format(products[product]["price"]) }}</td>
+                            <td>${{ "%.2f"|format(products[product]["salePrice"]) }}</td>
                             <td>{{ products[product]["onSale"] }}</td>
                             <td class="text-nowrap">
                                 <a href="{{ url_for("products.viewProduct", id=products[product]["id"]) }}"><button class="btn custom-btn">View Product</button></a>

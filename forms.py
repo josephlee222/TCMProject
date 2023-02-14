@@ -256,7 +256,7 @@ class createTreatmentForm(Form):
     duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours")
-    ])
+    ], render_kw={"step": "0.5"})
     images = MultipleFileField("Treatment Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
         # validators.DataRequired(message="Treatment Images are required")
@@ -297,7 +297,7 @@ class editTreatmentForm(Form):
     duration = DecimalField("Duration in Hours", [
         validators.DataRequired(message="Treatment duration is required"),
         validators.NumberRange(0.5, 6, message="Treatment duration must be between 0.5 hours and 6 hours"),
-    ])
+    ], render_kw={"step": "0.5"})
 
     submit = SubmitField("Edit Treatment")
 
@@ -693,6 +693,38 @@ class editBlogForm(Form):
     articleImage = FileField("Article Cover Image", [])
 
     submit = SubmitField("Edit Article")
+
+class addRefundForm(Form):
+    reason = TextAreaField('Reason for refund', [
+        validators.DataRequired(message='Reason is required to continue with refund')
+    ])
+    submit = SubmitField("Request")
+
+class searchRefundForm(Form):
+    name = StringField("Search by name", [
+        validators.Length(3, 64, message="Name must be between 3 to 64 characters"),
+        validators.DataRequired(message="Name is required to search")
+    ])
+
+class editRefundForm(Form):
+    fname = StringField('First Name', [
+        validators.DataRequired(message='Please input your first name.')
+    ])
+    lname = StringField('Last Name', [
+        validators.DataRequired(message='Please input your last name.')
+    ])
+    email = EmailField('Email Address', [
+        validators.Email(granular_message=True),
+        validators.DataRequired(message='E-mail is required to continue with refund')
+    ])
+    order = StringField('Product name', [
+        validators.DataRequired(message='Order number is required to continue with refund')
+    ])
+    reason = TextAreaField('Reason for refund', [
+        validators.DataRequired(message='Reason is required to continue with refund'),
+        validators.optional()
+    ])
+    submit = SubmitField("Edit Refund")
 
 
 # how to update a previously existing blog using this function?
