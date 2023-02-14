@@ -23,7 +23,6 @@ def viewCart():
     else:
         flashFormErrors("The coupon code entered is not valid", form.errors)
 
-
     with shelve.open("users", writeback=True) as users:
         user = users[session["user"]["email"]]
         cart = users[session["user"]["email"]].getCart()
@@ -73,7 +72,8 @@ def decreaseCartItem(id):
             item = cart[int(id)]
             if item.getType() != "treatments":
                 if item.getQuantity() == 1:
-                    flash("Cannot decrease quantity below 1. To delete the item from the cart, use the delete button instead.")
+                    flash(
+                        "Cannot decrease quantity below 1. To delete the item from the cart, use the delete button instead.")
                 else:
                     item.setQuantity(item.getQuantity() - 1)
             else:
@@ -100,7 +100,8 @@ def addCart(type, id, quantity):
                 user = users[session["user"]["email"]]
                 user.addCartItem(cart)
 
-            flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>", category="success")
+            flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>",
+                  category="success")
             if type == "treatments":
                 return redirect(url_for("treatments.viewTreatment", id=id))
             else:

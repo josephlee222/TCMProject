@@ -1,4 +1,3 @@
-import shelve
 from time import time
 
 from marko import convert
@@ -61,7 +60,7 @@ class Product:
         self.benefits = benefits
 
     def setPrice(self, price):
-        self.price = round(float(price),2)
+        self.price = round(float(price), 2)
 
     def setSalePrice(self, salePrice):
         self.salePrice = round(float(salePrice), 2)

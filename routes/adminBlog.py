@@ -11,6 +11,7 @@ from functions import flashFormErrors, adminAccess
 
 adminBlog = Blueprint("adminBlog", __name__)
 
+
 @adminBlog.route("/admin/blog/add", methods=['GET', 'POST'])
 @adminAccess
 def addBlog():
@@ -84,7 +85,6 @@ def editBlog(id):
         return redirect(url_for("adminBlog.viewAllBlogs"))
 
 
-
 @adminBlog.route("/admin/blog")
 @adminAccess
 def viewAllBlogs():
@@ -103,13 +103,11 @@ def deleteBlog(id):
             try:
                 shutil.rmtree("static/uploads/blogs/" + id)
             except FileNotFoundError:
-                flash("Blog article has been deleted, however, there is an error when deleting the image files", category="warning")
+                flash("Blog article has been deleted, however, there is an error when deleting the image files",
+                      category="warning")
             else:
                 flash("Successfully deleted blog article", category="success")
     except KeyError:
         flash("Unable to delete blog article: article does not exist", category="error")
 
     return redirect(url_for("adminBlog.viewAllBlogs"))
-
-# TODO: add new forms.py funct to view blogs
-# TODO: create new html file to view the blogs

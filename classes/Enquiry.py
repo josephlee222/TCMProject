@@ -1,5 +1,6 @@
 from datetime import datetime
 from time import time
+
 from flask import flash
 
 
@@ -59,7 +60,7 @@ class Enquiry:
         self.query = query
 
     def setResolved(self, resolved):
-        if resolved !=  None:
+        if resolved != None:
             self.resolved = resolved
         else:
             self.resolved = 'Not resolved'

@@ -146,4 +146,3 @@ class User:
 
     def deleteMedication(self, id):
         self.medications.pop(int(id))
-

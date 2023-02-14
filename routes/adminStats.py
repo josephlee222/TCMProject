@@ -1,10 +1,12 @@
+import shelve
 from datetime import datetime
 
-from flask import flash, Blueprint, render_template, request, redirect, url_for
-import shelve
+from flask import Blueprint, render_template
+
 from functions import adminAccess
 
 adminStats = Blueprint("adminStats", __name__)
+
 
 @adminStats.route("/admin", methods=['GET', 'POST'])
 @adminAccess
@@ -39,13 +41,11 @@ def dashboard():
 
             profitLifetime += order.getTotalPrice()
 
-
-
     with shelve.open("users") as users:
         usersAmt = len(users)
 
     with shelve.open("products") as products, shelve.open("treatments") as treatments:
-         productsAmt = len(products) + len(treatments)
+        productsAmt = len(products) + len(treatments)
 
     with shelve.open("enquiry") as enquiries:
         for enquiries in enquiries.values():
@@ -56,4 +56,6 @@ def dashboard():
         opening = data["opening"]
         closing = data["closing"]
 
-    return render_template("admin/dashboard.html", users=usersAmt, products=productsAmt, pending=pending, unresolved=unresolved, profitThisMonth=profitThisMonth, profitLastMonth=profitLastMonth, margin=round(margin, 2), profitLifetime=profitLifetime, opening=opening, closing=closing)
+    return render_template("admin/dashboard.html", users=usersAmt, products=productsAmt, pending=pending,
+                           unresolved=unresolved, profitThisMonth=profitThisMonth, profitLastMonth=profitLastMonth,
+                           margin=round(margin, 2), profitLifetime=profitLifetime, opening=opening, closing=closing)

@@ -8,6 +8,7 @@ from functions import flashFormErrors, adminAccess
 
 adminCoupons = Blueprint("adminCoupons", __name__)
 
+
 @adminCoupons.route("/admin/coupons", methods=['GET', 'POST'])
 @adminAccess
 def viewAllCoupons():
@@ -19,7 +20,8 @@ def viewAllCoupons():
 
         return render_template("admin/shop/viewCoupons.html", form=form, coupons=coupons)
 
-@adminCoupons.route("/admin/coupons/add",  methods=['GET', 'POST'])
+
+@adminCoupons.route("/admin/coupons/add", methods=['GET', 'POST'])
 @adminAccess
 def addCoupon():
     form = createCouponForm(request.form)
@@ -46,7 +48,7 @@ def addCoupon():
     return render_template("admin/shop/addCoupon.html", form=form)
 
 
-@adminCoupons.route("/admin/coupons/edit/<id>",  methods=['GET', 'POST'])
+@adminCoupons.route("/admin/coupons/edit/<id>", methods=['GET', 'POST'])
 @adminAccess
 def editCoupon(id):
     form = editCouponForm(request.form)
@@ -88,7 +90,8 @@ def deleteCoupon(id):
 
     return redirect(url_for("adminCoupons.viewAllCoupons"))
 
-@adminCoupons.route("/admin/coupons/view/<id>",  methods=['GET', 'POST'])
+
+@adminCoupons.route("/admin/coupons/view/<id>", methods=['GET', 'POST'])
 @adminAccess
 def viewCouponDetails(id):
     try:

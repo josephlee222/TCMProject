@@ -1,5 +1,5 @@
 import shelve
-from datetime import datetime, date, timedelta, time
+from datetime import datetime, timedelta, time
 
 from flask import flash, Blueprint, render_template, request, session, redirect, url_for, Response
 from icalendar import Calendar, Event, vCalAddress, vText
@@ -388,7 +388,7 @@ def exportMedicationCalendar():
                         # MORNING
                         event = Event()
                         event.add("summary", "Take " + medication.getName() + " at 9:00AM")
-                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("description", 'Medication Description: ' + medication.getDescription())
                         event.add("dtstart", datetime.combine(datetime.now().date() + timedelta(i), time(9, 0, 0)))
                         event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(10, 0, 0)))
                         event.add('uid', medication.getName() + str(
@@ -398,7 +398,7 @@ def exportMedicationCalendar():
                         # MORNING
                         event = Event()
                         event.add("summary", "Take " + medication.getName() + " at 9:00AM")
-                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("description", 'Medication Description: ' + medication.getDescription())
                         event.add("dtstart", datetime.combine(datetime.now().date() + timedelta(i), time(9, 0, 0)))
                         event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(10, 0, 0)))
                         event.add('uid', medication.getName() + str(
@@ -407,7 +407,7 @@ def exportMedicationCalendar():
                         # NIGHT
                         event = Event()
                         event.add("summary", "Take " + medication.getName() + " at 6:00PM")
-                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("description", 'Medication Description: ' + medication.getDescription())
                         event.add("dtstart",
                                   datetime.combine(datetime.now().date() + timedelta(i), time(18, 0, 0)))
                         event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(19, 0, 0)))
@@ -418,7 +418,7 @@ def exportMedicationCalendar():
                         # MORNING
                         event = Event()
                         event.add("summary", "Take " + medication.getName() + " at 9:00AM")
-                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("description", 'Medication Description: ' + medication.getDescription())
                         event.add("dtstart", datetime.combine(datetime.now().date() + timedelta(i), time(9, 0, 0)))
                         event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(10, 0, 0)))
                         event.add('uid', medication.getName() + str(
@@ -427,17 +427,18 @@ def exportMedicationCalendar():
                         # AFTERNOON
                         event = Event()
                         event.add("summary", "Take " + medication.getName() + " at 12:00PM")
-                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("description", 'Medication Description: ' + medication.getDescription())
                         event.add("dtstart",
                                   datetime.combine(medication.getDate() + timedelta(i), time(12, 0, 0)))
-                        event.add("dtend", datetime.combine(datetime.now().date()+ timedelta(i), time(13, 0, 0)))
+                        event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(13, 0, 0)))
                         event.add('uid', medication.getName() + str(
-                            datetime.combine(datetime.now().date() + day + timedelta(i), time(12, 0, 0))) + ' AFTERNOON')
+                            datetime.combine(datetime.now().date() + day + timedelta(i),
+                                             time(12, 0, 0))) + ' AFTERNOON')
                         cal.add_component(event)
                         # NIGHT
                         event = Event()
                         event.add("summary", "Take " + medication.getName() + " at 6:00PM")
-                        event.add("description", 'Medication Description: '+medication.getDescription())
+                        event.add("description", 'Medication Description: ' + medication.getDescription())
                         event.add("dtstart",
                                   datetime.combine(datetime.now().date() + timedelta(i), time(18, 0, 0)))
                         event.add("dtend", datetime.combine(datetime.now().date() + timedelta(i), time(19, 0, 0)))

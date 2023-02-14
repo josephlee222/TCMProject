@@ -3,8 +3,8 @@ import shelve
 from flask import flash, Blueprint, render_template, request, redirect, url_for, session
 
 from classes.Refund import Refund
-from forms import addRefundForm, searchRefundForm, editRefundForm
-from functions import flashFormErrors, adminAccess
+from forms import addRefundForm
+from functions import adminAccess
 
 refunds = Blueprint("refunds", __name__)
 
@@ -18,7 +18,8 @@ def addRefund(id):
         with shelve.open("orders") as orders:
             order = orders[id]
             if order.getStatus() == 5 or order.getStatus() == 6:
-                flash("Unable to create a refund request and the order is already cancelled or refunded", category="success")
+                flash("Unable to create a refund request and the order is already cancelled or refunded",
+                      category="success")
                 return redirect(url_for("profile.viewOrderHistoryDetails", id=id))
     except KeyError:
         flash("Unable to create a refund request and the order is already cancelled or refunded", category="success")

@@ -57,6 +57,7 @@ def editUser(email):
         flash("Unable to edit the user: Account does not exist", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
 
+
 @adminUsers.route("/admin/users/delete/<email>", methods=['GET', 'POST'])
 @adminAccess
 def deleteUser(email):
@@ -68,7 +69,9 @@ def deleteUser(email):
                 # Do user edit here
                 print("Delete user")
                 if form.name.data != user.getName():
-                    flash("Unable to delete the account: The account name does not match the registered email account name.", category="error")
+                    flash(
+                        "Unable to delete the account: The account name does not match the registered email account name.",
+                        category="error")
                 else:
                     try:
                         del users[email]
@@ -84,7 +87,7 @@ def deleteUser(email):
                                 if order.getUserId() == email:
                                     del orders[key]
 
-                        #TODO: Add refunds
+                        # TODO: Add refunds
 
                         flash("Successfully deleted the account.", category="success")
 
@@ -102,6 +105,7 @@ def deleteUser(email):
     except KeyError:
         flash("Unable to delete the account: The account does not exist.", category="error")
         return redirect(url_for("adminUsers.viewAllUsers"))
+
 
 @adminUsers.route("/admin/users/edit/password/<email>", methods=['GET', 'POST'])
 @adminAccess
@@ -155,7 +159,8 @@ def editAddress(email, id):
                     flash("Address has been successfully edited", category="success")
                     return redirect(url_for("adminUsers.viewAddresses", email=email))
                 else:
-                    flash("Unable to edit address because our location provider could not find your address.", category="error")
+                    flash("Unable to edit address because our location provider could not find your address.",
+                          category="error")
             else:
                 flashFormErrors("Unable to edit address", form.errors)
                 if user.getAddress() is not None:
@@ -205,7 +210,8 @@ def addAddress(email):
                     flash("Your new address has been added to your account", category="success")
                     return redirect(url_for("adminUsers.viewAddresses", email=email))
                 else:
-                    flash("Unable to add address because our location provider could not find your address.", category="error")
+                    flash("Unable to add address because our location provider could not find your address.",
+                          category="error")
             else:
                 flashFormErrors("Unable to add address", form.errors)
 

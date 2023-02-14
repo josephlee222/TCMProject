@@ -22,7 +22,7 @@ class Appointment:
     def getUserEmail(self):
         return self.userEmail
 
-    #Returns a user class based on email
+    # Returns a user class based on email
     def getUser(self):
         with shelve.open("users") as users:
             return users[self.userEmail]

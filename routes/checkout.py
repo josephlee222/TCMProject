@@ -10,6 +10,7 @@ from functions import loginAccess, checkCoupon
 checkout = Blueprint("checkout", __name__)
 stripe.api_key = 'sk_test_51MUAERKZ8ITmwoDIYlwF7AOADSdFApOig86RkKjiROILyx7WJ4JyhrsYMlQso3DhMroiwjnnriJ9iq3G914PnVzY009oPpTjGN'
 
+
 @checkout.route('/checkout')
 @checkout.route('/checkout/<coupon>')
 @loginAccess
@@ -35,17 +36,15 @@ def viewCheckout(coupon=None):
                     discount = item.getDiscount()
                     break
 
-
-    discountAmt = user.getTotalPrice()*(discount/100)
-    price = round(user.getTotalPrice()-discountAmt, 2)
+    discountAmt = user.getTotalPrice() * (discount / 100)
+    price = round(user.getTotalPrice() - discountAmt, 2)
     session["checkoutPrice"] = price
     session["checkoutDiscount"] = discountAmt
     print(price)
-    print(round(price*100))
+    print(round(price * 100))
 
     choices = []
     for x, address in enumerate(user.getAddress()):
-
         choices.append(((x, address.getLocation() + " (" + address.getName() + ")")))
 
     form.delivery.choices = choices
@@ -53,7 +52,7 @@ def viewCheckout(coupon=None):
     try:
         # Create a PaymentIntent with the order amount and currency
         intent = stripe.PaymentIntent.create(
-            amount=int(round(price*100)),
+            amount=int(round(price * 100)),
             currency='sgd',
             automatic_payment_methods={
                 'enabled': True,
@@ -62,7 +61,8 @@ def viewCheckout(coupon=None):
     except Exception as e:
         return jsonify(error=str(e)), 403
 
-    return render_template("/payment/checkout.html", form=form, user=user, discount=discountAmt, price=price, clientSecret=intent['client_secret'])
+    return render_template("/payment/checkout.html", form=form, user=user, discount=discountAmt, price=price,
+                           clientSecret=intent['client_secret'])
 
 
 @checkout.route('/checkout/confirm/<deliveryId>')
@@ -82,11 +82,15 @@ def confirmCheckout(deliveryId):
     try:
         intent = stripe.PaymentIntent.retrieve(payment)
         # Verify payment and price
-        if intent["status"] == "succeeded" and (intent["amount"]/100) == session["checkoutPrice"]:
-            with shelve.open("users", writeback=True) as users, shelve.open("orders", writeback=True) as orders, shelve.open("paymentIntents", writeback=True) as intents:
+        if intent["status"] == "succeeded" and (intent["amount"] / 100) == session["checkoutPrice"]:
+            with shelve.open("users", writeback=True) as users, shelve.open("orders",
+                                                                            writeback=True) as orders, shelve.open(
+                    "paymentIntents", writeback=True) as intents:
                 user = users[session["user"]["email"]]
 
-                order = Order(user.getEmail(), user.getCart(), user.getAddress()[int(deliveryId)] if user.getAddress()[int(deliveryId)] else None, session["checkoutDiscount"])
+                order = Order(user.getEmail(), user.getCart(),
+                              user.getAddress()[int(deliveryId)] if user.getAddress()[int(deliveryId)] else None,
+                              session["checkoutDiscount"])
                 orders[str(order.getId())] = order
                 user.clearCart()
                 session["cartAmount"] = 0
@@ -99,5 +103,3 @@ def confirmCheckout(deliveryId):
         print(e)
         flash("Something went wrong while settling the payment with Stripe.", category="error")
         return render_template("/payment/confirmCheckout.html", success=False)
-
-

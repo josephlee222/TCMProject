@@ -20,7 +20,6 @@ class Medication:
             print("Value error while entering medicine into Tracker class")
             flash(str(e))
 
-
     def getDate(self):
         return self.date
 
@@ -63,6 +62,3 @@ class Medication:
 
     def setNotes(self, notes):
         self.notes = notes
-
-
-

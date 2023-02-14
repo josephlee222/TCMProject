@@ -76,7 +76,8 @@ def resetPassword():
         email = form.email.data
         with shelve.open("users") as users:
             if email in users:
-                token = jwt.encode({'reset_password': email, 'exp': datetime.utcnow() + timedelta(minutes=15)}, key="reset_password")
+                token = jwt.encode({'reset_password': email, 'exp': datetime.utcnow() + timedelta(minutes=15)},
+                                   key="reset_password")
                 msg = Message("[TCM Shifu] Password reset requested", sender="TCMShifu@gmail.com", recipients=[email])
                 msg.html = render_template("email/resetPassword.html", token=token)
 
@@ -117,6 +118,7 @@ def confirmResetPassword(token):
     except KeyError:
         flash("The user that requested for the password reset does not exist anymore", category="error")
         return redirect(url_for("home"))
+
 
 # Logout page
 @auth.route('/logout')

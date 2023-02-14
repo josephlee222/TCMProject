@@ -6,6 +6,7 @@ from functions import flashFormErrors
 # Create test route as a blueprint
 test = Blueprint("test", __name__)
 
+
 @test.route('/test', methods=['GET', 'POST'])
 def testpage():
     # put application's code here

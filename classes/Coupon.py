@@ -1,5 +1,7 @@
 from datetime import datetime
 from time import time
+
+
 class Coupon:
     def __init__(self, name, code, discount, startDate, endDate, description=None):
         # Discount is in percentage
@@ -54,7 +56,7 @@ class Coupon:
     def setEndDate(self, endDate):
         self.endDate = endDate
 
-    #Check coupon validate
+    # Check coupon validate
     def isValid(self):
         if self.startDate <= datetime.now().date() <= self.endDate:
             return True

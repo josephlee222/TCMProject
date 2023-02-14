@@ -9,6 +9,7 @@ from functions import flashFormErrors, adminAccess
 
 adminAppointments = Blueprint("adminAppointments", __name__)
 
+
 @adminAppointments.route("/admin/appointments/", methods=['GET', 'POST'])
 @adminAccess
 def viewAllAppointments():
@@ -27,11 +28,11 @@ def viewAllAppointments():
                 del dict["time"]
                 userAppointmentsDict.append(dict)
 
-
         if len(appointments.keys()) == 0:
             flash("You do not have any appointments at the moment. Add one by clicking 'Create New Appointment'")
 
-        return render_template("admin/appointments/viewAppointments.html", appointments=appointments, form=form, appointmentsDict=userAppointmentsDict)
+        return render_template("admin/appointments/viewAppointments.html", appointments=appointments, form=form,
+                               appointmentsDict=userAppointmentsDict)
 
 
 @adminAppointments.route("/admin/appointments/details/<id>", methods=['GET', 'POST'])
@@ -98,7 +99,7 @@ def editAppointment(id):
             else:
                 flashFormErrors("Unable to edit the appointment", form.errors)
 
-            #set form fields
+            # set form fields
             form.name.data = appointment.getName()
             form.date.data = appointment.getDate()
             form.userEmail.data = appointment.getUserEmail()
@@ -107,7 +108,8 @@ def editAppointment(id):
             form.notes.data = appointment.getNotes()
 
             with shelve.open("users") as users:
-                return render_template("admin/appointments/editAppointment.html", appointment=appointment, form=form, users=list(users.keys()))
+                return render_template("admin/appointments/editAppointment.html", appointment=appointment, form=form,
+                                       users=list(users.keys()))
 
 
 
@@ -128,7 +130,6 @@ def deleteAppointment(id):
         flash("Unable to delete appointment: appointment does not exist", category="error")
 
     return redirect(url_for("adminAppointments.viewAllAppointments"))
-
 
 
 @adminAppointments.route("/admin/appointments/openinghours", methods=['GET', 'POST'])

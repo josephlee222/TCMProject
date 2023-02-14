@@ -40,4 +40,5 @@ def viewMedications(day=0):
                     afternoon.append(tracker)
                     night.append(tracker)
 
-        return render_template("profile/viewMedication.html", morning=morning, afternoon=afternoon, night=night, medications=medications, date=today, day=day)
+        return render_template("profile/viewMedication.html", morning=morning, afternoon=afternoon, night=night,
+                               medications=medications, date=today, day=day)

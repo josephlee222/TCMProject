@@ -7,6 +7,7 @@ from functions import normalAccess
 
 products = Blueprint("products", __name__)
 
+
 @products.route('/products/<id>', methods=['GET', 'POST'])
 @normalAccess
 def viewProduct(id):
@@ -33,4 +34,5 @@ def viewProducts():
         for product in products.values():
             if product.getOnSale():
                 saleProducts.append(product)
-        return render_template("products/viewProducts.html", products=list(products.values()), saleProducts=saleProducts)
+        return render_template("products/viewProducts.html", products=list(products.values()),
+                               saleProducts=saleProducts)
