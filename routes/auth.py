@@ -1,4 +1,5 @@
 import shelve
+import smtplib
 from datetime import datetime, timedelta
 
 import jwt
@@ -83,6 +84,8 @@ def resetPassword():
                     app.mail.send(msg)
                 except TimeoutError:
                     flash("Unable to send a password reset email due to a timeout error", category="error")
+                except smtplib.SMTPDataError:
+                    flash("Unable to send a password reset email due to a server error", category="error")
                 else:
                     flash("Password reset request successfully sent", category="success")
             else:

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}About TCM Shifu{% endblock %}
+{% block nav %}
+    {{ normalNavControls.normalNavControls() }}
+{% endblock %}
+{% block navRight %}
+    {% include "includes/accessibilityDropdown.html" %}
+{% endblock %}
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+            <div class="card white">
+                <div class="row">
+                    <div class="col-md-3 login-card-img-col">
+                        <div class="login-card-img w-100 h-100"></div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <div class="my-md-5">
+                                <h5 class="fw-bold d-flex align-items-center"><span class="material-icons me-2">info</span>About TCM Shifu</h5>
+                                <p>TCM Shifu is an online web application for TCM clinics to conduct their operations and sell products online.</p>
+                                <hr>
+                                <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#secretModal"><span class="material-icons me-2">construction</span>Project Information</h5>
+                                <p>TCM Shifu is an App Development module project - Dec 2022 to Feb 2023</p>
+                                <h6 class="fw-bold">Group Members</h6>
+                                <p>Joseph Lee<br>Samuel Ong<br>Iqram<br>Aiden Toh<br>Jing Hao</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="secretModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Secret Dialog</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-treatment-text">
+                    <iframe width="100%" height="250px" src="https://www.youtube.com/embed/Vzxjk9AaDzM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

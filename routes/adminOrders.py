@@ -1,4 +1,5 @@
 import shelve
+import smtplib
 
 from flask import flash, Blueprint, render_template, request, redirect, url_for
 from flask_mail import Message
@@ -72,6 +73,8 @@ def editOrderStatus(id):
                     app.mail.send(msg)
                 except TimeoutError:
                     flash("Order status successfully changed however the e-mail is not sent due to a timeout error", category="warning")
+                except smtplib.SMTPDataError:
+                    flash("Order status successfully changed however the e-mail is not sent due to a server error", category="error")
                 else:
                     flash("Order status successfully changed. User will be notified with an email about the change", category="success")
 
