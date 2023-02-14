@@ -1,4 +1,5 @@
 import datetime
+import smtplib
 
 from flask import Blueprint
 from marko import convert
@@ -41,15 +42,24 @@ def viewEnquiry(id):
         msg = Message("[TCM Shifu] Regarding your enquiry", sender="TCMShifu@gmail.com",
                       recipients=[email])
         msg.html = Markup(enquiryreplyTemplate(str(subject), message))
-        app.mail.send(msg)
 
-        with shelve.open("enquiry", writeback=True) as enquiries:
-            enquiry = enquiries[id]
-            today = str(datetime.datetime.now().date())
-            enquiry.setResolved(today)
+        try:
+            app.mail.send(msg)
+        except TimeoutError:
+            flash("Unable to sent a enquiry e-mail to the customer due to a timeout error",
+                  category="warning")
+        except smtplib.SMTPDataError:
+            flash("Unable to sent a enquiry e-mail to the customer due to a server error",
+                  category="error")
+        else:
+            with shelve.open("enquiry", writeback=True) as enquiries:
+                enquiry = enquiries[id]
+                today = str(datetime.datetime.now().date())
+                enquiry.setResolved(today)
 
-        flash("Email has been successfully sent. User will be notified with an email on the enquiry",
-              category="success")
+            flash("Email has been successfully sent. User will be notified with an email on the enquiry",
+                  category="success")
+
         return redirect(url_for("adminEnquiry.viewAllEnquiries"))
 
     with shelve.open("enquiry") as enquiries:

@@ -45,7 +45,7 @@ def acceptRefund(id):
                 order.setStatus(6)
                 refund.setResolved()
 
-        flash("Order has been marked as refunded, an email has been sent to the customer about the refund.", category="success")
+        flash("Order has been marked as refunded.", category="success")
     except KeyError:
         flash("Unable to edit refund request: Request does not exist", category="error")
 
