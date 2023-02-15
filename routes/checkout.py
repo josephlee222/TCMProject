@@ -86,7 +86,7 @@ def confirmCheckout(deliveryId):
         if intent["status"] == "succeeded" and (intent["amount"] / 100) == session["checkoutPrice"]:
             with shelve.open("users", writeback=True) as users:
                 user = users[session["user"]["email"]]
-                cart = user.getCart()
+                cart = user.getCart(fixed=False)
                 order = Order(user.getEmail(), cart,
                               user.getAddress()[int(deliveryId)] if user.getAddress()[int(deliveryId)] else None,
                               session["checkoutDiscount"])
