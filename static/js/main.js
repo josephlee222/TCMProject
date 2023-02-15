@@ -2,6 +2,7 @@
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+
 //Zoom Functions (Now works properly on firefox)
 document.body.style.fontSize = localStorage.getItem("zoom") ? localStorage.getItem("zoom") + "%" : "100%"
 
