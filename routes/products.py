@@ -17,6 +17,10 @@ def viewProduct(id):
         with shelve.open("products") as products:
             product = products[id]
 
+        form.qty.validators = [validators.DataRequired("Quantity is required"),
+                               validators.NumberRange(min=1, max=product.getQuantity(),
+                                                      message="Quantity is above stock amount")]
+
         if request.method == "POST" and form.validate():
             qty = form.qty.data
             return redirect(url_for("cart.addCart", id=product.getId(), quantity=qty, type="products"))
@@ -25,9 +29,6 @@ def viewProduct(id):
             form.qty.data = 0
             form.qty.render_kw = {"disabled": True}
             form.submit.render_kw = {"disabled": True}
-
-        form.qty.validators.append(
-            validators.NumberRange(1, product.getQuantity(), message="Quantity is above stock amount"))
 
         return render_template("products/viewProduct.html", product=product, form=form)
     except KeyError:

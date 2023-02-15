@@ -73,7 +73,7 @@
                             {% if product.onSale %}
                                 <small>Usual Price: ${{ "%.2f"|format(product.getPrice()) }} | {{ product.getQuantity() }} in stock</small>
                             {% else %}
-                                <small>{{ product.getQuantity() }} in stock</small>
+                                <small>{{ product.getQuantity() if product.getQuantity() > 0 else 0 }} in stock</small>
                             {% endif %}
                         </div>
                         <div>
