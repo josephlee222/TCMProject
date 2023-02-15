@@ -38,7 +38,7 @@
                 <a href="{{ url_for("adminAppointments.editAppointment", id=appointment.getId()) }}" class="me-1">
                     <button type="button" class="btn custom-btn">Edit</button>
                 </a>
-                <a onclick="showDeleteModal('{{ appointment.getName() }}', '{{ url_for("adminAppointments.deleteAppointment", id=appointment.getId()) }}')">
+                <a onclick="showDeleteModal('{{ appointment.getName()|urlencode }}', '{{ url_for("adminAppointments.deleteAppointment", id=appointment.getId()) }}')">
                     <button type="button" class="btn btn-danger">Delete</button>
                 </a>
             </div>

@@ -48,7 +48,7 @@
                                             <button class="btn custom-btn material-icons">add</button>
                                         </a>
                                     {% endif %}
-                                    <a onclick="showDeleteModal('{{ item.getItem().getName() }}', '{{ url_for("cart.deleteCartItem", id=loop.index - 1) }}')" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                    <a onclick="showDeleteModal('{{ item.getItem().getName()|urlencode }}', '{{ url_for("cart.deleteCartItem", id=loop.index - 1) }}')" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                        data-bs-title="Delete Item">
                                         <button class="btn btn-danger material-icons">delete</button>
                                     </a>

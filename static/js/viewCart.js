@@ -1,5 +1,5 @@
 function showDeleteModal(name, link) {
-    document.getElementById("delete-treatment-text").innerHTML = "Delete cart item '" + name + "'?"
+    document.getElementById("delete-treatment-text").innerHTML = "Delete cart item '" + decodeURI(name) + "'?"
     document.getElementById("delete-treatment-link").href = link
     var deleteModel = new bootstrap.Modal(document.getElementById("deleteModal"), {});
 

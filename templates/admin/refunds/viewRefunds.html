@@ -42,7 +42,7 @@
                                 <a href="{{ url_for("adminRefund.viewRefund", id=refund.getId()) }}">
                                     <button class="btn custom-btn">Refund Details</button>
                                 </a>
-                                <a onclick="showDeleteModal('{{ refund.getOrder() }}', '{{ url_for("adminRefund.deleteRefund", id=refund.getId()) }}')">
+                                <a onclick="showDeleteModal('{{ refund.getOrder()|urlencode }}', '{{ url_for("adminRefund.deleteRefund", id=refund.getId()) }}')">
                                     <button class="btn btn-danger">Delete</button>
                                 </a>
                             </td>

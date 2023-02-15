@@ -58,7 +58,7 @@
                         </div>
                         <div class="d-flex">
                             <a href="{{ url_for("profile.exportCalendar", id=appointments[0].getId()) }}" class="me-1"><button class="btn custom-btn">Add to Calendar</button></a>
-                            <a onclick="showDeleteModal('{{ appointments[0].getName() }}', '{{ url_for("profile.cancelAppointment", id=appointments[0].getId()) }}')"><button class="btn btn-danger">Cancel Appointment</button></a>
+                            <a onclick="showDeleteModal('{{ appointments[0].getName()|urlencode }}', '{{ url_for("profile.cancelAppointment", id=appointments[0].getId()) }}')"><button class="btn btn-danger">Cancel Appointment</button></a>
                         </div>
                     </div>
                 </div>

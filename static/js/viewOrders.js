@@ -1,5 +1,5 @@
 function showCancelModal(name, link) {
-    document.getElementById("delete-treatment-text").innerHTML = "Cancel order with order ID '" + name + "'?"
+    document.getElementById("delete-treatment-text").innerHTML = "Cancel order with order ID '" + decodeURI(name) + "'?"
     document.getElementById("delete-treatment-link").href = link
     var deleteModel = new bootstrap.Modal(document.getElementById("deleteModal"), {});
 
