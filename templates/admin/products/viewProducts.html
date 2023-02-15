@@ -42,7 +42,7 @@
                             <td class="text-nowrap">
                                 <a href="{{ url_for("products.viewProduct", id=products[product]["id"]) }}"><button class="btn custom-btn">View Product</button></a>
                                 <a href="{{ url_for("adminProducts.editProduct", id=products[product]["id"]) }}"><button class="btn custom-btn">Edit</button></a>
-                                <a onclick="showDeleteModal('{{ products[product]["name"] }}', '{{ url_for("adminProducts.deleteProduct", id=products[product]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
+                                <a onclick="showDeleteModal('{{ products[product]["name"]|urlencode }}', '{{ url_for("adminProducts.deleteProduct", id=products[product]["id"]) }}')"><button class="btn btn-danger">Delete</button></a>
                             </td>
                         </tr>
                     {% endfor %}
