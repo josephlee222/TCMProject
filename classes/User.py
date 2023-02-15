@@ -47,8 +47,9 @@ class User:
     def clearCart(self):
         self.cart = []
 
-    def getCart(self):
-        self.checkCart()
+    def getCart(self, fixed=False):
+        if not fixed:
+            self.checkCart()
         return self.cart
 
     def checkCart(self):
