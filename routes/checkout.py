@@ -84,23 +84,30 @@ def confirmCheckout(deliveryId):
         intent = stripe.PaymentIntent.retrieve(payment)
         # Verify payment and price
         if intent["status"] == "succeeded" and (intent["amount"] / 100) == session["checkoutPrice"]:
-            with shelve.open("users", writeback=True) as users, shelve.open("orders",writeback=True) as orders, shelve.open("paymentIntents", writeback=True) as intents:
+            with shelve.open("users", writeback=True) as users:
                 user = users[session["user"]["email"]]
-
-                order = Order(user.getEmail(), user.getCart(),
+                cart = user.getCart()
+                order = Order(user.getEmail(), cart,
                               user.getAddress()[int(deliveryId)] if user.getAddress()[int(deliveryId)] else None,
                               session["checkoutDiscount"])
-                orders[str(order.getId())] = order
 
+                # Save order
+                with shelve.open("orders") as orders:
+                    orders[str(order.getId())] = order
+
+                # subtract quantity
                 with shelve.open("products", writeback=True) as products:
-                    for item in user.getCart():
+                    for item in cart:
                         if item.getType() == "products":
                             product = products[item.getItemId()]
                             product.setQuantity(product.getQuantity() - item.getQuantity())
 
+                # Use payment intent
+                with shelve.open("paymentIntents") as intents:
+                    intents[payment] = True
+
                 user.clearCart()
                 session["cartAmount"] = 0
-                intents[payment] = True
 
             return render_template("/payment/confirmCheckout.html", success=True)
         else:
