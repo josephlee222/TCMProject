@@ -53,7 +53,12 @@ def increaseCartItem(id):
             cart = users[session["user"]["email"]].getCart()
             item = cart[int(id)]
             if item.getType() != "treatments":
-                item.setQuantity(item.getQuantity() + 1)
+                with shelve.open("products") as products:
+                    product = products[item.getItemId()]
+                    if not (item.getQuantity() + 1) > product.getQuantity():
+                        item.setQuantity(item.getQuantity() + 1)
+                    else:
+                        flash("Cannot increase quantity for product as there is not enough stock", category="warning")
             else:
                 flash("Cannot change quantity for treatments", category="warning")
 
@@ -93,6 +98,10 @@ def addCart(type, id, quantity):
             with shelve.open(type) as items:
                 # CHECK PRODUCT IS VALID
                 item = items[id]
+                if type == "products":
+                    if int(quantity) > item.getQuantity():
+                        flash("Cannot item to cart. Quantity cannot exceed stock available.", category="error")
+                        return redirect(url_for("products.viewProduct", id=id))
 
             # Create cart class to add to user cart
             cart = Cart(id, int(quantity), type)

@@ -1,6 +1,7 @@
 import shelve
 
 from flask import flash, Blueprint, render_template, redirect, url_for, request
+from wtforms import validators
 
 from forms import addProductCartForm
 from functions import normalAccess
@@ -19,6 +20,14 @@ def viewProduct(id):
         if request.method == "POST" and form.validate():
             qty = form.qty.data
             return redirect(url_for("cart.addCart", id=product.getId(), quantity=qty, type="products"))
+
+        if product.getQuantity() < 1:
+            form.qty.data = 0
+            form.qty.render_kw = {"disabled": True}
+            form.submit.render_kw = {"disabled": True}
+
+        form.qty.validators.append(
+            validators.NumberRange(1, product.getQuantity(), message="Quantity is above stock amount"))
 
         return render_template("products/viewProduct.html", product=product, form=form)
     except KeyError:

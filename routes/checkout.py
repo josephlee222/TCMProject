@@ -1,3 +1,4 @@
+import logging
 import shelve
 
 import stripe
@@ -5,7 +6,7 @@ from flask import flash, Blueprint, render_template, request, session, redirect,
 
 from classes.Order import Order
 from forms import CheckoutForm
-from functions import loginAccess, checkCoupon
+from functions import loginAccess, checkCoupon, loginAccessNoCheck
 
 checkout = Blueprint("checkout", __name__)
 stripe.api_key = 'sk_test_51MUAERKZ8ITmwoDIYlwF7AOADSdFApOig86RkKjiROILyx7WJ4JyhrsYMlQso3DhMroiwjnnriJ9iq3G914PnVzY009oPpTjGN'
@@ -66,7 +67,7 @@ def viewCheckout(coupon=None):
 
 
 @checkout.route('/checkout/confirm/<deliveryId>')
-@loginAccess
+@loginAccessNoCheck
 def confirmCheckout(deliveryId):
     payment = request.args.get("payment_intent")
     if not payment:
@@ -83,15 +84,19 @@ def confirmCheckout(deliveryId):
         intent = stripe.PaymentIntent.retrieve(payment)
         # Verify payment and price
         if intent["status"] == "succeeded" and (intent["amount"] / 100) == session["checkoutPrice"]:
-            with shelve.open("users", writeback=True) as users, shelve.open("orders",
-                                                                            writeback=True) as orders, shelve.open(
-                    "paymentIntents", writeback=True) as intents:
+            with shelve.open("users", writeback=True) as users, shelve.open("orders",writeback=True) as orders, shelve.open("paymentIntents", writeback=True) as intents, shelve.open("products", writeback=True) as products:
                 user = users[session["user"]["email"]]
 
                 order = Order(user.getEmail(), user.getCart(),
                               user.getAddress()[int(deliveryId)] if user.getAddress()[int(deliveryId)] else None,
                               session["checkoutDiscount"])
                 orders[str(order.getId())] = order
+
+                for item in user.getCart():
+                    if item.getType() == "products":
+                        product = products[item.getItemId()]
+                        product.setQuantity(product.getQuantity() - item.getQuantity())
+
                 user.clearCart()
                 session["cartAmount"] = 0
                 intents[payment] = True
@@ -102,4 +107,5 @@ def confirmCheckout(deliveryId):
     except Exception as e:
         print(e)
         flash("Something went wrong while settling the payment with Stripe.", category="error")
+        logging.exception("Something went wrong during payment")
         return render_template("/payment/confirmCheckout.html", success=False)

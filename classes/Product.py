@@ -4,7 +4,7 @@ from marko import convert
 
 
 class Product:
-    def __init__(self, name, description, benefits, price, salePrice=0, onSale=0):
+    def __init__(self, name, description, benefits, price, salePrice=0, onSale=0, quantity=1):
         # Init class with safe measures
 
         try:
@@ -15,6 +15,7 @@ class Product:
             self.price = round(float(price), 2)
             self.salePrice = round(float(salePrice), 2)
             self.onSale = bool(onSale)
+            self.quantity = quantity
             self.images = []
         except ValueError:
             print("Value error while creating Product class")
@@ -50,6 +51,9 @@ class Product:
     def getImages(self):
         return self.images
 
+    def getQuantity(self):
+        return self.quantity
+
     def setName(self, name):
         self.name = name
 
@@ -67,6 +71,9 @@ class Product:
 
     def setOnSale(self, onSale):
         self.onSale = bool(onSale)
+
+    def setQuantity(self, quantity):
+        self.quantity = quantity
 
     def appendImage(self, path):
         self.images.append(path)

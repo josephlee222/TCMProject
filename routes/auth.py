@@ -1,3 +1,4 @@
+import logging
 import shelve
 import smtplib
 from datetime import datetime, timedelta
@@ -87,6 +88,7 @@ def resetPassword():
                     flash("Unable to send a password reset email due to a timeout error", category="error")
                 except smtplib.SMTPDataError:
                     flash("Unable to send a password reset email due to a server error", category="error")
+                    logging.exception("Unable to sent email")
                 else:
                     flash("Password reset request successfully sent", category="success")
             else:

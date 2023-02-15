@@ -561,6 +561,10 @@ class addProductForm(Form):
     onSale = BooleanField("On Sale?", [
         validators.optional()
     ])
+    qty = DecimalField("Stock", [
+        validators.DataRequired(message="Stock quantity is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
+    ])
     description = TextAreaField("Product Description", [
         validators.DataRequired(message="Treatment description is required")
     ])
@@ -574,13 +578,9 @@ class addProductForm(Form):
 
     def validate_salePrice(form, salePrice):
         if form.salePrice.data >= form.price.data:
-            raise ValidationError("Sale price cannot exceed normal price")
+            raise ValidationError("Sale price cannot exceed or equal to normal price")
 
     submit = SubmitField("Add Product")
-
-    def validate_images(form, images):
-        print(form.images.data)
-
 
 
 class editProductForm(Form):
@@ -602,6 +602,10 @@ class editProductForm(Form):
         validators.DataRequired(message="Sale price is required"),
         validators.NumberRange(min=0, message="Number must be positive")
     ])
+    qty = IntegerField("Stock", [
+        validators.InputRequired(message="Stock quantity is required"),
+        validators.NumberRange(min=0, message="Number must be positive")
+    ])
     onSale = BooleanField("On Sale?", [
         validators.optional()
     ])
@@ -610,7 +614,7 @@ class editProductForm(Form):
 
     def validate_salePrice(form, salePrice):
         if form.salePrice.data >= form.price.data:
-            raise ValidationError("Sale price cannot exceed normal price")
+            raise ValidationError("Sale price cannot exceed or equal to normal price")
 
 
 
@@ -799,7 +803,6 @@ class editOrdersStatusForm(Form):
 
 class addProductCartForm(Form):
     qty = IntegerField("Quantity", [
-        validators.NumberRange(1, 100, message="Quantity range is limited from 1 to 100"),
         validators.DataRequired(message="Product quantity is required to add to cart")
     ], default=1)
 

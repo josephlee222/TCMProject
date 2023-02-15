@@ -101,6 +101,15 @@ def initialization():
     print("Init code start")
     os.environ['TZ'] = 'Asia/Singapore'
     with shelve.open("data", writeback=True) as data:
+        # Old products do not have product quantity, this updater on start will initialise the variable
+        if "version" not in data:
+            with shelve.open("products", writeback=True) as products:
+                for product in products.values():
+                    product.setQuantity(1)
+
+            data["version"] = 2
+
+
         if "opening" not in data or "closing" not in data:
             print("No opening hours detected. Setting default 9am - 9pm opening hours.")
             data["opening"] = time(9, 0, 0)
