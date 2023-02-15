@@ -17,9 +17,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block head %}{% endblock %}
 
@@ -52,7 +49,7 @@
         {% block fluidContent %}{% endblock %}
     </div>
 {% endif %}
-<div class="container flex-grow-1 overflow-auto mt-3 pb-3 mb-5">
+<div class="container flex-grow-1 overflow-auto mt-3 pb-3 mb-5" id="main">
     {% with messages = get_flashed_messages(category_filter=["message"]) %}
         {% if messages %}
             {% for message in messages %}
@@ -117,9 +114,12 @@
 
     </div>
 </footer>
-</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6/index.global.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% block scripts %}{% endblock %}
+</body>
 </html>
