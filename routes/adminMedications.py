@@ -77,10 +77,12 @@ def editTracker(email, id):
             form.frequency_of_pills.data = medication.getFrequency_of_pills()
             form.additional_notes.data = medication.getNotes()
 
-            return render_template("admin/medications/editMedication.html", medication=medication, form=form, email=email)
+            return render_template("admin/medications/editMedication.html", medication=medication, form=form,
+                                   email=email)
     except KeyError:
         flash("Unable to edit treatment details: treatment does not exist", category="error")
         return redirect(url_for("adminTrackers.viewAllTrackers", email=email))
+
 
 @adminTrackers.route("/admin/trackers/view/<email>/<id>", methods=['GET'])
 @adminAccess
@@ -90,7 +92,9 @@ def viewTracker(email, id):
     with shelve.open("users") as users:
         trackers = users[email].getMedications()[int(id)]
 
-        return render_template("admin/medications/viewspecificMedication.html", form=form, trackers=trackers, email=email, id=id)
+        return render_template("admin/medications/viewspecificMedication.html", form=form, trackers=trackers,
+                               email=email, id=id)
+
 
 @adminTrackers.route("/admin/trackers/delete/<email>/<id>")
 @adminAccess

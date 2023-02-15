@@ -25,9 +25,10 @@ def addProduct():
         price = form.price.data
         salePrice = form.salePrice.data
         onSale = form.onSale.data
+        qty = form.qty.data
 
         # Take data from form and combine into a single object representing the product
-        product = Product(name, description, benefits, price, salePrice, onSale)
+        product = Product(name, description, benefits, price, salePrice, onSale, qty)
 
         # Get images and upload
         images = request.files.getlist("images")
@@ -77,6 +78,7 @@ def editProduct(id):
                 product.setPrice(form.price.data)
                 product.setSalePrice(form.salePrice.data)
                 product.setOnSale(form.onSale.data)
+                product.setQuantity(form.qty.data)
 
                 flash("Successfully edited product.", category="success")
                 return redirect(url_for("adminProducts.viewAllProducts"))
@@ -90,6 +92,7 @@ def editProduct(id):
         form.benefits.data = product.getBenefits()
         form.salePrice.data = product.getSalePrice()
         form.onSale.data = product.getOnSale()
+        form.qty.data = product.getQuantity()
 
         return render_template("admin/products/editProduct.html", product=product, form=form)
     except KeyError:

@@ -62,22 +62,26 @@ def editOrderStatus(id):
             form.status.choices = choices
 
             if order.getStatus() == 4 or order.getStatus() == 5 or order.getStatus() == 6:
-                flash("Unable to update order status, order has already been completed, cancelled or refunded", category="error")
+                flash("Unable to update order status, order has already been completed, cancelled or refunded",
+                      category="error")
                 return redirect(url_for("adminOrders.viewAllOrders"))
 
             if request.method == "POST" and form.validate():
                 order.setStatus(int(form.status.data))
-                msg = Message("[TCM Shifu] Your delivery status for order #" + str(order.getId()) + " has changed", sender="TCMShifu@gmail.com", recipients=[order.getUserId()])
+                msg = Message("[TCM Shifu] Your delivery status for order #" + str(order.getId()) + " has changed",
+                              sender="TCMShifu@gmail.com", recipients=[order.getUserId()])
                 msg.html = Markup(statusChangeTemplate(str(order.getId()), order.getStatusText()))
                 try:
                     app.mail.send(msg)
                 except TimeoutError:
-                    flash("Order status successfully changed however the e-mail is not sent due to a timeout error", category="warning")
+                    flash("Order status successfully changed however the e-mail is not sent due to a timeout error",
+                          category="warning")
                 except smtplib.SMTPDataError:
-                    flash("Order status successfully changed however the e-mail is not sent due to a server error", category="error")
+                    flash("Order status successfully changed however the e-mail is not sent due to a server error",
+                          category="error")
                 else:
-                    flash("Order status successfully changed. User will be notified with an email about the change", category="success")
-
+                    flash("Order status successfully changed. User will be notified with an email about the change",
+                          category="success")
 
                 return redirect(url_for("adminOrders.viewAllOrders"))
 
@@ -102,7 +106,8 @@ def cancelOrder(id):
                 order.setStatus(5)
                 flash("Order successfully cancelled", category="success")
             else:
-                flash("Unable to cancel order, order has already been completed, cancelled or refunded", category="error")
+                flash("Unable to cancel order, order has already been completed, cancelled or refunded",
+                      category="error")
 
             return redirect(url_for("adminOrders.viewAllOrders"))
 

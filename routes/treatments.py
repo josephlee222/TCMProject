@@ -6,6 +6,7 @@ from functions import normalAccess
 
 treatments = Blueprint("treatments", __name__)
 
+
 @treatments.route('/treatments/<id>')
 @normalAccess
 def viewTreatment(id):
@@ -27,4 +28,5 @@ def viewTreatments():
             if treatment.getOnSale():
                 saleTreatments.append(treatment)
 
-        return render_template("treatment/viewTreatments.html", treatments=list(treatments.values()), saleTreatments=saleTreatments)
+        return render_template("treatment/viewTreatments.html", treatments=list(treatments.values()),
+                               saleTreatments=saleTreatments)

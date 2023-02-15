@@ -52,15 +52,25 @@ class User:
         return self.cart
 
     def checkCart(self):
-        deleted = False
+        changed = False
         for index, item in enumerate(self.cart):
-            if not item.getItem():
-                print(index)
+            product = item.getItem()
+            if not product:
+                # Check if product is deleted
                 self.cart.pop(index)
-                deleted = True
+                changed = True
+            else:
+                # Check quantity status
+                if item.getType() == "products":
+                    if product.getQuantity() == 0:
+                        self.cart.pop(index)
+                        changed = True
+                    elif product.getQuantity() < item.getQuantity():
+                        self.cart[index].setQuantity(product.getQuantity())
+                        changed = True
 
-        if deleted:
-            flash("Deleted products have been removed from your cart", category="warning")
+        if changed:
+            flash("Your cart has been modified to reflect stock changes and product deletion.", category="warning")
 
     def updateCart(self):
         for item in self.cart:
@@ -146,4 +156,3 @@ class User:
 
     def deleteMedication(self, id):
         self.medications.pop(int(id))
-

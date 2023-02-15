@@ -1,3 +1,4 @@
+import logging
 import shelve
 import smtplib
 from datetime import datetime, timedelta
@@ -76,7 +77,8 @@ def resetPassword():
         email = form.email.data
         with shelve.open("users") as users:
             if email in users:
-                token = jwt.encode({'reset_password': email, 'exp': datetime.utcnow() + timedelta(minutes=15)}, key="reset_password")
+                token = jwt.encode({'reset_password': email, 'exp': datetime.utcnow() + timedelta(minutes=15)},
+                                   key="reset_password")
                 msg = Message("[TCM Shifu] Password reset requested", sender="TCMShifu@gmail.com", recipients=[email])
                 msg.html = render_template("email/resetPassword.html", token=token)
 
@@ -86,6 +88,7 @@ def resetPassword():
                     flash("Unable to send a password reset email due to a timeout error", category="error")
                 except smtplib.SMTPDataError:
                     flash("Unable to send a password reset email due to a server error", category="error")
+                    logging.exception("Unable to sent email")
                 else:
                     flash("Password reset request successfully sent", category="success")
             else:
@@ -117,6 +120,7 @@ def confirmResetPassword(token):
     except KeyError:
         flash("The user that requested for the password reset does not exist anymore", category="error")
         return redirect(url_for("home"))
+
 
 # Logout page
 @auth.route('/logout')

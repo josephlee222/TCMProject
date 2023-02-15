@@ -1,8 +1,8 @@
+import os
 import shelve
 from datetime import time, datetime
-import os
-from dotenv.main import load_dotenv
 
+from dotenv.main import load_dotenv
 from flask import Flask, render_template, session, url_for
 from flask_mail import Mail
 
@@ -15,11 +15,10 @@ from routes.adminEnquiry import adminEnquiry
 from routes.adminMedications import adminTrackers
 from routes.adminOrders import adminOrders
 from routes.adminProducts import adminProducts
+from routes.adminRefund import adminRefund
+from routes.adminStats import adminStats
 from routes.adminTreatments import adminTreatments
 from routes.adminUsers import adminUsers
-from routes.adminStats import adminStats
-from routes.adminBlog import adminBlog
-from routes.adminRefund import adminRefund
 from routes.auth import auth
 from routes.blog import blogs
 from routes.cart import cart
@@ -29,9 +28,9 @@ from routes.errors import errors
 from routes.medications import medications
 from routes.products import products
 from routes.profile import profile
+from routes.refunds import refunds
 from routes.test import test
 from routes.treatments import treatments
-from routes.refunds import refunds
 
 app = Flask(__name__)
 app.secret_key = "aNDu7jhy1wKBP7y17j0o"
@@ -102,6 +101,15 @@ def initialization():
     print("Init code start")
     os.environ['TZ'] = 'Asia/Singapore'
     with shelve.open("data", writeback=True) as data:
+        # Old products do not have product quantity, this updater on start will initialise the variable
+        if "version" not in data:
+            with shelve.open("products", writeback=True) as products:
+                for product in products.values():
+                    product.setQuantity(1)
+
+            data["version"] = 2
+
+
         if "opening" not in data or "closing" not in data:
             print("No opening hours detected. Setting default 9am - 9pm opening hours.")
             data["opening"] = time(9, 0, 0)

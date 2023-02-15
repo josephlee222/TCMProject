@@ -9,6 +9,7 @@ import shelve
 from flask import flash, render_template, redirect, url_for, request
 from functions import normalAccess, flashFormErrors
 
+
 @enquiry.route("/ContactUs", methods=['GET', 'POST'])
 @normalAccess
 def addEnquiry():
@@ -24,7 +25,6 @@ def addEnquiry():
 
         with shelve.open("enquiry", writeback='True') as enquiries:
             enquiries[str(this_enquiry.getId())] = this_enquiry
-
 
         flash("Thanks for contacting TCM Shifu. We will get back to you shortly.", category="success")
         return redirect(url_for("enquiry.addEnquiry"))

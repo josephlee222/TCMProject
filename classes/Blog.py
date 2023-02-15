@@ -15,7 +15,6 @@ class Blog:
         self.brief = str(brief)
         self.coverImage = coverImage
 
-
     def getId(self):
         return self.id
 

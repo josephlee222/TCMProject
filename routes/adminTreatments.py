@@ -1,6 +1,5 @@
 import os
 import shelve
-import shutil
 
 from flask import flash, Blueprint, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -10,6 +9,7 @@ from forms import searchTreatmentsForm, createTreatmentForm, editTreatmentForm, 
 from functions import flashFormErrors, adminAccess
 
 adminTreatments = Blueprint("adminTreatments", __name__)
+
 
 @adminTreatments.route("/admin/treatments")
 @adminAccess
@@ -104,6 +104,7 @@ def deleteTreatment(id):
 
     return redirect(url_for("adminTreatments.viewAllTreatments"))
 
+
 @adminTreatments.route("/admin/treatments/edit/<id>/images", methods=['GET', 'POST'])
 @adminAccess
 def editTreatmentImages(id):
@@ -134,6 +135,7 @@ def editTreatmentImages(id):
         flash("Unable to edit treatment images: treatment does not exist", category="error")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
 
+
 @adminTreatments.route("/admin/treatments/edit/<id>/images/delete/<imageId>")
 @adminAccess
 def deleteTreatmentImage(id, imageId):
@@ -154,6 +156,7 @@ def deleteTreatmentImage(id, imageId):
         flash("Unable to delete treatment image: treatment does not exist", category="error")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
 
+
 @adminTreatments.route("/admin/treatments/edit/<id>/images/right/<imageId>")
 @adminAccess
 def moveTreatmentImageRight(id: int, imageId: int):
@@ -170,6 +173,7 @@ def moveTreatmentImageRight(id: int, imageId: int):
     except KeyError:
         flash("Unable to edit treatment image: treatment does not exist", category="error")
         return redirect(url_for("adminTreatments.viewAllTreatments"))
+
 
 @adminTreatments.route("/admin/treatments/edit/<id>/images/left/<imageId>")
 @adminAccess

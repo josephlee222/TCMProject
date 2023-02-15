@@ -23,7 +23,6 @@ def viewCart():
     else:
         flashFormErrors("The coupon code entered is not valid", form.errors)
 
-
     with shelve.open("users", writeback=True) as users:
         user = users[session["user"]["email"]]
         cart = users[session["user"]["email"]].getCart()
@@ -54,7 +53,12 @@ def increaseCartItem(id):
             cart = users[session["user"]["email"]].getCart()
             item = cart[int(id)]
             if item.getType() != "treatments":
-                item.setQuantity(item.getQuantity() + 1)
+                with shelve.open("products") as products:
+                    product = products[item.getItemId()]
+                    if not (item.getQuantity() + 1) > product.getQuantity():
+                        item.setQuantity(item.getQuantity() + 1)
+                    else:
+                        flash("Cannot increase quantity for product as there is not enough stock", category="warning")
             else:
                 flash("Cannot change quantity for treatments", category="warning")
 
@@ -73,7 +77,8 @@ def decreaseCartItem(id):
             item = cart[int(id)]
             if item.getType() != "treatments":
                 if item.getQuantity() == 1:
-                    flash("Cannot decrease quantity below 1. To delete the item from the cart, use the delete button instead.")
+                    flash(
+                        "Cannot decrease quantity below 1. To delete the item from the cart, use the delete button instead.")
                 else:
                     item.setQuantity(item.getQuantity() - 1)
             else:
@@ -93,6 +98,10 @@ def addCart(type, id, quantity):
             with shelve.open(type) as items:
                 # CHECK PRODUCT IS VALID
                 item = items[id]
+                if type == "products":
+                    if int(quantity) > item.getQuantity():
+                        flash("Cannot item to cart. Quantity cannot exceed stock available.", category="error")
+                        return redirect(url_for("products.viewProduct", id=id))
 
             # Create cart class to add to user cart
             cart = Cart(id, int(quantity), type)
@@ -100,7 +109,8 @@ def addCart(type, id, quantity):
                 user = users[session["user"]["email"]]
                 user.addCartItem(cart)
 
-            flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>", category="success")
+            flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>",
+                  category="success")
             if type == "treatments":
                 return redirect(url_for("treatments.viewTreatment", id=id))
             else:

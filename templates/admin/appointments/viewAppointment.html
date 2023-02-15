@@ -21,15 +21,15 @@
         </button>
     </a>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6 mb-3 mb-lg-0">
             <h2 class="h4 mb-3">Appointment Information</h2>
             {{ infoBox.infoBox("Appointment Name", appointment.getName()) }}
             {{ infoBox.infoBox("Date", appointment.getDate().strftime('%d/%m/%Y')) }}
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-6">
                     {{ infoBox.infoBox("Start Time", appointment.getTime().strftime("%I:%M %p")) }}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-6">
                     {{ infoBox.infoBox("End Time", appointment.getEndTime().strftime("%I:%M %p")) }}
                 </div>
             </div>

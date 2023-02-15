@@ -69,6 +69,18 @@ def loginAccess(func):
     return wrapper_func
 
 
+def loginAccessNoCheck(func):
+    @wraps(func)
+    def wrapper_func(*args, **kwargs):
+        if "user" not in session:
+            flash("You need to login to access the page.")
+            return redirect(url_for("auth.login"))
+        else:
+            return func(*args, **kwargs)
+
+    return wrapper_func
+
+
 def deliveryAccess(func):
     @wraps(func)
     def wrapper_func(*args, **kwargs):

@@ -24,6 +24,7 @@
             <table class="table table-striped w-100" id="products">
                 <thead>
                     <th>Product Name</th>
+                    <th>Stock</th>
                     <th>Normal Price</th>
                     <th>Sale Price</th>
                     <th>On Sale?</th>
@@ -34,6 +35,7 @@
                     {% for product in products %}
                         <tr>
                             <td>{{ products[product]["name"] }}</td>
+                            <td>{{ products[product]["quantity"] }}</td>
                             <td>${{ "%.2f"|format(products[product]["price"]) }}</td>
                             <td>${{ "%.2f"|format(products[product]["salePrice"]) }}</td>
                             <td>{{ products[product]["onSale"] }}</td>

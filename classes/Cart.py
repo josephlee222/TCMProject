@@ -1,5 +1,6 @@
 import shelve
 
+
 class Cart:
     def __init__(self, itemId, quantity, type):
         self.itemId = itemId
@@ -52,7 +53,7 @@ class Cart:
             return item.getPrice() * float(self.quantity)
 
     def getPrice(self):
-        #This one calculates the total price of one item with multiple quantities (price * quantity)
+        # This one calculates the total price of one item with multiple quantities (price * quantity)
         with shelve.open(self.type) as items:
             item = items[self.itemId]
 

@@ -6,6 +6,7 @@ from functions import normalAccess
 
 blogs = Blueprint("blogs", __name__)
 
+
 @blogs.route("/blog")
 @normalAccess
 def viewBlogs():
