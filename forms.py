@@ -802,10 +802,7 @@ class editOrdersStatusForm(Form):
     submit = SubmitField("Save")
 
 class addProductCartForm(Form):
-    qty = IntegerField("Quantity", [
-        validators.DataRequired(message="Product quantity is required to add to cart")
-    ], default=1)
-
+    qty = IntegerField("Quantity", default=1)
     submit = SubmitField("Add to Cart")
 
 class sendEmailForm(Form):
