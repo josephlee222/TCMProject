@@ -249,13 +249,13 @@ a.white:hover {
 }
 
 .main-splash {
-    background-image: url("/static/img/main_background.png");
+    background-image: url("/static/img/main_background.webp");
     background-size: cover;
     height: 500px;
 }
 
 .login-card-img {
-    background-image: url("/static/img/main_background.png");
+    background-image: url("/static/img/main_background.webp");
     background-size: cover;
     border-radius: 4px 0 0 4px;
 }
