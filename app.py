@@ -3,7 +3,7 @@ import shelve
 from datetime import time, datetime
 
 from dotenv.main import load_dotenv
-from flask import Flask, render_template, session, url_for
+from flask import Flask, render_template, session, url_for, make_response, send_from_directory
 from flask_mail import Mail
 
 from classes.User import User
@@ -86,6 +86,13 @@ def home():
 @normalAccess
 def about():
     return render_template("about.html")
+
+@app.route('/sw.js')
+def sw():
+    response=make_response(send_from_directory('static', path='js/sw.js'))
+    #change the content header file. Can also omit; flask will handle correctly.
+    response.headers['Content-Type'] = 'application/javascript'
+    return response
 
 # Give website context
 @app.context_processor
