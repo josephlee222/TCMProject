@@ -132,3 +132,11 @@ function autocomplete(inp, arr) {
         closeAllLists(e.target);
     });
 }
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register(
+        '/sw.js', {
+            scope: '/',
+        }
+    );
+}
