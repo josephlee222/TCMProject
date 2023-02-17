@@ -103,14 +103,38 @@ def addCart(type, id, quantity):
                         flash("Cannot item to cart. Quantity cannot exceed stock available.", category="error")
                         return redirect(url_for("products.viewProduct", id=id))
 
-            # Create cart class to add to user cart
-            cart = Cart(id, int(quantity), type)
-            with shelve.open("users", writeback=True) as users:
-                user = users[session["user"]["email"]]
-                user.addCartItem(cart)
+                # Create cart class to add to user cart. Too many if statements, but it works for now :>
+                cart = Cart(id, int(quantity), type)
+                with shelve.open("users", writeback=True) as users:
+                    user = users[session["user"]["email"]]
+                    if type == "products":
+                        alreadyAdded = False
+                        for cartItem in user.getCart(fixed=True):
+                            # Check whether selected product already exist in cart by going through every item in
+                            # cart. If it exists, check whether new quantity overshoots available quantity. If it
+                            # does not, set cart item quantity to reflect new quantity
+                            if cartItem.getItemId() == id:
+                                if cartItem.getQuantity() + int(quantity) <= item.getQuantity():
+                                    cartItem.setQuantity(cartItem.getQuantity() + int(quantity))
+                                    flash(
+                                        "Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>",
+                                        category="success")
+                                else:
+                                    flash(
+                                        "Unable to add anymore of this item, maximum possible quantity has been already been added.",
+                                        category="error")
+                                alreadyAdded = True
 
-            flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>",
-                  category="success")
+                        if not alreadyAdded:
+                            user.addCartItem(cart)
+                            flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>",
+                                  category="success")
+                    else:
+                        user.addCartItem(cart)
+                        flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>",
+                              category="success")
+
+
             if type == "treatments":
                 return redirect(url_for("treatments.viewTreatment", id=id))
             else:
