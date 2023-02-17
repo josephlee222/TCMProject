@@ -104,7 +104,7 @@ def addCart(type, id, quantity):
                         return redirect(url_for("products.viewProduct", id=id))
 
                 # Create cart class to add to user cart. Too many if statements, but it works for now :>
-                cart = Cart(id, int(quantity), type)
+                cart = Cart(id, int(quantity), type, item)
                 with shelve.open("users", writeback=True) as users:
                     user = users[session["user"]["email"]]
                     if type == "products":

@@ -2,14 +2,13 @@ import shelve
 
 
 class Cart:
-    def __init__(self, itemId, quantity, type):
+    def __init__(self, itemId, quantity, type, item):
         self.itemId = itemId
         self.quantity = quantity
         self.consume = False
+        self.storedItem = item
         if type != "treatments" or type != "products":
             self.type = type
-            with shelve.open(self.type) as items:
-                self.storedItem = items[self.itemId]
         else:
             raise ValueError("Incorrect cart item type. Acceptable cart types are 'treatments' and 'products'.")
 
