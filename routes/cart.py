@@ -114,6 +114,7 @@ def addCart(type, id, quantity):
                             # cart. If it exists, check whether new quantity overshoots available quantity. If it
                             # does not, set cart item quantity to reflect new quantity
                             if cartItem.getItemId() == id:
+                                alreadyAdded = True
                                 if cartItem.getQuantity() + int(quantity) <= item.getQuantity():
                                     cartItem.setQuantity(cartItem.getQuantity() + int(quantity))
                                     flash(
@@ -123,7 +124,7 @@ def addCart(type, id, quantity):
                                     flash(
                                         "Unable to add anymore of this item, maximum possible quantity has been already been added.",
                                         category="error")
-                                alreadyAdded = True
+                                    break
 
                         if not alreadyAdded:
                             user.addCartItem(cart)
@@ -133,7 +134,6 @@ def addCart(type, id, quantity):
                         user.addCartItem(cart)
                         flash("Item has been added to cart. <a class='alert-link ms-1' href='/cart'>View Cart</a>",
                               category="success")
-
 
             if type == "treatments":
                 return redirect(url_for("treatments.viewTreatment", id=id))
