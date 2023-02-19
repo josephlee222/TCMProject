@@ -260,7 +260,10 @@ class createTreatmentForm(Form):
     images = MultipleFileField("Treatment Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
         # validators.DataRequired(message="Treatment Images are required")
-    ])
+    ], render_kw={
+        "required": "true",
+        "accept": "image/jpg, image/jpeg, image/webp, image/png"
+    })
 
     submit = SubmitField("Add Treatment")
 
@@ -310,7 +313,10 @@ class uploadImageForm(Form):
     images = MultipleFileField("Product Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
         # validators.DataRequired(message="Treatment Images are required")
-    ])
+    ], render_kw={
+        "required": "true",
+        "accept": "image/jpg, image/jpeg, image/webp, image/png"
+    })
 
     submit = SubmitField("Upload Images")
 
@@ -574,7 +580,10 @@ class addProductForm(Form):
     images = MultipleFileField("Product Images", [
         # validators.regexp(".(jpe?g|png|webp)$/i", message="Invalid file extension, only PNG, JPG or WEBP files allowed.")
         # validators.DataRequired(message="Treatment Images are required")
-    ])
+    ], render_kw={
+        "required": "true",
+        "accept": "image/jpg, image/jpeg, image/webp, image/png"
+    })
 
     def validate_salePrice(form, salePrice):
         if form.salePrice.data >= form.price.data:
