@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 from classes.Treatment import Treatment
 from forms import searchTreatmentsForm, createTreatmentForm, editTreatmentForm, uploadImageForm
-from functions import flashFormErrors, adminAccess
+from functions import flashFormErrors, adminAccess, allowedFile
 
 adminTreatments = Blueprint("adminTreatments", __name__)
 
@@ -43,6 +43,10 @@ def addTreatment():
 
         for image in images:
             sPath = secure_filename(image.filename)
+            if not allowedFile(sPath):
+                flash("Unable to create treatment, image file(s) is invalid", category="error")
+                return render_template("admin/shop/addTreatment.html", form=form)
+
             path = os.path.join(bPath, sPath)
             image.save(path)
             treatment.appendImage(path)
@@ -120,11 +124,16 @@ def editTreatmentImages(id):
                 for image in images:
                     if image.filename != "":
                         sPath = secure_filename(image.filename)
+                        if not allowedFile(sPath):
+                            flash("Unable to add images, image file(s) is invalid", category="error")
+                            return render_template("admin/shop/editTreatmentImages.html", treatment=treatment, form=form)
+
                         path = os.path.join(bPath, sPath)
                         image.save(path)
                         treatment.appendImage(path)
                     else:
                         flash("There are no images to upload.", category="warning")
+                        return render_template("admin/shop/editTreatmentImages.html", treatment=treatment, form=form)
 
                 flash("Successfully uploaded treatment images.", category="success")
             else:

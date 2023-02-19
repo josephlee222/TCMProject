@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 from classes.Product import Product
 from forms import addProductForm, editProductForm, searchProductForm, uploadImageForm
-from functions import flashFormErrors, adminAccess
+from functions import flashFormErrors, adminAccess, allowedFile
 
 adminProducts = Blueprint("adminProducts", __name__)
 
@@ -37,6 +37,10 @@ def addProduct():
 
         for image in images:
             sPath = secure_filename(image.filename)
+            if not allowedFile(sPath):
+                flash("Unable to add product, image file(s) is invalid", category="error")
+                return render_template("admin/products/addProduct.html", form=form)
+
             path = os.path.join(bPath, sPath)
             image.save(path)
             product.appendImage(path)
@@ -128,11 +132,16 @@ def editProductImages(id):
                 for image in images:
                     if image.filename != "":
                         sPath = secure_filename(image.filename)
+                        if not allowedFile(sPath):
+                            flash("Unable to add images, image file(s) is invalid", category="error")
+                            return render_template("admin/products/editProductImages.html", product=product, form=form)
+
                         path = os.path.join(bPath, sPath)
                         image.save(path)
                         product.appendImage(path)
                     else:
                         flash("There are no images to upload.", category="warning")
+                        return render_template("admin/products/editProductImages.html", product=product, form=form)
 
                 flash("Successfully uploaded product images.", category="success")
             else:
