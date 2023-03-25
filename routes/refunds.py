@@ -4,13 +4,13 @@ from flask import flash, Blueprint, render_template, request, redirect, url_for,
 
 from classes.Refund import Refund
 from forms import addRefundForm
-from functions import adminAccess
+from functions import loginAccess
 
 refunds = Blueprint("refunds", __name__)
 
 
 @refunds.route("/profile/orders/<id>/refund", methods=['GET', 'POST'])
-@adminAccess
+@loginAccess
 def addRefund(id):
     form = addRefundForm(request.form)
     # Check whether user is submitting data and whether form is valid
@@ -43,7 +43,7 @@ def addRefund(id):
 
 
 @refunds.route("/profile/orders/refunds", methods=['GET', 'POST'])
-@adminAccess
+@loginAccess
 def viewAllRefund():
     with shelve.open("refunds") as refunds:
         refund = []
@@ -56,7 +56,7 @@ def viewAllRefund():
 
 
 @refunds.route("/profile/orders/refunds/<id>/delete", methods=['GET', 'POST'])
-@adminAccess
+@loginAccess
 def deleteRefund(id):
     try:
         with shelve.open("refunds", writeback=True) as refunds:
