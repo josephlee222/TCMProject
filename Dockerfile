@@ -9,6 +9,7 @@ WORKDIR /app
 
 # Install GCC
 RUN apk add build-base
+RUN apk add libffi-dev
 
 # install the dependencies and packages in the requirements file
 RUN pip install -r requirements.txt
