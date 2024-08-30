@@ -18,6 +18,4 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 # configure the container to run in an executed manner
-ENTRYPOINT [ "python" ]
-
-CMD ["app.py" ]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
